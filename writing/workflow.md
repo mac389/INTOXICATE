@@ -13,20 +13,11 @@ graph TD
     end
 
     subgraph <u>Grant</u>
-        subgraph "Science"
-        direction TB
-        a[<ul><li>Specific Aims<li>Research Strategy</ul>]:::macList
-        end
+    Sci[<u>Science</u><ul><li>Specific Aims<li>Research Strategy</ul>]:::macList ~~~ Admin[<u>Admin</u><ul><li>Budget<li>Budget Justification<li>Biosketches<li>Facilities</ul>]:::macList ~~~ Marketing[<u>Marketing</u><ul><li>Significance<li>Impact</ul>]:::macList
 
-        subgraph "Administrative"
-        direction TB
-        a[<ul><li>Budget<li>Budget Justification<li>Biosketches<li>Facilities</ul>]:::macList
-        end
-
-        subgraph marketing
-        direction TB
-        a[<ul><li>Significance<li>Impact</ul>]:::macList
-        end
+        click Sci "./sop/grants/"
+        click Admin "./sop/grants/"
+        click Marketing "./sop/grants/"
     end
 
    classDef macList text-align:left;
