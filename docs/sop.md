@@ -1,0 +1,7 @@
+**Standard Operating Procedures (SOPs)** are a **necessary evil**. I hope these SOPs foster cohesion and allow each person to asynchronously resolve common roadblocks. I hope not to make Kafka proud with these guidelines.
+
+1. **GitHub Issues**. We use GitHub issues as a message board. You can write full documents in [GitHub-flavored Markdown](https://guides.github.com/features/mastering-markdown/) and attach any file.
+2. **Scientific Writing**. Recall the 3Rs- reduce, reuse, and recycle. Everyone's writing should be something I can include in a grant submission. Papers, presentations, poster, and the like are artifacts of grant writing[^1]. Unfortunately, grant writing is not an artifact of doing science. Scientific writing is an **iterative process**. Incrporate my feedback and keep at it. I prefer you write text and tables in Markdown, schematics and presentations in LaTeX, and make figures in SVG format in R or Python[^2].
+
+[^1]: I use the term _artifact_ to mean a byproduct of a process. In this ontological sense of the word, artifact are not trivial or vestigial, but are not the end goal. The goal of writing a grant is to get funding to do science.
+[^2]: The variation, complexity, and internal contradictions of the formatting requirements for journals, presentations, the NIH, NSF, and DOD _would_ make Kafka proud. Luckily, the format for each changes rarely and I have templates for most of them.
