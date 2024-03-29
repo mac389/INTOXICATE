@@ -1,0 +1,10 @@
+- name: $<75$
+  value: 0
+- name: $75-85$
+  value: 1
+- name: $85-95$
+  value: 2
+- name: $95-105$
+  value: 3
+- name: $\geq 105$
+  value: 4
