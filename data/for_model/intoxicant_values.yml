@@ -1,0 +1,16 @@
+- name: Alcohol
+  value: 1
+- name: Analgesic
+  value: 2
+- name: Antidepressant
+  value: 3
+- name: Street Drugs
+  value: 4
+- name: Sedatives
+  value: 5
+- name: CO, As, CN
+  value: 6
+- name: Toxins NOS
+  value: 7
+- name: Polysubstance
+  value: 8

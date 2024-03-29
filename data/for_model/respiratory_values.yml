@@ -1,0 +1,4 @@
+- name: Yes
+  value: 8
+- name: No
+  value: 0
