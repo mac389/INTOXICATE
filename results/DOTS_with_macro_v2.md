@@ -13,7 +13,7 @@ Of the 28 patients included from the DOTS database, 14 were ultimately admitted.
 Both Fisher's Exact Test (more or less, _Is there an association between classification as Score >6 with classification as Disposition ICU?_) and Cohen's Kappa (_What is the degree of agreement between the two "raters," in our case the real doctors and the algorithm, compared to chance?_) are appropriate here, though they test slightly different hypotheses.
 
 **Fisher's Exact:**
-* **OR:** Undefinable due to presence of 0 in a cell
+* **OR:** Undefined due to presence of 0 in a cell
 * **_p_:** 0.110
 
 **Cohen's Kappa:**
