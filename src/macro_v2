@@ -65,7 +65,7 @@ Sub CalculateINTOXICATEScore_Shifted_AgeFixed()
                 exposureScore = -1
             Case "CO, As, CN"
                 exposureScore = -6
-            Case "Unspecified Toxins"
+            Case "Unknown "
                 exposureScore = 2
             Case "Combination"
                 exposureScore = 0
