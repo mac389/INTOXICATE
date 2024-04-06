@@ -1,3 +1,5 @@
+#%%
+
 import pandas as pd
 import numpy as np
 import os
@@ -10,7 +12,9 @@ from bokeh.embed import components, json_item
 from bokeh.io import show
 from bokeh.models import CheckboxGroup, CustomJS
 
-DATA_PATH = os.path.join('..', '_data', 'intoxicate')
+project_path = 'c:\\Users\\rzeml\\intoxicate\\INTOXICATE'
+
+DATA_PATH = os.path.join(project_path, 'data', 'for_model')
 
 df = pd.read_csv(os.path.join(DATA_PATH, 'intoxicate.patient_registry.stable.csv'))
 
@@ -34,10 +38,12 @@ checkbox_group.js_on_change('active', CustomJS(code="""
 p.quad(top=hist, bottom=0, left=edges[:-1], right=edges[1:],
          fill_color="black", line_color="white")
 
+
+t = show (p, notebook_handle=True)
 script, div = components(p)
 checks = components(checkbox_group)
 
-with open('../_includes/custom/intoxicate_embed_plot.html', 'w') as file:
+with open(os.path.join(DATA_PATH, 'intoxicate_embed_plot.html'), 'w') as file:
     script, div = components(p)
     file.write(script)
     file.write('\n')
@@ -48,3 +54,6 @@ with open('../_includes/custom/intoxicate_embed_plot.html', 'w') as file:
     file.write(script)
     file.write('\n')
     file.write(div)
+
+
+# %%
