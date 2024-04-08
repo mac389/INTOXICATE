@@ -1,1001 +1,1001 @@
 intoxicant_name,intoxicant_value,age_name,age_value,sbp_name,sbp_value,hr_name,hr_value,gcs_name,gcs_value,second_diagnose_name,second_diagnose_value,cirrhosis_name,cirrhosis_value,dysrhythmia_name,dysrhythmia_value,respiratory_name,respiratory_value,risk
-Sedatives,5,35-45,4,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,True,8,19.569129
-Street Drugs,4,55-65,8,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,False,0,8.555655
-Toxins NOS,7,<25,0,130-140,-1,$85-95$,2,6-9,6,False,0,False,0,False,0,True,8,13.561287
-Alcohol,1,35-45,4,130-140,-1,$75-85$,1,6-9,6,True,7,True,7,False,0,False,0,17.276784
-Alcohol,1,55-65,8,110-120,1,$95-105$,3,9-14,3,True,7,True,7,False,0,True,8,30.134047000000002
-Toxins NOS,7,55-65,8,< 100,4,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,18.203038
-Analgesic,2,<25,0,130-140,-1,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,True,8,12.778690000000001
-"CO, As, CN",6,55-65,8,120-130,0,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,-2.0773840000000003
-Analgesic,2,25-35,2,130-140,-1,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,False,0,14.588684
-Alcohol,1,55-65,8,110-120,1,$75-85$,1,6-9,6,True,7,True,7,False,0,False,0,17.389512
-Toxins NOS,7,$\geq$ 65,10,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,37.346138
-Antidepressant,3,55-65,8,110-120,1,$\geq 105$,4,9-14,3,False,0,True,7,True,5,False,0,14.917442000000001
-Analgesic,2,35-45,4,120-130,0,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,26.839408
-"CO, As, CN",6,25-35,2,100-110,2,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,-7.787221000000001
-Alcohol,1,25-35,2,100-110,2,$<75$,0,6-9,6,True,7,False,0,False,0,True,8,19.380864
-Analgesic,2,35-45,4,120-130,0,$<75$,0,6-9,6,False,0,True,7,True,5,False,0,14.556394000000001
-Street Drugs,4,55-65,8,< 100,4,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,True,8,18.02914
-Alcohol,1,<25,0,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,34.839411000000005
-Sedatives,5,45-55,6,< 100,4,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,True,8,15.962922
-"CO, As, CN",6,55-65,8,130-140,-1,$\geq 105$,4,9-14,3,False,0,True,7,True,5,True,8,19.665667
-"CO, As, CN",6,45-55,6,110-120,1,$85-95$,2,9-14,3,False,0,True,7,False,0,True,8,14.603432999999999
-Street Drugs,4,45-55,6,100-110,2,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-0.14840399999999998
-Analgesic,2,25-35,2,120-130,0,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,20.391348999999998
-Sedatives,5,<25,0,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,23.432825
-Street Drugs,4,45-55,6,< 100,4,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,0.319071
-Sedatives,5,<25,0,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,True,8,10.97371
-Alcohol,1,<25,0,130-140,-1,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,False,0,12.507181
-Polysubstance,8,35-45,4,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,28.820379000000003
-Street Drugs,4,45-55,6,< 100,4,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,False,0,0.827246
-Street Drugs,4,55-65,8,110-120,1,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,True,8,35.585001000000005
-Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,15.047556
-Analgesic,2,35-45,4,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,True,7,False,0,True,8,21.950984
-Antidepressant,3,45-55,6,120-130,0,$95-105$,3,9-14,3,True,7,True,7,True,5,False,0,23.871898
-Analgesic,2,25-35,2,120-130,0,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,26.221865
-Toxins NOS,7,35-45,4,100-110,2,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,1.9254799999999996
-Analgesic,2,35-45,4,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,21.470809000000003
-Toxins NOS,7,<25,0,130-140,-1,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,22.105932
-Street Drugs,4,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,False,0,14.87865
-Alcohol,1,25-35,2,110-120,1,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,True,8,14.827039000000001
-Street Drugs,4,<25,0,120-130,0,$95-105$,3,6-9,6,False,0,True,7,True,5,True,8,26.809850000000004
-Street Drugs,4,35-45,4,100-110,2,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,False,0,15.646568000000002
-Street Drugs,4,55-65,8,120-130,0,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,True,8,25.680835000000002
-Antidepressant,3,<25,0,100-110,2,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,True,8,34.835066000000005
-"CO, As, CN",6,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,True,8,14.182611999999999
-"CO, As, CN",6,35-45,4,120-130,0,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,True,8,5.046728
-Polysubstance,8,45-55,6,100-110,2,$75-85$,1,9-14,3,True,7,False,0,False,0,True,8,28.956447000000004
-Analgesic,2,$\geq$ 65,10,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,35.615891000000005
-Street Drugs,4,35-45,4,< 100,4,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,27.348053
-Street Drugs,4,$\geq$ 65,10,130-140,-1,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,12.330434
-Alcohol,1,25-35,2,130-140,-1,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,34.33925
-Antidepressant,3,<25,0,110-120,1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,13.174714999999999
-Toxins NOS,7,45-55,6,< 100,4,$95-105$,3,6-9,6,True,7,True,7,False,0,False,0,20.472655
-Antidepressant,3,25-35,2,100-110,2,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,14.638950000000001
-Toxins NOS,7,$\geq$ 65,10,< 100,4,$75-85$,1,6-9,6,False,0,False,0,False,0,False,0,1.606747
-"CO, As, CN",6,45-55,6,100-110,2,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,18.558207
-Sedatives,5,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,26.067202
-Alcohol,1,<25,0,110-120,1,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,34.207836
-Street Drugs,4,55-65,8,100-110,2,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,12.20667
-Toxins NOS,7,25-35,2,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,27.634341
-Sedatives,5,<25,0,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,False,0,False,0,-2.2383
-"CO, As, CN",6,25-35,2,120-130,0,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,18.384825
-Sedatives,5,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,False,0,12.881132000000001
-Polysubstance,8,45-55,6,< 100,4,$75-85$,1,9-14,3,True,7,False,0,False,0,False,0,16.693387
-Antidepressant,3,<25,0,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,True,7,True,5,False,0,23.222631
-"CO, As, CN",6,45-55,6,130-140,-1,$\geq 105$,4,6-9,6,False,0,True,7,True,5,True,8,19.094778
-Toxins NOS,7,45-55,6,100-110,2,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,True,8,19.635549
-Antidepressant,3,25-35,2,110-120,1,$95-105$,3,9-14,3,False,0,True,7,False,0,True,8,21.978839999999998
-Sedatives,5,25-35,2,130-140,-1,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,30.02776
-Analgesic,2,35-45,4,120-130,0,$75-85$,1,9-14,3,False,0,True,7,False,0,True,8,22.370109
-Street Drugs,4,45-55,6,110-120,1,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,False,0,14.275107000000002
-Alcohol,1,25-35,2,< 100,4,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,-1.398841
-Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,15.187295
-"CO, As, CN",6,<25,0,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,True,8,12.496645
-"CO, As, CN",6,$\geq$ 65,10,100-110,2,$95-105$,3,6-9,6,True,7,True,7,False,0,False,0,11.058796
-Antidepressant,3,55-65,8,100-110,2,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,13.927396000000002
-Analgesic,2,$\geq$ 65,10,< 100,4,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,16.466805
-Analgesic,2,35-45,4,110-120,1,$\geq 105$,4,$\geq 14$,0,True,7,True,7,False,0,False,0,19.688394000000002
-Polysubstance,8,55-65,8,110-120,1,$\geq 105$,4,6-9,6,False,0,True,7,False,0,True,8,29.543031999999997
-Analgesic,2,<25,0,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.46492
-Toxins NOS,7,55-65,8,100-110,2,$\geq 105$,4,9-14,3,True,7,False,0,False,0,True,8,23.354087999999997
-Sedatives,5,35-45,4,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,18.641433
-"CO, As, CN",6,35-45,4,< 100,4,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,27.899134000000004
-Polysubstance,8,<25,0,< 100,4,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,29.165779999999998
-Alcohol,1,<25,0,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,19.854721
-Alcohol,1,55-65,8,100-110,2,$\geq 105$,4,9-14,3,False,0,True,7,False,0,False,0,8.880517000000001
-"CO, As, CN",6,55-65,8,100-110,2,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,3.7049309999999984
-"CO, As, CN",6,35-45,4,110-120,1,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,False,0,0.374312999999999
-Antidepressant,3,<25,0,110-120,1,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,25.383074999999998
-Alcohol,1,25-35,2,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,29.449130000000004
-Alcohol,1,25-35,2,< 100,4,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,False,0,6.6376290000000004
-Antidepressant,3,$\geq$ 65,10,< 100,4,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,25.705595000000002
-Sedatives,5,25-35,2,120-130,0,$85-95$,2,6-9,6,True,7,True,7,True,5,False,0,21.69952
-Toxins NOS,7,45-55,6,110-120,1,$75-85$,1,9-14,3,False,0,False,0,True,5,True,8,19.147724
-Street Drugs,4,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,0.600949
-"CO, As, CN",6,55-65,8,120-130,0,$75-85$,1,6-9,6,False,0,True,7,True,5,True,8,19.109142000000002
-Alcohol,1,<25,0,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,24.36472
-Antidepressant,3,<25,0,100-110,2,$85-95$,2,9-14,3,False,0,False,0,True,5,False,0,4.59572
-Antidepressant,3,35-45,4,110-120,1,$\geq 105$,4,6-9,6,True,7,True,7,True,5,True,8,35.517019000000005
-Polysubstance,8,45-55,6,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,False,0,True,5,True,8,33.466842
-Alcohol,1,45-55,6,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,False,0,False,0,7.963857
-Toxins NOS,7,25-35,2,120-130,0,$<75$,0,9-14,3,False,0,False,0,True,5,True,8,19.000646
-Polysubstance,8,45-55,6,$\geq$ 140,-3,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,33.494842000000006
-Toxins NOS,7,25-35,2,110-120,1,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,25.749272
-Alcohol,1,$\geq$ 65,10,120-130,0,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,12.917055000000001
-Alcohol,1,45-55,6,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,False,0,11.823627000000002
-Sedatives,5,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,False,0,16.531003
-Sedatives,5,25-35,2,110-120,1,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,7.70953
-Alcohol,1,25-35,2,120-130,0,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,4.093554
-Street Drugs,4,25-35,2,< 100,4,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,True,8,22.876694
-Antidepressant,3,35-45,4,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,True,8,27.519949000000004
-Analgesic,2,35-45,4,120-130,0,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,False,0,0.675408
-Sedatives,5,35-45,4,< 100,4,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-1.6911470000000002
-"CO, As, CN",6,$\geq$ 65,10,120-130,0,$<75$,0,6-9,6,True,7,False,0,False,0,True,8,13.31334
-Antidepressant,3,55-65,8,120-130,0,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,False,0,9.032622
-Toxins NOS,7,35-45,4,110-120,1,$95-105$,3,6-9,6,True,7,True,7,True,5,False,0,25.373811000000003
-Alcohol,1,45-55,6,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,25.103037
-Toxins NOS,7,<25,0,< 100,4,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,True,8,28.417527
-Toxins NOS,7,<25,0,130-140,-1,$85-95$,2,9-14,3,True,7,False,0,False,0,False,0,10.857922
-Analgesic,2,25-35,2,100-110,2,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-0.444356
-"CO, As, CN",6,35-45,4,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,True,8,28.970184000000003
-Analgesic,2,45-55,6,< 100,4,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,12.412907
-Toxins NOS,7,25-35,2,110-120,1,$85-95$,2,9-14,3,False,0,False,0,True,5,True,8,19.008296
-"CO, As, CN",6,35-45,4,100-110,2,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,True,8,9.950848
-Polysubstance,8,35-45,4,< 100,4,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,43.242194000000005
-"CO, As, CN",6,<25,0,100-110,2,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,True,8,8.300895
-Toxins NOS,7,$\geq$ 65,10,100-110,2,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,37.791963
-Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,True,8,44.617136
-Street Drugs,4,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,20.762351000000002
-Polysubstance,8,55-65,8,< 100,4,$<75$,0,9-14,3,True,7,False,0,False,0,False,0,16.756101
-Antidepressant,3,45-55,6,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,27.102488
-"CO, As, CN",6,<25,0,110-120,1,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,False,0,-7.3354099999999995
-Street Drugs,4,25-35,2,< 100,4,$<75$,0,9-14,3,True,7,False,0,False,0,False,0,9.176463
-Street Drugs,4,<25,0,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,True,8,11.465389
-Antidepressant,3,55-65,8,110-120,1,$85-95$,2,9-14,3,False,0,False,0,True,5,False,0,4.922926
-Street Drugs,4,55-65,8,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,False,0,1.07441
-Antidepressant,3,55-65,8,< 100,4,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,18.922392000000002
-Polysubstance,8,45-55,6,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,33.461792
-Alcohol,1,$\geq$ 65,10,110-120,1,$\geq 105$,4,9-14,3,True,7,False,0,False,0,True,8,20.258245000000002
-Sedatives,5,25-35,2,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,True,7,True,5,True,8,24.97211
-Polysubstance,8,<25,0,100-110,2,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,16.457291
-Antidepressant,3,55-65,8,130-140,-1,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,22.701857
-Antidepressant,3,<25,0,130-140,-1,$95-105$,3,6-9,6,False,0,False,0,True,5,True,8,16.398955
-Polysubstance,8,35-45,4,120-130,0,$85-95$,2,9-14,3,False,0,True,7,True,5,True,8,34.792949
-Street Drugs,4,45-55,6,130-140,-1,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,28.034692
-Polysubstance,8,55-65,8,130-140,-1,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,True,8,33.050681000000004
-Analgesic,2,55-65,8,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,20.655841000000002
-"CO, As, CN",6,55-65,8,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,1.5368370000000002
-Alcohol,1,55-65,8,< 100,4,$75-85$,1,9-14,3,False,0,True,7,False,0,True,8,21.020177
-Alcohol,1,55-65,8,100-110,2,$85-95$,2,6-9,6,True,7,True,7,False,0,True,8,29.605522
-Toxins NOS,7,<25,0,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,38.032318000000004
-"CO, As, CN",6,35-45,4,110-120,1,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,-2.2791619999999995
-Toxins NOS,7,35-45,4,110-120,1,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,True,8,38.570521
-Alcohol,1,<25,0,110-120,1,$\geq 105$,4,6-9,6,True,7,True,7,True,5,True,8,34.263836000000005
-Street Drugs,4,35-45,4,100-110,2,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,10.757748000000001
-Antidepressant,3,55-65,8,< 100,4,$85-95$,2,9-14,3,True,7,False,0,False,0,False,0,8.969876
-Street Drugs,4,55-65,8,100-110,2,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,True,8,13.15302
-Street Drugs,4,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,True,8,30.868295000000003
-Street Drugs,4,35-45,4,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,True,8,23.028458
-Alcohol,1,35-45,4,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,False,0,True,5,True,8,15.987503
-Sedatives,5,$\geq$ 65,10,110-120,1,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,False,0,13.935556000000002
-Alcohol,1,$\geq$ 65,10,130-140,-1,$95-105$,3,9-14,3,True,7,True,7,False,0,True,8,30.251461
-Analgesic,2,45-55,6,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,False,0,9.742592
-Toxins NOS,7,<25,0,110-120,1,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,True,8,32.003748
-Toxins NOS,7,45-55,6,120-130,0,$<75$,0,9-14,3,False,0,False,0,True,5,False,0,6.931714
-Sedatives,5,55-65,8,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,True,7,False,0,True,8,29.804427000000004
-"CO, As, CN",6,35-45,4,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,False,0,False,0,True,8,3.6265529999999995
-Alcohol,1,<25,0,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,25.284370000000003
-Sedatives,5,$\geq$ 65,10,130-140,-1,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,True,8,14.763575
-Polysubstance,8,<25,0,130-140,-1,$75-85$,1,6-9,6,True,7,True,7,False,0,True,8,38.259696
-Alcohol,1,<25,0,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,21.572701000000002
-Alcohol,1,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,19.121153
-Polysubstance,8,25-35,2,120-130,0,$95-105$,3,6-9,6,False,0,False,0,False,0,False,0,7.130364
-Alcohol,1,45-55,6,130-140,-1,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,9.331028
-Analgesic,2,25-35,2,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,22.969625
-Sedatives,5,$\geq$ 65,10,< 100,4,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,False,0,21.444801000000002
-Polysubstance,8,35-45,4,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,35.320174
-Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,False,0,19.663731
-Alcohol,1,<25,0,< 100,4,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,True,8,21.207496
-Analgesic,2,<25,0,< 100,4,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,True,8,21.132931
-Alcohol,1,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,False,0,13.292152000000002
-Analgesic,2,45-55,6,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,31.024518
-Street Drugs,4,35-45,4,120-130,0,$75-85$,1,6-9,6,True,7,False,0,False,0,False,0,8.854402
-Sedatives,5,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,True,8,16.21305
-Street Drugs,4,55-65,8,100-110,2,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,False,0,13.431775000000002
-Alcohol,1,25-35,2,120-130,0,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,30.404430000000005
-Analgesic,2,35-45,4,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.8465170000000001
-Alcohol,1,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,True,7,False,0,False,0,18.424548
-Alcohol,1,$\geq$ 65,10,130-140,-1,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,29.715286
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,False,0,17.44274
-"CO, As, CN",6,45-55,6,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,True,7,True,5,True,8,28.146298
-Sedatives,5,35-45,4,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,19.597129000000002
-"CO, As, CN",6,25-35,2,< 100,4,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,19.79995
-Antidepressant,3,<25,0,110-120,1,$75-85$,1,9-14,3,False,0,False,0,False,0,True,8,11.90761
-Sedatives,5,$\geq$ 65,10,100-110,2,$<75$,0,6-9,6,True,7,False,0,False,0,False,0,7.05434
-Sedatives,5,$\geq$ 65,10,< 100,4,$75-85$,1,9-14,3,False,0,False,0,True,5,True,8,15.636175000000001
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$75-85$,1,6-9,6,True,7,False,0,True,5,False,0,21.37121
-Antidepressant,3,35-45,4,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,True,8,16.030208000000002
-Antidepressant,3,35-45,4,$\geq$ 140,-3,$75-85$,1,9-14,3,True,7,False,0,True,5,True,8,26.084077999999998
-Street Drugs,4,25-35,2,130-140,-1,$85-95$,2,6-9,6,False,0,False,0,False,0,False,0,-0.21278200000000014
-Alcohol,1,$\geq$ 65,10,< 100,4,$<75$,0,9-14,3,False,0,True,7,True,5,True,8,25.999710999999998
-Analgesic,2,<25,0,120-130,0,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,13.950791000000002
-Polysubstance,8,<25,0,110-120,1,$75-85$,1,6-9,6,True,7,False,0,False,0,True,8,28.25248
-Toxins NOS,7,$\geq$ 65,10,110-120,1,$85-95$,2,6-9,6,False,0,True,7,True,5,True,8,28.787492999999998
-Antidepressant,3,$\geq$ 65,10,120-130,0,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,35.725511000000004
-"CO, As, CN",6,25-35,2,100-110,2,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,1.71312
-Alcohol,1,45-55,6,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,True,8,34.039203
-Sedatives,5,55-65,8,100-110,2,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,True,8,25.147156000000003
-Polysubstance,8,<25,0,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,False,0,25.569861000000003
-Alcohol,1,55-65,8,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,17.925687
-Antidepressant,3,55-65,8,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,True,8,17.734861000000002
-Sedatives,5,55-65,8,100-110,2,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,True,8,30.168852
-Polysubstance,8,45-55,6,120-130,0,$<75$,0,6-9,6,True,7,False,0,False,0,False,0,16.266612000000002
-Alcohol,1,$\geq$ 65,10,< 100,4,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,25.114015000000002
-Alcohol,1,$\geq$ 65,10,100-110,2,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,False,0,8.46771
-Polysubstance,8,45-55,6,< 100,4,$95-105$,3,6-9,6,True,7,False,0,False,0,True,8,28.449572000000003
-Analgesic,2,55-65,8,$\geq$ 140,-3,$<75$,0,6-9,6,False,0,True,7,True,5,True,8,26.993232
-Antidepressant,3,25-35,2,100-110,2,$\geq 105$,4,9-14,3,True,7,False,0,False,0,False,0,8.808434
-Antidepressant,3,25-35,2,110-120,1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,False,0,14.197779
-"CO, As, CN",6,55-65,8,< 100,4,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,14.647096999999999
-Street Drugs,4,25-35,2,120-130,0,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,0.28904299999999994
-Alcohol,1,$\geq$ 65,10,120-130,0,$<75$,0,6-9,6,True,7,True,7,False,0,False,0,17.472576
-Sedatives,5,$\geq$ 65,10,110-120,1,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,9.004736
-Analgesic,2,35-45,4,120-130,0,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,30.392579000000005
-Analgesic,2,55-65,8,< 100,4,$75-85$,1,6-9,6,False,0,True,7,True,5,True,8,26.864781999999998
-Antidepressant,3,25-35,2,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,True,5,False,0,23.765520000000002
-Antidepressant,3,<25,0,130-140,-1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-0.23205000000000003
-Polysubstance,8,35-45,4,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,7.694902999999998
-Analgesic,2,55-65,8,100-110,2,$<75$,0,6-9,6,True,7,True,7,True,5,False,0,23.693942
-Alcohol,1,35-45,4,100-110,2,$<75$,0,9-14,3,False,0,False,0,False,0,True,8,10.926933
-Street Drugs,4,25-35,2,100-110,2,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,30.911864
-"CO, As, CN",6,45-55,6,110-120,1,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,14.631433000000001
-Alcohol,1,$\geq$ 65,10,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,True,8,21.692816
-"CO, As, CN",6,$\geq$ 65,10,100-110,2,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,11.566970999999999
-Alcohol,1,55-65,8,120-130,0,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,12.896341
-Street Drugs,4,55-65,8,130-140,-1,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,False,0,10.986226
-Analgesic,2,45-55,6,130-140,-1,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,20.565127
-Street Drugs,4,55-65,8,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,35.722401000000005
-Alcohol,1,25-35,2,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,12.625895
-Antidepressant,3,<25,0,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,25.436475
-"CO, As, CN",6,25-35,2,110-120,1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,18.905304
-"CO, As, CN",6,25-35,2,100-110,2,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,18.404778999999998
-Sedatives,5,45-55,6,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,33.609133
-Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,12.923265
-Toxins NOS,7,45-55,6,110-120,1,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,22.803549
-Alcohol,1,<25,0,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,False,0,23.083226000000003
-Toxins NOS,7,<25,0,110-120,1,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,37.428743000000004
-Polysubstance,8,25-35,2,< 100,4,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,False,0,31.90347
-"CO, As, CN",6,$\geq$ 65,10,120-130,0,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,18.766334999999998
-Polysubstance,8,<25,0,120-130,0,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,False,0,16.539991
-Alcohol,1,45-55,6,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,False,0,16.914023
-Sedatives,5,45-55,6,130-140,-1,$95-105$,3,9-14,3,True,7,True,7,True,5,True,8,34.603833
-Sedatives,5,<25,0,130-140,-1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-1.742825
-"CO, As, CN",6,35-45,4,110-120,1,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,True,8,27.466009
-Sedatives,5,45-55,6,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,False,0,12.949832
-Alcohol,1,55-65,8,130-140,-1,$85-95$,2,$\geq 14$,0,True,7,False,0,False,0,False,0,8.466046
-Toxins NOS,7,45-55,6,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,False,0,26.473225
-Antidepressant,3,<25,0,100-110,2,$95-105$,3,9-14,3,False,0,False,0,False,0,True,8,11.91526
-Analgesic,2,35-45,4,120-130,0,$75-85$,1,9-14,3,True,7,False,0,False,0,True,8,21.428413
-Toxins NOS,7,<25,0,120-130,0,$85-95$,2,6-9,6,False,0,False,0,True,5,True,8,18.457757
-Sedatives,5,$\geq$ 65,10,120-130,0,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,17.611731
-Alcohol,1,$\geq$ 65,10,< 100,4,$75-85$,1,9-14,3,True,7,True,7,True,5,False,0,22.816171
-"CO, As, CN",6,<25,0,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,1.697455999999999
-"CO, As, CN",6,55-65,8,120-130,0,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,True,8,20.097492000000003
-Polysubstance,8,35-45,4,< 100,4,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,39.327724
-Alcohol,1,25-35,2,< 100,4,$75-85$,1,6-9,6,False,0,False,0,False,0,True,8,10.329343999999999
-Sedatives,5,$\geq$ 65,10,< 100,4,$95-105$,3,6-9,6,True,7,True,7,False,0,True,8,29.244516000000004
-Sedatives,5,<25,0,110-120,1,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,29.910346000000004
-Alcohol,1,25-35,2,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,14.06137
-Sedatives,5,<25,0,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,3.6808700000000005
-Sedatives,5,25-35,2,100-110,2,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,True,8,34.88353
-"CO, As, CN",6,<25,0,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,False,0,5.233104999999999
-Antidepressant,3,45-55,6,130-140,-1,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,25.653917
-Analgesic,2,<25,0,100-110,2,$85-95$,2,6-9,6,True,7,False,0,False,0,False,0,8.53175
-Toxins NOS,7,35-45,4,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,False,0,19.976816
-Sedatives,5,25-35,2,< 100,4,$75-85$,1,9-14,3,True,7,False,0,False,0,True,8,19.437319000000002
-Alcohol,1,35-45,4,110-120,1,$85-95$,2,6-9,6,True,7,True,7,True,5,False,0,22.166904000000002
-Antidepressant,3,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,False,0,12.65254
-Analgesic,2,45-55,6,120-130,0,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,True,8,12.988482
-Toxins NOS,7,<25,0,100-110,2,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,16.655388000000002
-Polysubstance,8,<25,0,< 100,4,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,31.840756
-Street Drugs,4,55-65,8,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,True,7,True,5,False,0,23.952216
-Street Drugs,4,$\geq$ 65,10,110-120,1,$95-105$,3,9-14,3,False,0,False,0,False,0,False,0,0.5615489999999999
-Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,34.261786
-Toxins NOS,7,25-35,2,100-110,2,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,True,8,27.938112000000004
-Street Drugs,4,45-55,6,110-120,1,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,36.002462
-Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,7.950445
-"CO, As, CN",6,<25,0,100-110,2,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,19.735936000000002
-Antidepressant,3,55-65,8,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,False,0,9.037672
-Analgesic,2,$\geq$ 65,10,130-140,-1,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,15.343061000000002
-"CO, As, CN",6,25-35,2,130-140,-1,$\geq 105$,4,6-9,6,True,7,True,7,True,5,False,0,15.74381
-Alcohol,1,<25,0,110-120,1,$85-95$,2,9-14,3,False,0,True,7,True,5,True,8,25.705191
-Toxins NOS,7,45-55,6,110-120,1,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,28.186543999999998
-Sedatives,5,25-35,2,110-120,1,$75-85$,1,9-14,3,True,7,False,0,True,5,True,8,24.415188999999998
-Sedatives,5,45-55,6,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,True,8,21.101668
-Toxins NOS,7,35-45,4,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,27.190179999999998
-Antidepressant,3,25-35,2,130-140,-1,$\geq 105$,4,6-9,6,True,7,True,7,False,0,True,8,30.564185000000002
-"CO, As, CN",6,$\geq$ 65,10,120-130,0,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,True,8,20.202206
-Street Drugs,4,35-45,4,110-120,1,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,False,0,18.334393
-Toxins NOS,7,<25,0,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,1.8204019999999999
-Toxins NOS,7,55-65,8,100-110,2,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,37.715249
-Antidepressant,3,55-65,8,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,9.051672
-Toxins NOS,7,55-65,8,130-140,-1,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,27.795783
-"CO, As, CN",6,45-55,6,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,False,0,False,0,0.9935519999999993
-Street Drugs,4,$\geq$ 65,10,< 100,4,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,0.4584989999999999
-Analgesic,2,45-55,6,110-120,1,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,False,0,10.698288
-Sedatives,5,55-65,8,120-130,0,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,False,0,12.951495999999999
-Alcohol,1,45-55,6,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,False,0,6.9335070000000005
-Polysubstance,8,$\geq$ 65,10,110-120,1,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,True,8,44.507736
-Antidepressant,3,<25,0,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,True,8,10.92561
-Analgesic,2,25-35,2,130-140,-1,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,24.019025
-Analgesic,2,35-45,4,110-120,1,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,26.338883000000003
-Toxins NOS,7,$\geq$ 65,10,110-120,1,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,37.812313
-"CO, As, CN",6,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,15.146322000000001
-Polysubstance,8,<25,0,< 100,4,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,False,0,22.843936
-"CO, As, CN",6,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,28.807901
-Street Drugs,4,45-55,6,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,False,0,False,0,True,8,22.216876
-Analgesic,2,35-45,4,120-130,0,$<75$,0,6-9,6,False,0,True,7,True,5,False,0,14.556394000000001
-Alcohol,1,55-65,8,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,False,0,7.011521
-Alcohol,1,45-55,6,100-110,2,$\geq 105$,4,6-9,6,False,0,True,7,True,5,True,8,25.448808
-Alcohol,1,45-55,6,120-130,0,$75-85$,1,6-9,6,False,0,True,7,False,0,True,8,20.530687999999998
-Polysubstance,8,35-45,4,100-110,2,$<75$,0,9-14,3,True,7,True,7,False,0,False,0,26.609889000000003
-Alcohol,1,35-45,4,110-120,1,$\geq 105$,4,6-9,6,False,0,False,0,True,5,False,0,3.2035680000000006
-"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,False,0,15.276335
-Toxins NOS,7,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,False,0,25.103428
-"CO, As, CN",6,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,True,7,False,0,False,0,11.654720999999999
-Sedatives,5,35-45,4,100-110,2,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.6947970000000003
-"CO, As, CN",6,25-35,2,< 100,4,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,False,0,6.095064999999999
-Toxins NOS,7,25-35,2,< 100,4,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,32.005412
-Toxins NOS,7,55-65,8,100-110,2,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,27.776733
-Street Drugs,4,35-45,4,130-140,-1,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,14.299747
-Sedatives,5,45-55,6,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,19.572093000000002
-Antidepressant,3,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,False,0,17.702236
-Polysubstance,8,25-35,2,< 100,4,$95-105$,3,9-14,3,True,7,True,7,False,0,False,0,26.534475
-"CO, As, CN",6,45-55,6,< 100,4,$75-85$,1,6-9,6,False,0,False,0,True,5,False,0,-3.2378480000000005
-Toxins NOS,7,55-65,8,100-110,2,$85-95$,2,6-9,6,False,0,True,7,True,5,False,0,16.468069
-Antidepressant,3,55-65,8,110-120,1,$<75$,0,9-14,3,False,0,True,7,False,0,True,8,22.166982
-Alcohol,1,25-35,2,120-130,0,$85-95$,2,9-14,3,False,0,False,0,True,5,True,8,15.835739
-Polysubstance,8,55-65,8,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,True,7,True,5,True,8,43.552072
-Alcohol,1,25-35,2,120-130,0,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,13.593895
-Alcohol,1,35-45,4,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,23.997273
-Sedatives,5,45-55,6,< 100,4,$85-95$,2,6-9,6,False,0,False,0,True,5,False,0,2.7802120000000006
-Antidepressant,3,45-55,6,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,9.049612
-Toxins NOS,7,$\geq$ 65,10,< 100,4,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,False,0,1.1265720000000001
-Sedatives,5,55-65,8,100-110,2,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,20.188336
-Toxins NOS,7,45-55,6,< 100,4,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,22.220323999999998
-Analgesic,2,$\geq$ 65,10,100-110,2,$95-105$,3,6-9,6,False,0,False,0,False,0,False,0,-0.09549999999999992
-Street Drugs,4,45-55,6,110-120,1,$85-95$,2,9-14,3,False,0,True,7,True,5,True,8,27.499817
-Toxins NOS,7,45-55,6,120-130,0,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,True,8,28.132240000000003
-Analgesic,2,<25,0,100-110,2,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,True,8,30.226451000000004
-Toxins NOS,7,<25,0,120-130,0,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,True,8,29.398623
-"CO, As, CN",6,45-55,6,< 100,4,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,False,0,6.761322
-Street Drugs,4,55-65,8,120-130,0,$85-95$,2,9-14,3,True,7,True,7,False,0,False,0,19.482521
-Street Drugs,4,35-45,4,130-140,-1,$85-95$,2,6-9,6,True,7,True,7,False,0,False,0,18.855268000000002
-Polysubstance,8,35-45,4,120-130,0,$75-85$,1,6-9,6,False,0,True,7,True,5,True,8,34.284774
-Analgesic,2,<25,0,100-110,2,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,5.3841
-Toxins NOS,7,55-65,8,100-110,2,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,True,8,14.809443
-Toxins NOS,7,45-55,6,100-110,2,$<75$,0,9-14,3,False,0,True,7,False,0,False,0,11.94071
-Alcohol,1,<25,0,< 100,4,$<75$,0,6-9,6,True,7,False,0,True,5,True,8,24.18027
-Toxins NOS,7,45-55,6,< 100,4,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,28.139494
-Toxins NOS,7,25-35,2,100-110,2,$85-95$,2,6-9,6,True,7,False,0,False,0,True,8,22.601771
-Analgesic,2,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,True,8,30.711771
-Polysubstance,8,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,True,8,44.477708
-Sedatives,5,35-45,4,< 100,4,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,23.964678
-"CO, As, CN",6,$\geq$ 65,10,110-120,1,$75-85$,1,6-9,6,False,0,False,0,True,5,True,8,9.198990000000002
-Analgesic,2,<25,0,120-130,0,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,True,8,30.281151
-Street Drugs,4,<25,0,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,False,0,True,5,True,8,25.887204000000004
-Street Drugs,4,35-45,4,120-130,0,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,26.441103
-Analgesic,2,25-35,2,120-130,0,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,21.333045
-Street Drugs,4,35-45,4,100-110,2,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,21.511583
-Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,False,0,-0.44136000000000003
-Analgesic,2,55-65,8,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,10.842402
-Alcohol,1,45-55,6,120-130,0,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,25.013987
-Analgesic,2,$\geq$ 65,10,< 100,4,$75-85$,1,9-14,3,True,7,False,0,True,5,False,0,14.271615
-Street Drugs,4,55-65,8,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.46411500000000006
-Polysubstance,8,25-35,2,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,True,8,29.398944
-Polysubstance,8,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,23.282206000000002
-Toxins NOS,7,55-65,8,130-140,-1,$\geq 105$,4,6-9,6,False,0,True,7,True,5,False,0,16.557119
-Analgesic,2,35-45,4,120-130,0,$95-105$,3,6-9,6,True,7,False,0,True,5,False,0,13.656698000000002
-Antidepressant,3,<25,0,120-130,0,$<75$,0,9-14,3,True,7,True,7,False,0,True,8,30.905296
-"CO, As, CN",6,45-55,6,< 100,4,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,False,0,15.287313000000001
-Polysubstance,8,25-35,2,110-120,1,$<75$,0,9-14,3,False,0,False,0,True,5,True,8,24.701369
-Polysubstance,8,<25,0,110-120,1,$<75$,0,9-14,3,False,0,False,0,True,5,False,0,12.402295
-Polysubstance,8,25-35,2,120-130,0,$\geq 105$,4,9-14,3,True,7,False,0,False,0,True,8,28.885719
-Toxins NOS,7,35-45,4,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,True,7,False,0,True,8,33.254926000000005
-Toxins NOS,7,55-65,8,120-130,0,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,7.530603000000001
-Toxins NOS,7,35-45,4,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,15.793766000000002
-Antidepressant,3,35-45,4,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,False,0,17.924364
-"CO, As, CN",6,45-55,6,120-130,0,$75-85$,1,9-14,3,False,0,False,0,False,0,True,8,4.643267
-Alcohol,1,<25,0,120-130,0,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,3.5646650000000006
-Antidepressant,3,55-65,8,130-140,-1,$\geq 105$,4,9-14,3,True,7,True,7,True,5,False,0,23.982962
-Toxins NOS,7,$\geq$ 65,10,100-110,2,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,22.936627
-Sedatives,5,35-45,4,100-110,2,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,False,0,3.746548
-Sedatives,5,25-35,2,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,19.432665
-Alcohol,1,<25,0,120-130,0,$95-105$,3,6-9,6,True,7,True,7,True,5,True,8,34.270186
-"CO, As, CN",6,<25,0,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,False,0,2.740506
-Analgesic,2,45-55,6,120-130,0,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,12.494307
-Polysubstance,8,45-55,6,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,True,7,True,5,False,0,31.747173000000004
-Sedatives,5,35-45,4,110-120,1,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,24.519903
-Toxins NOS,7,35-45,4,130-140,-1,$75-85$,1,6-9,6,False,0,True,7,True,5,False,0,16.361691
-Polysubstance,8,55-65,8,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,False,0,True,8,29.555732
-Street Drugs,4,$\geq$ 65,10,110-120,1,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,5.930544
-Antidepressant,3,$\geq$ 65,10,130-140,-1,$\geq 105$,4,6-9,6,False,0,False,0,False,0,False,0,-0.34265500000000004
-Street Drugs,4,35-45,4,130-140,-1,$75-85$,1,9-14,3,True,7,False,0,False,0,True,8,21.591287
-Street Drugs,4,25-35,2,< 100,4,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,14.121283000000002
-Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,False,0,21.873431000000004
-"CO, As, CN",6,25-35,2,< 100,4,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,11.657589999999999
-Street Drugs,4,55-65,8,110-120,1,$75-85$,1,6-9,6,False,0,True,7,True,5,False,0,14.845996
-Polysubstance,8,55-65,8,110-120,1,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,False,0,21.715317000000002
-Sedatives,5,45-55,6,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,False,0,11.467307000000002
-Toxins NOS,7,35-45,4,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,True,7,True,5,False,0,16.938566
-Street Drugs,4,<25,0,110-120,1,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,True,8,36.760670000000005
-Antidepressant,3,$\geq$ 65,10,100-110,2,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,True,8,26.720644999999998
-Antidepressant,3,45-55,6,100-110,2,$75-85$,1,6-9,6,True,7,False,0,False,0,False,0,8.425687
-Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,9.20304
-Toxins NOS,7,45-55,6,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,True,7,True,5,False,0,16.507105
-"CO, As, CN",6,45-55,6,< 100,4,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,4.109691999999999
-Polysubstance,8,25-35,2,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,False,0,23.0351
-Street Drugs,4,45-55,6,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,30.571117
-Street Drugs,4,55-65,8,120-130,0,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.5111650000000001
-Alcohol,1,25-35,2,< 100,4,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,9.849169
-Alcohol,1,25-35,2,< 100,4,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,True,8,35.211850000000005
-Analgesic,2,55-65,8,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,False,0,0.875886
-"CO, As, CN",6,<25,0,100-110,2,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,1.2028849999999993
-Sedatives,5,55-65,8,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,True,8,28.816077
-Alcohol,1,25-35,2,< 100,4,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,24.284984
-Analgesic,2,55-65,8,130-140,-1,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,31.582707
-Toxins NOS,7,<25,0,< 100,4,$75-85$,1,9-14,3,True,7,True,7,True,5,True,8,37.847868000000005
-"CO, As, CN",6,$\geq$ 65,10,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,True,5,False,0,6.05615
-Analgesic,2,35-45,4,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,25.378532999999997
-Antidepressant,3,35-45,4,130-140,-1,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,11.127388
-Street Drugs,4,<25,0,100-110,2,$95-105$,3,9-14,3,True,7,True,7,False,0,False,0,19.148965
-"CO, As, CN",6,35-45,4,130-140,-1,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,False,0,1.328709
-Polysubstance,8,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,23.230528
-"CO, As, CN",6,25-35,2,100-110,2,$95-105$,3,9-14,3,True,7,True,7,False,0,True,8,23.468474999999998
-Alcohol,1,<25,0,< 100,4,$75-85$,1,6-9,6,False,0,False,0,True,5,False,0,2.94709
-Antidepressant,3,35-45,4,130-140,-1,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,True,8,22.590429
-Antidepressant,3,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.163065
-Alcohol,1,<25,0,< 100,4,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,True,8,25.168619999999997
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,20.160105
-Sedatives,5,45-55,6,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,True,8,24.589363
-Toxins NOS,7,25-35,2,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,15.717051999999999
-"CO, As, CN",6,25-35,2,100-110,2,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,4.463138999999999
-Alcohol,1,25-35,2,< 100,4,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,-1.3848410000000002
-Alcohol,1,<25,0,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,True,8,25.31107
-Alcohol,1,25-35,2,110-120,1,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,False,0,7.626375
-"CO, As, CN",6,<25,0,100-110,2,$75-85$,1,6-9,6,False,0,False,0,False,0,False,0,-8.34411
-"CO, As, CN",6,<25,0,110-120,1,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,7.081751000000001
-Analgesic,2,35-45,4,100-110,2,$\geq 105$,4,9-14,3,True,7,False,0,False,0,False,0,9.207353
-Street Drugs,4,25-35,2,$\geq$ 140,-3,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,15.205429000000002
-Polysubstance,8,<25,0,110-120,1,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,False,0,15.521945
-Street Drugs,4,$\geq$ 65,10,120-130,0,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,0.5398989999999999
-Antidepressant,3,<25,0,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,13.215415
-"CO, As, CN",6,25-35,2,< 100,4,$85-95$,2,6-9,6,True,7,True,7,False,0,True,8,22.9196
-Antidepressant,3,$\geq$ 65,10,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,10.543511
-Analgesic,2,<25,0,130-140,-1,$<75$,0,6-9,6,False,0,False,0,False,0,True,8,11.76234
-Toxins NOS,7,<25,0,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,23.582503000000003
-Analgesic,2,35-45,4,110-120,1,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,5.571878000000001
-Street Drugs,4,55-65,8,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,True,8,16.588615
-Alcohol,1,25-35,2,120-130,0,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,True,8,18.941389
-Alcohol,1,55-65,8,120-130,0,$\geq 105$,4,6-9,6,True,7,True,7,False,0,True,8,29.674222
-Alcohol,1,45-55,6,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,19.692042
-Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,24.845444999999998
-Street Drugs,4,35-45,4,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,True,7,False,0,True,8,22.573683000000003
-Analgesic,2,25-35,2,130-140,-1,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,31.352565
-Antidepressant,3,55-65,8,120-130,0,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,False,0,15.417967
-Antidepressant,3,45-55,6,100-110,2,$\geq 105$,4,6-9,6,True,7,True,7,True,5,False,0,23.351023
-"CO, As, CN",6,55-65,8,< 100,4,$95-105$,3,6-9,6,True,7,False,0,False,0,False,0,0.9748659999999987
-Sedatives,5,<25,0,100-110,2,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,9.910309999999999
-Polysubstance,8,35-45,4,130-140,-1,$<75$,0,6-9,6,False,0,False,0,False,0,True,8,19.407788
-Analgesic,2,$\geq$ 65,10,120-130,0,$95-105$,3,9-14,3,True,7,True,7,False,0,True,8,31.653071000000004
-"CO, As, CN",6,45-55,6,120-130,0,$95-105$,3,9-14,3,False,0,True,7,False,0,True,8,14.637782999999999
-Analgesic,2,55-65,8,130-140,-1,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,True,8,32.048882
-Analgesic,2,55-65,8,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,26.472357000000002
-"CO, As, CN",6,<25,0,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,False,0,1.2172809999999998
-Polysubstance,8,55-65,8,120-130,0,$<75$,0,9-14,3,True,7,False,0,True,5,True,8,33.976681
-Analgesic,2,<25,0,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,True,8,21.248680999999998
-Street Drugs,4,<25,0,130-140,-1,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,19.662190000000002
-"CO, As, CN",6,45-55,6,120-130,0,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,11.454243
-Analgesic,2,45-55,6,100-110,2,$\geq 105$,4,6-9,6,False,0,False,0,False,0,False,0,-0.23492800000000003
-Sedatives,5,<25,0,< 100,4,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,29.369121
-"CO, As, CN",6,25-35,2,100-110,2,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-8.775571000000001
-Street Drugs,4,45-55,6,130-140,-1,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,5.8178160000000005
-Toxins NOS,7,45-55,6,110-120,1,$<75$,0,9-14,3,True,7,True,7,True,5,True,8,38.125060000000005
-Alcohol,1,35-45,4,$\geq$ 140,-3,$<75$,0,9-14,3,True,7,False,0,True,5,True,8,24.970323
-Analgesic,2,45-55,6,110-120,1,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,30.943118
-Antidepressant,3,$\geq$ 65,10,130-140,-1,$<75$,0,9-14,3,True,7,True,7,False,0,True,8,31.309216
-Analgesic,2,<25,0,100-110,2,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,True,8,21.75646
-Sedatives,5,<25,0,100-110,2,$95-105$,3,9-14,3,False,0,False,0,True,5,False,0,3.0989450000000005
-Toxins NOS,7,<25,0,100-110,2,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,False,0,0.7697019999999994
-Antidepressant,3,35-45,4,110-120,1,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,True,8,25.942024000000004
-"CO, As, CN",6,55-65,8,110-120,1,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,False,0,5.458561
-Street Drugs,4,55-65,8,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,False,0,24.954566
-"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,False,0,0.37899899999999853
-Antidepressant,3,55-65,8,130-140,-1,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-0.47536900000000004
-Polysubstance,8,25-35,2,100-110,2,$\geq 105$,4,6-9,6,False,0,False,0,True,5,True,8,24.242843999999998
-Sedatives,5,45-55,6,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,-1.527983
-Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,False,0,22.012271000000002
-Antidepressant,3,<25,0,130-140,-1,$<75$,0,6-9,6,False,0,True,7,True,5,False,0,14.101111
-Toxins NOS,7,$\geq$ 65,10,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,13.376932
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,17.410086
-Antidepressant,3,45-55,6,100-110,2,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,18.928378000000002
-Sedatives,5,<25,0,110-120,1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,11.66394
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,21.879385000000003
-Polysubstance,8,<25,0,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,False,0,25.597861
-Antidepressant,3,55-65,8,120-130,0,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,11.782641
-Polysubstance,8,$\geq$ 65,10,110-120,1,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,False,0,22.332860000000004
-Antidepressant,3,55-65,8,130-140,-1,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,False,0,14.482621000000002
-Polysubstance,8,<25,0,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,True,8,32.729825000000005
-"CO, As, CN",6,55-65,8,100-110,2,$<75$,0,6-9,6,True,7,False,0,True,5,False,0,5.890386
-Sedatives,5,35-45,4,120-130,0,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,False,0,12.812068
-Street Drugs,4,<25,0,< 100,4,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,5.005749000000001
-Alcohol,1,<25,0,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,18.906675
-Alcohol,1,35-45,4,110-120,1,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,34.389264000000004
-Toxins NOS,7,25-35,2,120-130,0,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,True,8,23.061992
-Sedatives,5,45-55,6,130-140,-1,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,20.168018
-Toxins NOS,7,45-55,6,100-110,2,$75-85$,1,6-9,6,True,7,False,0,False,0,False,0,10.518839
-Antidepressant,3,45-55,6,120-130,0,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,True,8,11.169751999999999
-Alcohol,1,<25,0,100-110,2,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,True,8,28.804491
-Toxins NOS,7,$\geq$ 65,10,130-140,-1,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,True,8,37.344838
-Antidepressant,3,35-45,4,100-110,2,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,24.979978000000003
-Sedatives,5,45-55,6,100-110,2,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,-1.601733
-Sedatives,5,<25,0,100-110,2,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,False,0,22.584456000000003
-Analgesic,2,55-65,8,130-140,-1,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,25.516661
-Sedatives,5,25-35,2,110-120,1,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,True,8,28.504535000000004
-Polysubstance,8,<25,0,130-140,-1,$\geq 105$,4,$\geq 14$,0,True,7,False,0,False,0,False,0,17.10117
-Sedatives,5,25-35,2,120-130,0,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,True,8,33.413705
-Sedatives,5,<25,0,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,15.335305
+Antidepressant,3,25-35,2,< 100,4,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,False,0,15.078425
+Polysubstance,8,<25,0,< 100,4,$\geq 105$,4,$\geq 14$,0,True,7,False,0,False,0,True,8,29.221780000000003
+Alcohol,1,$\geq$ 65,10,120-130,0,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,True,8,16.66477
+Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,False,0,24.594551000000003
+"CO, As, CN",6,45-55,6,100-110,2,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,True,8,9.999562000000001
+Street Drugs,4,35-45,4,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,False,0,9.364273
+"CO, As, CN",6,35-45,4,110-120,1,$<75$,0,6-9,6,False,0,True,7,False,0,True,8,14.004544000000001
+Sedatives,5,45-55,6,130-140,-1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-1.512683
+Toxins NOS,7,25-35,2,130-140,-1,$95-105$,3,9-14,3,False,0,False,0,True,5,False,0,6.840636
+Analgesic,2,35-45,4,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,15.572744
+Toxins NOS,7,35-45,4,120-130,0,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,23.679535
+Street Drugs,4,55-65,8,110-120,1,$75-85$,1,6-9,6,True,7,False,0,False,0,False,0,8.98748
+Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,False,0,False,0,True,8,20.903225
+Sedatives,5,$\geq$ 65,10,130-140,-1,$\geq 105$,4,6-9,6,False,0,True,7,True,5,True,8,25.252266
+Analgesic,2,45-55,6,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,15.636758
+Alcohol,1,$\geq$ 65,10,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,False,0,True,8,20.284945
+Alcohol,1,$\geq$ 65,10,120-130,0,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,35.161931
+"CO, As, CN",6,<25,0,130-140,-1,$95-105$,3,9-14,3,False,0,True,7,False,0,False,0,2.2056309999999995
+Alcohol,1,$\geq$ 65,10,110-120,1,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,15.105895
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,False,0,True,5,False,0,13.985700000000001
+"CO, As, CN",6,<25,0,120-130,0,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,False,0,10.179751
+Analgesic,2,55-65,8,120-130,0,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,False,0,9.340827
+Street Drugs,4,45-55,6,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,True,8,25.665171
+Antidepressant,3,<25,0,100-110,2,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,9.123241
+"CO, As, CN",6,$\geq$ 65,10,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,True,8,3.794345
+Alcohol,1,<25,0,110-120,1,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,3.9964900000000005
+Antidepressant,3,25-35,2,< 100,4,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,19.987744
+Polysubstance,8,$\geq$ 65,10,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,23.343256000000004
+"CO, As, CN",6,$\geq$ 65,10,120-130,0,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,True,8,29.199026000000003
+Analgesic,2,$\geq$ 65,10,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,36.563541
+Polysubstance,8,35-45,4,120-130,0,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,True,8,35.273124
+Street Drugs,4,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.862622000000002
+Analgesic,2,35-45,4,130-140,-1,$<75$,0,9-14,3,True,7,False,0,False,0,True,8,21.434763
+Alcohol,1,$\geq$ 65,10,110-120,1,$<75$,0,9-14,3,True,7,True,7,False,0,False,0,17.946401
+Street Drugs,4,25-35,2,130-140,-1,$75-85$,1,9-14,3,False,0,False,0,True,5,True,8,17.406573
+Polysubstance,8,$\geq$ 65,10,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,11.817865000000001
+Street Drugs,4,55-65,8,< 100,4,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,True,8,25.571435
+Street Drugs,4,55-65,8,< 100,4,$95-105$,3,6-9,6,False,0,True,7,False,0,False,0,9.896126
+Polysubstance,8,$\geq$ 65,10,130-140,-1,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,True,8,29.6931
+Alcohol,1,$\geq$ 65,10,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,12.47888
+"CO, As, CN",6,<25,0,110-120,1,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,17.86824
+Alcohol,1,<25,0,130-140,-1,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,20.348896
+Alcohol,1,55-65,8,< 100,4,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,12.758941
+Street Drugs,4,25-35,2,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,False,0,5.761088000000001
+"CO, As, CN",6,45-55,6,110-120,1,$\geq 105$,4,9-14,3,True,7,False,0,False,0,False,0,1.467377
+Polysubstance,8,55-65,8,100-110,2,$95-105$,3,$\leq 6$,9,False,0,False,0,False,0,False,0,6.8256310000000004
+Toxins NOS,7,$\geq$ 65,10,< 100,4,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,28.306922
+Antidepressant,3,25-35,2,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,24.204995000000004
+Analgesic,2,55-65,8,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,False,0,0.849186
+Alcohol,1,35-45,4,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,True,8,11.497458
+Antidepressant,3,55-65,8,130-140,-1,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,27.618676999999998
+Sedatives,5,55-65,8,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,13.474067000000002
+"CO, As, CN",6,<25,0,100-110,2,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,True,8,13.919419999999999
+Street Drugs,4,35-45,4,110-120,1,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,0.317407
+Street Drugs,4,35-45,4,120-130,0,$75-85$,1,6-9,6,True,7,False,0,False,0,True,8,21.076762000000002
+Sedatives,5,55-65,8,110-120,1,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,True,8,14.646161
+Antidepressant,3,<25,0,110-120,1,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,14.596586000000002
+Sedatives,5,45-55,6,< 100,4,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,13.254903000000002
+"CO, As, CN",6,<25,0,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,18.309411
+Toxins NOS,7,<25,0,100-110,2,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,6.166697
+Toxins NOS,7,25-35,2,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,False,0,7.348811
+"CO, As, CN",6,$\geq$ 65,10,< 100,4,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,True,8,15.217986
+"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,23.03405
+Street Drugs,4,55-65,8,130-140,-1,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,True,8,18.14489
+Alcohol,1,55-65,8,130-140,-1,$75-85$,1,9-14,3,True,7,True,7,True,5,False,0,22.841207
+Antidepressant,3,55-65,8,< 100,4,$85-95$,2,9-14,3,True,7,True,7,False,0,False,0,18.936391999999998
+Alcohol,1,45-55,6,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,False,0,False,0,False,0,7.469682000000001
+Toxins NOS,7,25-35,2,100-110,2,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,True,8,14.537301
+Analgesic,2,55-65,8,120-130,0,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,26.452007000000002
+Antidepressant,3,35-45,4,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,False,0,3.8358480000000004
+Polysubstance,8,25-35,2,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,37.767185000000005
+Street Drugs,4,55-65,8,100-110,2,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,20.737315000000002
+Analgesic,2,$\geq$ 65,10,< 100,4,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,False,0,14.793790000000001
+Antidepressant,3,$\geq$ 65,10,130-140,-1,$95-105$,3,9-14,3,True,7,True,7,True,5,True,8,36.268036
+Sedatives,5,25-35,2,< 100,4,$\geq 105$,4,$\geq 14$,0,True,7,True,7,False,0,True,8,29.94001
 Polysubstance,8,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,True,8,39.478188
-"CO, As, CN",6,25-35,2,120-130,0,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,8.446309
-Antidepressant,3,<25,0,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,26.384124999999997
-Antidepressant,3,<25,0,100-110,2,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,25.348725
-Sedatives,5,<25,0,110-120,1,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,23.336125000000003
-"CO, As, CN",6,45-55,6,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,False,0,False,0,10.965118
-Toxins NOS,7,35-45,4,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,32.239876
-"CO, As, CN",6,45-55,6,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,False,0,-2.0790480000000002
-Polysubstance,8,$\geq$ 65,10,< 100,4,$<75$,0,6-9,6,False,0,True,7,False,0,True,8,29.502696
-Polysubstance,8,45-55,6,< 100,4,$\geq 105$,4,6-9,6,False,0,False,0,False,0,False,0,7.216391999999999
-Polysubstance,8,35-45,4,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,18.908563
-Street Drugs,4,55-65,8,120-130,0,$\geq 105$,4,6-9,6,False,0,False,0,True,5,False,0,4.94183
-Sedatives,5,45-55,6,100-110,2,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,3.3010870000000003
-Sedatives,5,45-55,6,120-130,0,$<75$,0,6-9,6,True,7,False,0,True,5,False,0,11.858432
-Street Drugs,4,$\geq$ 65,10,120-130,0,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,5.512719000000001
-Street Drugs,4,25-35,2,120-130,0,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,False,0,9.267209000000001
-Antidepressant,3,<25,0,120-130,0,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-0.25240000000000007
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,20.160105
-"CO, As, CN",6,35-45,4,110-120,1,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-8.678507
-Toxins NOS,7,55-65,8,120-130,0,$75-85$,1,6-9,6,False,0,True,7,False,0,False,0,11.577949
-Antidepressant,3,55-65,8,130-140,-1,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,11.788991
-Toxins NOS,7,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,2.2853719999999997
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,False,0,True,8,28.69075
-Analgesic,2,35-45,4,130-140,-1,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,25.363233
-Antidepressant,3,35-45,4,110-120,1,$75-85$,1,6-9,6,True,7,True,7,True,5,False,0,23.252659
-Antidepressant,3,55-65,8,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,False,0,True,5,True,8,17.240686
-Street Drugs,4,45-55,6,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,20.680951
-Antidepressant,3,25-35,2,100-110,2,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,True,8,10.975624
-Polysubstance,8,<25,0,110-120,1,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,False,0,17.01847
-Toxins NOS,7,45-55,6,100-110,2,$75-85$,1,9-14,3,True,7,True,7,True,5,True,8,38.11871
-Toxins NOS,7,35-45,4,130-140,-1,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,21.444041
-Analgesic,2,25-35,2,100-110,2,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,False,0,10.524510000000001
-Analgesic,2,35-45,4,< 100,4,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,22.768884
-Polysubstance,8,$\geq$ 65,10,100-110,2,$<75$,0,9-14,3,True,7,False,0,False,0,True,8,29.095875
-Antidepressant,3,35-45,4,< 100,4,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,4.736448
-Antidepressant,3,25-35,2,< 100,4,$95-105$,3,9-14,3,False,0,False,0,True,5,False,0,4.645734
-Antidepressant,3,45-55,6,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,8.974958
-Analgesic,2,$\geq$ 65,10,120-130,0,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,9.464195
-"CO, As, CN",6,35-45,4,120-130,0,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,19.449889
-Antidepressant,3,<25,0,110-120,1,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,21.916126
-"CO, As, CN",6,55-65,8,100-110,2,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,24.178792
-Alcohol,1,45-55,6,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,True,8,20.083563
-Polysubstance,8,25-35,2,100-110,2,$75-85$,1,9-14,3,True,7,True,7,True,5,False,0,31.463995000000004
-Antidepressant,3,35-45,4,120-130,0,$<75$,0,6-9,6,False,0,True,7,False,0,True,8,21.539729
-Toxins NOS,7,55-65,8,130-140,-1,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,True,8,37.296124000000006
-Analgesic,2,<25,0,100-110,2,$95-105$,3,6-9,6,False,0,False,0,True,5,True,8,16.66011
-Antidepressant,3,45-55,6,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,False,0,False,0,False,0,-0.4833830000000001
-Analgesic,2,35-45,4,100-110,2,$85-95$,2,9-14,3,True,7,False,0,False,0,True,8,21.401713
-"CO, As, CN",6,$\geq$ 65,10,< 100,4,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,True,8,29.103626
-Antidepressant,3,45-55,6,< 100,4,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,False,0,15.259853
-Analgesic,2,45-55,6,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,False,0,False,0,False,0,0.346997
-Toxins NOS,7,25-35,2,110-120,1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,False,0,16.290931
-Analgesic,2,35-45,4,120-130,0,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,26.373233
-Polysubstance,8,$\geq$ 65,10,100-110,2,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,True,8,39.570566
-Sedatives,5,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,12.887118000000001
-Toxins NOS,7,$\geq$ 65,10,120-130,0,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,True,8,32.407668
-Analgesic,2,<25,0,110-120,1,$85-95$,2,6-9,6,False,0,False,0,True,5,False,0,4.444100000000001
-Alcohol,1,45-55,6,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,20.037813
-Analgesic,2,55-65,8,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,19.347647000000002
-Sedatives,5,<25,0,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.732475
-Sedatives,5,45-55,6,< 100,4,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,28.610913000000004
-Analgesic,2,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,False,0,8.320753
-Toxins NOS,7,55-65,8,100-110,2,$\geq 105$,4,6-9,6,False,0,False,0,True,5,True,8,18.751913000000002
-Sedatives,5,25-35,2,< 100,4,$\geq 105$,4,6-9,6,False,0,False,0,True,5,True,8,14.877144000000001
-Street Drugs,4,25-35,2,100-110,2,$85-95$,2,6-9,6,False,0,False,0,False,0,False,0,-0.2738320000000001
-Toxins NOS,7,$\geq$ 65,10,120-130,0,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,13.952507
-Analgesic,2,45-55,6,< 100,4,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,True,8,12.907082
-Polysubstance,8,<25,0,110-120,1,$<75$,0,6-9,6,True,7,False,0,True,5,True,8,33.155300000000004
-Alcohol,1,25-35,2,< 100,4,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,False,0,11.554449000000002
-Street Drugs,4,<25,0,120-130,0,$95-105$,3,9-14,3,True,7,True,7,True,5,True,8,36.328845
-Polysubstance,8,55-65,8,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,23.963511
-Polysubstance,8,45-55,6,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,True,7,True,5,False,0,22.694353
-Toxins NOS,7,55-65,8,< 100,4,$95-105$,3,6-9,6,False,0,True,7,False,0,False,0,11.524549
-Polysubstance,8,55-65,8,130-140,-1,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,19.617216
-Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,-1.3605550000000002
-Polysubstance,8,35-45,4,120-130,0,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,12.590073
-Analgesic,2,45-55,6,130-140,-1,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,False,0,9.242463
-Street Drugs,4,25-35,2,110-120,1,$85-95$,2,9-14,3,False,0,True,7,False,0,True,8,22.429569
-Toxins NOS,7,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,True,7,False,0,False,0,11.743713
-Antidepressant,3,<25,0,< 100,4,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,21.855076
-Street Drugs,4,<25,0,$\geq$ 140,-3,$75-85$,1,9-14,3,True,7,False,0,True,5,True,8,26.395379
-Street Drugs,4,45-55,6,130-140,-1,$75-85$,1,6-9,6,False,0,True,7,True,5,False,0,14.809982000000002
-Analgesic,2,25-35,2,130-140,-1,$<75$,0,9-14,3,True,7,False,0,False,0,True,8,21.358049
-"CO, As, CN",6,55-65,8,100-110,2,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,16.859252
-Alcohol,1,<25,0,120-130,0,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,True,8,24.751191
-Street Drugs,4,35-45,4,< 100,4,$75-85$,1,6-9,6,False,0,True,7,True,5,False,0,14.631518
-Alcohol,1,<25,0,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,True,8,21.309246
-Polysubstance,8,$\geq$ 65,10,100-110,2,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,False,0,32.279026
-Analgesic,2,45-55,6,100-110,2,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,False,0,19.716758
-"CO, As, CN",6,55-65,8,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,True,5,True,8,9.203676000000002
-Antidepressant,3,35-45,4,< 100,4,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,5.174623
-Sedatives,5,$\geq$ 65,10,< 100,4,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.4913550000000004
-Toxins NOS,7,$\geq$ 65,10,130-140,-1,$85-95$,2,6-9,6,True,7,True,7,True,5,False,0,25.630653000000002
-"CO, As, CN",6,55-65,8,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,True,7,True,5,True,8,27.674137
-"CO, As, CN",6,55-65,8,120-130,0,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,14.224976
-Street Drugs,4,25-35,2,120-130,0,$75-85$,1,9-14,3,True,7,True,7,False,0,True,8,31.460739000000004
-Toxins NOS,7,<25,0,130-140,-1,$\geq 105$,4,6-9,6,True,7,True,7,False,0,False,0,20.358263
-"CO, As, CN",6,45-55,6,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,15.151008000000001
-Sedatives,5,45-55,6,< 100,4,$75-85$,1,9-14,3,False,0,False,0,True,5,True,8,15.482747
-Alcohol,1,<25,0,< 100,4,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,-1.475555
-Street Drugs,4,<25,0,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,False,0,13.185969
-Polysubstance,8,<25,0,120-130,0,$85-95$,2,6-9,6,True,7,True,7,False,0,True,8,38.253346
-Sedatives,5,35-45,4,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,24.052428
-Toxins NOS,7,55-65,8,130-140,-1,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,16.109598000000002
-Analgesic,2,25-35,2,110-120,1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,21.326695
-Analgesic,2,55-65,8,120-130,0,$<75$,0,6-9,6,True,7,False,0,False,0,False,0,8.851306
-"CO, As, CN",6,<25,0,100-110,2,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,False,0,6.61388
-Alcohol,1,$\geq$ 65,10,130-140,-1,$75-85$,1,9-14,3,True,7,False,0,False,0,False,0,8.034585
-Alcohol,1,35-45,4,< 100,4,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,21.583679000000004
-Sedatives,5,45-55,6,110-120,1,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,2.813262
-Toxins NOS,7,55-65,8,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,False,0,False,0,True,8,13.908843000000001
-Sedatives,5,25-35,2,100-110,2,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,False,0,13.608350000000002
-Polysubstance,8,25-35,2,110-120,1,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,False,0,30.523995
-Toxins NOS,7,25-35,2,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,23.138342
-Analgesic,2,45-55,6,120-130,0,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,10.704638000000001
-Street Drugs,4,35-45,4,130-140,-1,$85-95$,2,9-14,3,False,0,True,7,True,5,True,8,27.463803
-Antidepressant,3,$\geq$ 65,10,< 100,4,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,13.935410000000001
-"CO, As, CN",6,<25,0,110-120,1,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,False,0,7.533926000000001
-Polysubstance,8,45-55,6,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,38.985313
-Antidepressant,3,35-45,4,110-120,1,$<75$,0,6-9,6,True,7,False,0,False,0,True,8,20.577683
-Polysubstance,8,$\geq$ 65,10,110-120,1,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,True,8,28.127875000000003
-Street Drugs,4,<25,0,< 100,4,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,False,0,23.008735
-Analgesic,2,35-45,4,130-140,-1,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,True,8,22.912634
-Analgesic,2,25-35,2,120-130,0,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,True,8,17.723874000000002
-Sedatives,5,25-35,2,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,False,0,-1.1732360000000002
-Polysubstance,8,45-55,6,110-120,1,$75-85$,1,6-9,6,True,7,True,7,False,0,True,8,38.449138
-Sedatives,5,$\geq$ 65,10,120-130,0,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,20.809271000000003
-Antidepressant,3,25-35,2,100-110,2,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,False,0,14.163429
-Alcohol,1,$\geq$ 65,10,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-1.009285
-Sedatives,5,<25,0,< 100,4,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.8889250000000004
-Sedatives,5,$\geq$ 65,10,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,13.05621
-Polysubstance,8,45-55,6,110-120,1,$75-85$,1,6-9,6,False,0,False,0,False,0,False,0,7.235441999999999
-Analgesic,2,25-35,2,100-110,2,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,31.79969
-Sedatives,5,<25,0,110-120,1,$<75$,0,9-14,3,True,7,False,0,False,0,False,0,7.185295
-Street Drugs,4,25-35,2,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,14.231079000000001
-Alcohol,1,45-55,6,110-120,1,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,True,8,25.501812
-"CO, As, CN",6,35-45,4,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,False,0,False,0,-8.088932
-Street Drugs,4,35-45,4,100-110,2,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,35.933398000000004
-Sedatives,5,45-55,6,110-120,1,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,True,8,18.663446999999998
-Antidepressant,3,55-65,8,120-130,0,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,False,0,3.940926
-Alcohol,1,45-55,6,< 100,4,$85-95$,2,6-9,6,False,0,False,0,True,5,False,0,3.1912320000000003
-Alcohol,1,35-45,4,100-110,2,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,False,0,21.638379
-Analgesic,2,35-45,4,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,26.393583
-Polysubstance,8,45-55,6,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,True,8,30.454667999999998
-Sedatives,5,25-35,2,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,9.506848999999999
-"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,True,7,False,0,False,0,1.8008699999999997
-Alcohol,1,45-55,6,< 100,4,$95-105$,3,6-9,6,True,7,True,7,False,0,True,8,29.502108
-Analgesic,2,25-35,2,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,False,0,4.108039000000001
-Analgesic,2,35-45,4,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,20.474413
-"CO, As, CN",6,<25,0,110-120,1,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,True,8,8.321245000000001
-Alcohol,1,55-65,8,120-130,0,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,-1.087299
-Toxins NOS,7,$\geq$ 65,10,110-120,1,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,True,8,23.362498000000002
-Sedatives,5,$\geq$ 65,10,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,True,8,24.642341000000002
-Analgesic,2,55-65,8,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,True,8,37.034402
-Polysubstance,8,$\geq$ 65,10,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,18.357736000000003
-"CO, As, CN",6,35-45,4,100-110,2,$85-95$,2,6-9,6,True,7,False,0,True,5,False,0,5.764957999999999
-"CO, As, CN",6,45-55,6,< 100,4,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,True,8,3.573516999999999
-Street Drugs,4,45-55,6,100-110,2,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,False,0,13.299061000000002
-Antidepressant,3,$\geq$ 65,10,< 100,4,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,14.905106
-Sedatives,5,25-35,2,< 100,4,$\geq 105$,4,9-14,3,False,0,True,7,False,0,False,0,8.198655
-Analgesic,2,<25,0,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,False,0,14.52467
-Antidepressant,3,45-55,6,120-130,0,$75-85$,1,6-9,6,True,7,True,7,False,0,True,8,30.655262999999998
-Sedatives,5,$\geq$ 65,10,100-110,2,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,34.174036
-Polysubstance,8,<25,0,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,False,0,31.997206
-Antidepressant,3,55-65,8,110-120,1,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,21.714807
-Toxins NOS,7,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,22.314059999999998
-Toxins NOS,7,45-55,6,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,False,0,6.005714
-Polysubstance,8,35-45,4,120-130,0,$95-105$,3,6-9,6,False,0,False,0,False,0,False,0,7.207077999999999
-"CO, As, CN",6,35-45,4,100-110,2,$75-85$,1,9-14,3,True,7,False,0,False,0,False,0,1.3283129999999996
-Alcohol,1,55-65,8,110-120,1,$95-105$,3,9-14,3,False,0,False,0,False,0,True,8,11.142711
-Sedatives,5,55-65,8,< 100,4,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,28.687627
-Polysubstance,8,45-55,6,120-130,0,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,13.174962
-Sedatives,5,55-65,8,120-130,0,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,22.395837
-Polysubstance,8,35-45,4,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,7.7203029999999995
-Sedatives,5,<25,0,100-110,2,$95-105$,3,9-14,3,True,7,True,7,False,0,False,0,17.173461
-"CO, As, CN",6,<25,0,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,6.72963
-Polysubstance,8,45-55,6,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,38.017313
-Sedatives,5,<25,0,110-120,1,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,False,0,17.659986
-Sedatives,5,<25,0,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,False,0,True,5,False,0,2.69252
-Antidepressant,3,55-65,8,130-140,-1,$95-105$,3,9-14,3,False,0,False,0,False,0,True,8,12.283166
-Analgesic,2,25-35,2,120-130,0,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,31.84039
-Street Drugs,4,<25,0,120-130,0,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,False,0,0.678504
-Toxins NOS,7,55-65,8,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,True,5,True,8,18.811663
-Antidepressant,3,35-45,4,130-140,-1,$<75$,0,9-14,3,True,7,False,0,False,0,False,0,8.890198
-Sedatives,5,25-35,2,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,False,0,7.312055
-"CO, As, CN",6,55-65,8,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,18.229796
-Analgesic,2,<25,0,110-120,1,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,False,0,13.888441
-Alcohol,1,45-55,6,< 100,4,$85-95$,2,$\geq 14$,0,True,7,False,0,False,0,False,0,8.287582
-Alcohol,1,<25,0,< 100,4,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,34.696961
-Polysubstance,8,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,False,0,8.347192
-Alcohol,1,35-45,4,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,True,8,24.965669
-Street Drugs,4,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,28.155070000000002
-"CO, As, CN",6,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,-2.147748
-Street Drugs,4,35-45,4,100-110,2,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,True,8,11.517067
-Street Drugs,4,35-45,4,130-140,-1,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,False,0,8.380577
-Analgesic,2,<25,0,< 100,4,$\geq 105$,4,6-9,6,True,7,False,0,False,0,False,0,8.51905
-Analgesic,2,55-65,8,110-120,1,$85-95$,2,9-14,3,True,7,False,0,False,0,True,8,21.575491
-Antidepressant,3,<25,0,120-130,0,$\geq 105$,4,9-14,3,True,7,False,0,False,0,True,8,20.99478
-Polysubstance,8,25-35,2,110-120,1,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,False,0,11.546659
-Toxins NOS,7,45-55,6,100-110,2,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,False,0,14.983484
-Polysubstance,8,35-45,4,< 100,4,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,33.275678
-Street Drugs,4,25-35,2,< 100,4,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,True,8,12.868178
-Sedatives,5,45-55,6,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,20.716893
-Sedatives,5,55-65,8,110-120,1,$95-105$,3,9-14,3,False,0,False,0,True,5,False,0,3.426151
-Analgesic,2,<25,0,110-120,1,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,9.465796000000001
-Toxins NOS,7,55-65,8,< 100,4,$85-95$,2,$\leq 6$,9,True,7,True,7,True,5,True,8,37.180374
-Street Drugs,4,55-65,8,$\geq$ 140,-3,$75-85$,1,9-14,3,True,7,False,0,False,0,True,8,21.785415
-Sedatives,5,<25,0,110-120,1,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,20.405351
-Toxins NOS,7,$\geq$ 65,10,< 100,4,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,2.0869220000000004
-"CO, As, CN",6,25-35,2,130-140,-1,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,False,0,1.7928239999999995
-Analgesic,2,45-55,6,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,True,8,13.035532
-Polysubstance,8,<25,0,130-140,-1,$\geq 105$,4,9-14,3,True,7,False,0,False,0,True,8,28.829355
-Antidepressant,3,25-35,2,130-140,-1,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,True,8,36.455355000000004
-Toxins NOS,7,45-55,6,130-140,-1,$75-85$,1,6-9,6,False,0,True,7,False,0,False,0,11.521585
-"CO, As, CN",6,25-35,2,110-120,1,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,False,0,1.794124
-Street Drugs,4,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,32.35082
-Analgesic,2,$\geq$ 65,10,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,26.549070999999998
-Alcohol,1,25-35,2,< 100,4,$85-95$,2,6-9,6,True,7,True,7,False,0,False,0,17.11232
-Toxins NOS,7,$\geq$ 65,10,< 100,4,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,False,0,20.131908000000003
-Toxins NOS,7,45-55,6,110-120,1,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,18.145374
-Toxins NOS,7,25-35,2,130-140,-1,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,12.342507000000001
-Analgesic,2,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,False,0,10.510146
-Antidepressant,3,45-55,6,$\geq$ 140,-3,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,18.988128
-Antidepressant,3,45-55,6,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,True,7,True,5,False,0,14.399953
-Alcohol,1,55-65,8,$\geq$ 140,-3,$85-95$,2,6-9,6,True,7,False,0,False,0,True,8,19.740756
-Analgesic,2,<25,0,120-130,0,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,31.255501000000002
-Street Drugs,4,25-35,2,100-110,2,$85-95$,2,6-9,6,True,7,False,0,False,0,False,0,8.750988
-Polysubstance,8,55-65,8,110-120,1,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,16.859150999999997
-Toxins NOS,7,45-55,6,100-110,2,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,False,0,5.930664
-Analgesic,2,$\geq$ 65,10,110-120,1,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,True,8,26.494371
-Sedatives,5,$\geq$ 65,10,120-130,0,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,19.820921
-Polysubstance,8,35-45,4,100-110,2,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,True,8,33.735899
-Analgesic,2,55-65,8,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,True,8,11.615721
-Sedatives,5,45-55,6,100-110,2,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,25.042442
-Polysubstance,8,35-45,4,< 100,4,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,22.503189
-"CO, As, CN",6,35-45,4,120-130,0,$85-95$,2,9-14,3,True,7,True,7,True,5,False,0,16.266349
-Alcohol,1,45-55,6,120-130,0,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,30.063683000000005
-"CO, As, CN",6,35-45,4,< 100,4,$75-85$,1,6-9,6,False,0,False,0,True,5,False,0,-3.3145619999999996
-Antidepressant,3,35-45,4,120-130,0,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,9.345369
-Sedatives,5,45-55,6,100-110,2,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,3.3010870000000003
-"CO, As, CN",6,<25,0,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,True,8,4.9086
-Street Drugs,4,$\geq$ 65,10,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,15.945410000000003
-Alcohol,1,45-55,6,< 100,4,$\geq 105$,4,$\geq 14$,0,True,7,True,7,False,0,True,8,30.504458
-Toxins NOS,7,45-55,6,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,28.10684
-Alcohol,1,<25,0,130-140,-1,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,29.853891000000004
-Antidepressant,3,35-45,4,110-120,1,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,13.766318000000002
-Antidepressant,3,<25,0,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,20.500605
-"CO, As, CN",6,35-45,4,130-140,-1,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,-3.720987
-Polysubstance,8,$\geq$ 65,10,130-140,-1,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,True,8,20.668280000000003
-Sedatives,5,25-35,2,110-120,1,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,10.007373999999999
-Polysubstance,8,35-45,4,130-140,-1,$85-95$,2,9-14,3,True,7,False,0,False,0,False,0,16.732423
-Alcohol,1,<25,0,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,False,0,True,5,False,0,3.1175400000000004
-Toxins NOS,7,35-45,4,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,True,7,True,5,False,0,24.906336000000003
-Sedatives,5,45-55,6,110-120,1,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,13.315953
-Alcohol,1,<25,0,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,18.967725
-Alcohol,1,$\geq$ 65,10,< 100,4,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,False,0,11.889305
-Analgesic,2,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,9.450591000000001
-"CO, As, CN",6,45-55,6,110-120,1,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,1.858898
-Analgesic,2,$\geq$ 65,10,100-110,2,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,23.039726
-Sedatives,5,25-35,2,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,False,0,16.363575
-Alcohol,1,45-55,6,120-130,0,$85-95$,2,6-9,6,True,7,True,7,False,0,False,0,17.347148
-Analgesic,2,55-65,8,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,True,8,18.071066000000002
-Alcohol,1,35-45,4,< 100,4,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,8.136214
-Alcohol,1,<25,0,130-140,-1,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,21.532001
-Alcohol,1,<25,0,110-120,1,$95-105$,3,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.374855
-Alcohol,1,<25,0,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,29.894591
-Antidepressant,3,55-65,8,110-120,1,$75-85$,1,9-14,3,False,0,True,7,True,5,False,0,14.875442
-Polysubstance,8,<25,0,< 100,4,$75-85$,1,6-9,6,False,0,True,7,False,0,True,8,29.133126000000004
-Sedatives,5,35-45,4,120-130,0,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,25.006428
-Street Drugs,4,55-65,8,130-140,-1,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,True,8,18.11689
-Antidepressant,3,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,27.690341000000004
-Polysubstance,8,25-35,2,100-110,2,$<75$,0,9-14,3,True,7,False,0,True,5,True,8,33.705839000000005
-Antidepressant,3,<25,0,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,True,7,False,0,True,8,21.461351
-Antidepressant,3,<25,0,130-140,-1,$95-105$,3,9-14,3,False,0,True,7,False,0,False,0,9.720466
-"CO, As, CN",6,$\geq$ 65,10,110-120,1,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,False,0,3.0146760000000006
-Polysubstance,8,$\geq$ 65,10,120-130,0,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,43.525736
-Analgesic,2,45-55,6,130-140,-1,$85-95$,2,9-14,3,True,7,True,7,True,5,True,8,36.422813000000005
-Street Drugs,4,<25,0,130-140,-1,$75-85$,1,6-9,6,True,7,True,7,False,0,True,8,30.910200000000003
-Street Drugs,4,25-35,2,< 100,4,$<75$,0,9-14,3,True,7,True,7,False,0,False,0,19.142979
-Sedatives,5,<25,0,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,True,5,True,8,34.400391
-Polysubstance,8,<25,0,110-120,1,$75-85$,1,6-9,6,False,0,False,0,False,0,False,0,7.0053
-Sedatives,5,35-45,4,130-140,-1,$<75$,0,6-9,6,False,0,True,7,False,0,True,8,20.049304
-Sedatives,5,35-45,4,120-130,0,$\geq 105$,4,6-9,6,True,7,True,7,False,0,True,8,29.109774
-"CO, As, CN",6,55-65,8,120-130,0,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,15.166672
-Antidepressant,3,$\geq$ 65,10,130-140,-1,$75-85$,1,9-14,3,False,0,True,7,False,0,False,0,10.076036
-"CO, As, CN",6,55-65,8,120-130,0,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,False,0,10.486607
-Polysubstance,8,35-45,4,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,True,8,44.372994000000006
-Alcohol,1,25-35,2,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,28.949905
-Alcohol,1,35-45,4,110-120,1,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,False,0,-0.780902
-Sedatives,5,35-45,4,< 100,4,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,9.514863
-Antidepressant,3,25-35,2,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,True,7,False,0,False,0,9.315705000000001
-"CO, As, CN",6,$\geq$ 65,10,< 100,4,$95-105$,3,$\leq 6$,9,False,0,False,0,False,0,False,0,-8.467415
-Polysubstance,8,<25,0,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,False,0,15.603345000000001
-Sedatives,5,55-65,8,130-140,-1,$95-105$,3,9-14,3,False,0,True,7,True,5,True,8,25.655727
-"CO, As, CN",6,45-55,6,100-110,2,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,True,8,12.625036999999999
-Sedatives,5,55-65,8,100-110,2,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,34.097322000000005
-"CO, As, CN",6,35-45,4,< 100,4,$85-95$,2,9-14,3,True,7,True,7,True,5,False,0,16.184949
-Polysubstance,8,55-65,8,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,False,0,False,0,True,8,29.569336
-Sedatives,5,35-45,4,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,22.811634
-Antidepressant,3,$\geq$ 65,10,100-110,2,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,True,8,36.701161000000006
-Street Drugs,4,55-65,8,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,True,8,37.103176000000005
-Polysubstance,8,35-45,4,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,False,0,30.614708999999998
-Toxins NOS,7,45-55,6,130-140,-1,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,27.719068999999998
-Street Drugs,4,<25,0,130-140,-1,$95-105$,3,9-14,3,True,7,True,7,True,5,True,8,36.349195
-Analgesic,2,25-35,2,120-130,0,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,36.277035000000005
-Alcohol,1,<25,0,120-130,0,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,False,0,-0.91398
-Toxins NOS,7,45-55,6,< 100,4,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,False,0,9.983964
-Street Drugs,4,<25,0,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,False,0,True,8,12.393989
-"CO, As, CN",6,45-55,6,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,1.419423
-Toxins NOS,7,55-65,8,110-120,1,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,28.291258
-Toxins NOS,7,<25,0,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,True,8,32.113148
-Analgesic,2,35-45,4,110-120,1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,25.872708000000003
-Antidepressant,3,55-65,8,110-120,1,$95-105$,3,9-14,3,False,0,True,7,False,0,False,0,9.986622
-Alcohol,1,55-65,8,110-120,1,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,True,8,25.578526000000004
-Alcohol,1,45-55,6,< 100,4,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,False,0,2.7110570000000003
-Antidepressant,3,$\geq$ 65,10,100-110,2,$95-105$,3,6-9,6,True,7,False,0,False,0,True,8,20.829475000000002
+Street Drugs,4,55-65,8,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,False,0,9.503701
+Toxins NOS,7,25-35,2,110-120,1,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,28.033116
+Analgesic,2,55-65,8,110-120,1,$95-105$,3,$\leq 6$,9,False,0,False,0,False,0,True,8,11.576321
+Analgesic,2,55-65,8,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,False,0,19.881222
+Antidepressant,3,25-35,2,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,13.271779000000002
+Sedatives,5,35-45,4,100-110,2,$95-105$,3,6-9,6,True,7,True,7,False,0,True,8,29.055073999999998
+"CO, As, CN",6,55-65,8,110-120,1,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,14.199972
+"CO, As, CN",6,55-65,8,110-120,1,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,False,0,-3.5802590000000007
+Antidepressant,3,45-55,6,110-120,1,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,13.899032000000002
+Street Drugs,4,35-45,4,< 100,4,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,11.490366999999999
+"CO, As, CN",6,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,18.692981
+"CO, As, CN",6,45-55,6,130-140,-1,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,False,0,1.9462519999999994
+Sedatives,5,35-45,4,130-140,-1,$95-105$,3,9-14,3,False,0,False,0,False,0,False,0,-1.6033970000000002
+Polysubstance,8,55-65,8,110-120,1,$<75$,0,9-14,3,True,7,False,0,True,5,True,8,33.956331
+Polysubstance,8,$\geq$ 65,10,120-130,0,$<75$,0,6-9,6,False,0,False,0,True,5,True,8,24.534399999999998
+Polysubstance,8,35-45,4,100-110,2,$\geq 105$,4,6-9,6,False,0,True,7,True,5,True,8,34.286074
 Analgesic,2,35-45,4,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,True,7,False,0,False,0,19.668044000000002
-Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,33.126095
-Alcohol,1,<25,0,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,False,0,False,0,7.198840000000001
-Toxins NOS,7,35-45,4,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,False,0,True,5,True,8,27.669055
-Antidepressant,3,35-45,4,< 100,4,$95-105$,3,6-9,6,False,0,False,0,True,5,True,8,16.450633
-Polysubstance,8,55-65,8,130-140,-1,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,18.321722
-Sedatives,5,55-65,8,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,True,8,21.186032
-Sedatives,5,45-55,6,110-120,1,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,False,0,13.768128
-Alcohol,1,45-55,6,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,True,8,25.569212
-Antidepressant,3,35-45,4,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,26.126078
-Alcohol,1,35-45,4,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,True,8,21.463974
-Toxins NOS,7,35-45,4,100-110,2,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,33.167176
-Antidepressant,3,55-65,8,< 100,4,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,5.356051000000001
-"CO, As, CN",6,55-65,8,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,False,0,False,0,False,0,1.0893160000000002
-Street Drugs,4,55-65,8,120-130,0,$\geq 105$,4,6-9,6,True,7,True,7,True,5,True,8,36.155526
-Street Drugs,4,35-45,4,100-110,2,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,False,0,8.305527
-Polysubstance,8,55-65,8,110-120,1,$75-85$,1,6-9,6,True,7,False,0,False,0,False,0,16.336976
-Street Drugs,4,35-45,4,$\geq$ 140,-3,$\geq 105$,4,6-9,6,False,0,False,0,True,5,False,0,4.849452
-"CO, As, CN",6,45-55,6,120-130,0,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,True,8,10.082262
-Polysubstance,8,35-45,4,110-120,1,$85-95$,2,9-14,3,False,0,True,7,True,5,True,8,34.772599
-Polysubstance,8,<25,0,110-120,1,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,False,0,21.394461000000003
-Toxins NOS,7,35-45,4,110-120,1,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,False,0,15.840816
-Alcohol,1,45-55,6,130-140,-1,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,False,0,23.300668
-Polysubstance,8,25-35,2,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,False,0,20.596879
-Analgesic,2,25-35,2,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,True,8,16.275699
-Polysubstance,8,25-35,2,130-140,-1,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,False,0,15.639359000000002
-Alcohol,1,35-45,4,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,13.237088
-"CO, As, CN",6,25-35,2,< 100,4,$95-105$,3,$\leq 6$,9,True,7,False,0,True,5,False,0,5.167369
-Street Drugs,4,25-35,2,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,False,0,14.648508
-Alcohol,1,<25,0,110-120,1,$95-105$,3,9-14,3,True,7,False,0,True,5,False,0,12.555135
-Antidepressant,3,<25,0,100-110,2,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,4.073545
-Alcohol,1,55-65,8,110-120,1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,24.604176000000002
-Toxins NOS,7,$\geq$ 65,10,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,6.096792000000001
-Analgesic,2,25-35,2,110-120,1,$\geq 105$,4,9-14,3,False,0,True,7,False,0,False,0,10.092685000000001
-"CO, As, CN",6,<25,0,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,True,5,False,0,-3.3255399999999993
-Street Drugs,4,55-65,8,110-120,1,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,True,8,28.056706
-Sedatives,5,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,25.816346000000003
-Toxins NOS,7,35-45,4,120-130,0,$95-105$,3,6-9,6,False,0,False,0,True,5,True,8,18.625185000000002
-Polysubstance,8,55-65,8,100-110,2,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,23.177492
-Sedatives,5,$\geq$ 65,10,< 100,4,$<75$,0,6-9,6,False,0,True,7,True,5,False,0,12.872156
-Street Drugs,4,$\geq$ 65,10,< 100,4,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,True,8,32.18037
-Polysubstance,8,<25,0,120-130,0,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,26.991335999999997
-Toxins NOS,7,25-35,2,100-110,2,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,7.259761
-Street Drugs,4,25-35,2,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,21.062398
-Street Drugs,4,45-55,6,120-130,0,$<75$,0,9-14,3,False,0,True,7,False,0,False,0,10.352987
-Polysubstance,8,55-65,8,< 100,4,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,True,8,44.369972000000004
-Toxins NOS,7,45-55,6,100-110,2,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,27.149844
-Alcohol,1,25-35,2,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,True,8,35.349250000000005
-Street Drugs,4,35-45,4,100-110,2,$85-95$,2,$\leq 6$,9,True,7,True,7,True,5,True,8,35.439223000000005
-Alcohol,1,<25,0,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,12.650535000000001
-Alcohol,1,45-55,6,100-110,2,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.193063
-Sedatives,5,55-65,8,110-120,1,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,22.883662
-Toxins NOS,7,<25,0,< 100,4,$<75$,0,6-9,6,True,7,False,0,False,0,True,8,22.456357
-Antidepressant,3,<25,0,120-130,0,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,16.88678
-Antidepressant,3,35-45,4,< 100,4,$95-105$,3,6-9,6,True,7,False,0,False,0,False,0,8.336273
-Street Drugs,4,<25,0,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,True,5,True,8,36.375895
-Alcohol,1,35-45,4,110-120,1,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,12.666563
-"CO, As, CN",6,<25,0,120-130,0,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,23.912636
-Polysubstance,8,45-55,6,130-140,-1,$95-105$,3,9-14,3,False,0,True,7,True,5,True,8,34.904013000000006
-Analgesic,2,25-35,2,100-110,2,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,31.319515000000003
-Antidepressant,3,<25,0,100-110,2,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,True,8,12.381435
-Sedatives,5,55-65,8,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,11.991146
-Analgesic,2,25-35,2,100-110,2,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,0.07781900000000008
-Polysubstance,8,<25,0,130-140,-1,$85-95$,2,9-14,3,True,7,False,0,False,0,True,8,28.801355
-Polysubstance,8,$\geq$ 65,10,100-110,2,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,12.271340000000002
-Sedatives,5,35-45,4,100-110,2,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,33.943894
-"CO, As, CN",6,$\geq$ 65,10,110-120,1,$85-95$,2,6-9,6,False,0,False,0,False,0,False,0,-7.92619
-Toxins NOS,7,45-55,6,< 100,4,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,False,0,7.400489
-Polysubstance,8,55-65,8,130-140,-1,$95-105$,3,6-9,6,True,7,True,7,False,0,False,0,26.372192
-Street Drugs,4,$\geq$ 65,10,< 100,4,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,True,8,25.662149
-Analgesic,2,55-65,8,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,False,0,True,8,21.630191
-Antidepressant,3,$\geq$ 65,10,< 100,4,$85-95$,2,6-9,6,True,7,True,7,False,0,True,8,30.741291000000004
-Polysubstance,8,35-45,4,120-130,0,$75-85$,1,9-14,3,True,7,False,0,True,5,False,0,21.614893000000002
-Antidepressant,3,$\geq$ 65,10,< 100,4,$<75$,0,6-9,6,True,7,False,0,True,5,False,0,13.441234999999999
-Analgesic,2,45-55,6,130-140,-1,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,False,0,8.314767
-Toxins NOS,7,35-45,4,100-110,2,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,21.382991
-"CO, As, CN",6,$\geq$ 65,10,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,-2.487195
-Polysubstance,8,55-65,8,120-130,0,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,True,8,23.991511000000003
-Toxins NOS,7,35-45,4,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,False,0,False,0,True,8,22.794235
-Street Drugs,4,35-45,4,130-140,-1,$\geq 105$,4,6-9,6,False,0,True,7,False,0,False,0,9.858448000000001
-Sedatives,5,<25,0,100-110,2,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,20.385001000000003
-Antidepressant,3,35-45,4,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,True,5,True,8,26.504899
-Toxins NOS,7,$\geq$ 65,10,120-130,0,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,28.374322
-Alcohol,1,25-35,2,130-140,-1,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,8.16125
-"CO, As, CN",6,45-55,6,110-120,1,$95-105$,3,9-14,3,False,0,True,7,True,5,True,8,19.534253
-Toxins NOS,7,45-55,6,100-110,2,$<75$,0,6-9,6,True,7,True,7,True,5,False,0,25.388175000000004
-"CO, As, CN",6,25-35,2,< 100,4,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,8.364909
-Polysubstance,8,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,True,8,34.450506000000004
-Polysubstance,8,55-65,8,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,26.839667
-"CO, As, CN",6,45-55,6,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,True,8,27.508373
-Alcohol,1,25-35,2,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,True,7,True,5,True,8,25.36913
-Sedatives,5,45-55,6,130-140,-1,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,-1.540683
-Analgesic,2,45-55,6,130-140,-1,$<75$,0,6-9,6,False,0,False,0,True,5,True,8,16.909302
-Toxins NOS,7,55-65,8,< 100,4,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,False,0,21.537719000000003
-Polysubstance,8,45-55,6,< 100,4,$95-105$,3,9-14,3,True,7,True,7,False,0,True,8,38.910263
-Sedatives,5,35-45,4,110-120,1,$95-105$,3,6-9,6,True,7,False,0,False,0,True,8,19.108908
-Alcohol,1,45-55,6,110-120,1,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,False,0,12.724623000000001
-Toxins NOS,7,45-55,6,110-120,1,$\geq 105$,4,6-9,6,True,7,True,7,False,0,True,8,32.770065
-Street Drugs,4,55-65,8,120-130,0,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,0.519185
-Toxins NOS,7,<25,0,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,17.251313
-Alcohol,1,45-55,6,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,True,7,False,0,False,0,8.863553
-Street Drugs,4,$\geq$ 65,10,100-110,2,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,False,0,4.469669000000001
-"CO, As, CN",6,25-35,2,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,False,0,-3.741701
-Antidepressant,3,<25,0,100-110,2,$85-95$,2,9-14,3,True,7,True,7,True,5,False,0,23.587056000000004
-Analgesic,2,$\geq$ 65,10,110-120,1,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,False,0,9.93802
-Alcohol,1,35-45,4,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,False,0,False,0,True,8,19.573328
-Alcohol,1,25-35,2,110-120,1,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,True,8,33.832375
-Sedatives,5,$\geq$ 65,10,110-120,1,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,19.786571000000002
-Analgesic,2,45-55,6,< 100,4,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,0.1905469999999999
-Alcohol,1,$\geq$ 65,10,130-140,-1,$\geq 105$,4,6-9,6,False,0,True,7,True,5,False,0,13.440926000000001
-Toxins NOS,7,25-35,2,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,True,8,18.088646
-Sedatives,5,25-35,2,< 100,4,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,True,8,25.81801
-Street Drugs,4,55-65,8,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,14.521875000000001
-Alcohol,1,35-45,4,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.168027
-Sedatives,5,35-45,4,120-130,0,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,9.596263
-Toxins NOS,7,$\geq$ 65,10,< 100,4,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,True,8,32.326268
-"CO, As, CN",6,35-45,4,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,15.209299000000001
-Toxins NOS,7,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,37.879713
-Toxins NOS,7,45-55,6,110-120,1,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,26.410875
-Street Drugs,4,<25,0,100-110,2,$95-105$,3,9-14,3,False,0,True,7,False,0,False,0,10.124145
-Toxins NOS,7,$\geq$ 65,10,100-110,2,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,True,8,28.272968
-Toxins NOS,7,55-65,8,100-110,2,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,True,8,19.684263
-Sedatives,5,<25,0,100-110,2,$95-105$,3,9-14,3,False,0,False,0,False,0,True,8,10.404485
-Street Drugs,4,35-45,4,100-110,2,$<75$,0,9-14,3,False,0,True,7,False,0,False,0,10.235573
-Toxins NOS,7,<25,0,130-140,-1,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,False,0,19.808087999999998
-Sedatives,5,<25,0,120-130,0,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,18.467655
-Sedatives,5,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,13.593986000000001
-Street Drugs,4,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,True,8,21.364505
-Analgesic,2,25-35,2,100-110,2,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,False,0,0.5859940000000001
-Street Drugs,4,25-35,2,< 100,4,$75-85$,1,6-9,6,True,7,False,0,False,0,False,0,8.696288
-Analgesic,2,$\geq$ 65,10,100-110,2,$<75$,0,9-14,3,False,0,True,7,False,0,True,8,22.545551000000003
-Toxins NOS,7,$\geq$ 65,10,100-110,2,$75-85$,1,6-9,6,True,7,False,0,False,0,True,8,22.894627
-Toxins NOS,7,35-45,4,100-110,2,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,True,8,23.652835
-Alcohol,1,35-45,4,110-120,1,$85-95$,2,6-9,6,False,0,False,0,False,0,True,8,10.481108
-Analgesic,2,<25,0,120-130,0,$95-105$,3,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.9325450000000001
-Antidepressant,3,$\geq$ 65,10,110-120,1,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,0.08282
-Antidepressant,3,<25,0,110-120,1,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,11.92161
-"CO, As, CN",6,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,True,8,19.121446
-"CO, As, CN",6,45-55,6,120-130,0,$95-105$,3,9-14,3,False,0,False,0,True,5,True,8,9.588087
-Polysubstance,8,55-65,8,120-130,0,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,33.496506000000004
-Alcohol,1,<25,0,130-140,-1,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,False,0,23.056526
-Toxins NOS,7,35-45,4,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,6.8703
-Toxins NOS,7,45-55,6,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,False,0,False,0,True,8,23.351124
-Analgesic,2,$\geq$ 65,10,120-130,0,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,True,8,30.636721
-Alcohol,1,$\geq$ 65,10,120-130,0,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,True,8,11.69195
-"CO, As, CN",6,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,False,0,True,5,False,0,6.6050249999999995
-Polysubstance,8,<25,0,< 100,4,$75-85$,1,9-14,3,True,7,True,7,True,5,True,8,43.568941
-Analgesic,2,<25,0,< 100,4,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,21.67376
-Sedatives,5,45-55,6,120-130,0,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,18.711797
-Alcohol,1,$\geq$ 65,10,< 100,4,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,21.138891
-Sedatives,5,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,False,0,22.618806
-Toxins NOS,7,<25,0,100-110,2,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,22.044882
-Polysubstance,8,45-55,6,< 100,4,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,False,0,13.107562000000001
-Analgesic,2,55-65,8,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,False,0,13.349001000000001
-Street Drugs,4,25-35,2,100-110,2,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,True,8,12.950878
-Street Drugs,4,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,False,0,4.092449
-"CO, As, CN",6,$\geq$ 65,10,120-130,0,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,23.802031
+Polysubstance,8,<25,0,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,False,0,16.573041
+"CO, As, CN",6,25-35,2,120-130,0,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,-7.718521000000001
+Analgesic,2,55-65,8,< 100,4,$<75$,0,9-14,3,False,0,False,0,True,5,True,8,17.378441000000002
+Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,False,0,True,5,False,0,21.934085000000003
+Polysubstance,8,$\geq$ 65,10,100-110,2,$75-85$,1,9-14,3,False,0,False,0,True,5,True,8,25.001875
+"CO, As, CN",6,35-45,4,120-130,0,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,18.042018
+"CO, As, CN",6,$\geq$ 65,10,110-120,1,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,16.956316
+Antidepressant,3,<25,0,120-130,0,$75-85$,1,6-9,6,False,0,False,0,False,0,False,0,-0.788575
+Antidepressant,3,55-65,8,120-130,0,$<75$,0,9-14,3,True,7,False,0,True,5,True,8,26.162456
+Sedatives,5,<25,0,100-110,2,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,29.875996
+"CO, As, CN",6,35-45,4,130-140,-1,$75-85$,1,6-9,6,False,0,True,7,False,0,False,0,1.8368839999999995
+Antidepressant,3,35-45,4,< 100,4,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,13.761268000000001
+Polysubstance,8,$\geq$ 65,10,100-110,2,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,28.135525
+Street Drugs,4,45-55,6,100-110,2,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,False,0,13.327061
+Alcohol,1,$\geq$ 65,10,110-120,1,$95-105$,3,9-14,3,False,0,False,0,True,5,True,8,16.136245000000002
+Alcohol,1,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,34.081203
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,26.060814
+Antidepressant,3,<25,0,100-110,2,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,35.315241
+Polysubstance,8,35-45,4,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,False,0,True,8,19.462488
+Street Drugs,4,35-45,4,< 100,4,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,False,0,13.209647
+Polysubstance,8,45-55,6,130-140,-1,$85-95$,2,6-9,6,True,7,True,7,False,0,True,8,38.503838
+"CO, As, CN",6,<25,0,120-130,0,$<75$,0,6-9,6,False,0,False,0,False,0,True,8,3.9049499999999995
+Sedatives,5,55-65,8,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,9.009422
+Toxins NOS,7,25-35,2,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,1.9365159999999995
+Antidepressant,3,<25,0,110-120,1,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,True,8,15.83608
+Analgesic,2,<25,0,130-140,-1,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,30.753676
+"CO, As, CN",6,55-65,8,100-110,2,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,True,8,5.187455999999999
+"CO, As, CN",6,<25,0,120-130,0,$<75$,0,9-14,3,True,7,False,0,False,0,False,0,1.2015849999999997
+Sedatives,5,55-65,8,120-130,0,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,False,0,6.552151
+"CO, As, CN",6,<25,0,110-120,1,$\geq 105$,4,9-14,3,False,0,True,7,False,0,False,0,2.1789310000000004
+"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,16.222685000000002
+Polysubstance,8,$\geq$ 65,10,120-130,0,$75-85$,1,9-14,3,True,7,False,0,False,0,True,8,29.150575000000003
+Antidepressant,3,25-35,2,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,25.555189
+Toxins NOS,7,55-65,8,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,32.372954
+Analgesic,2,<25,0,110-120,1,$85-95$,2,6-9,6,True,7,True,7,False,0,True,8,30.740976000000003
+"CO, As, CN",6,45-55,6,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,False,0,False,0,1.5487769999999994
+Street Drugs,4,<25,0,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,26.308025
+Alcohol,1,35-45,4,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,True,8,33.962489000000005
+Polysubstance,8,55-65,8,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,False,0,20.841021
+Analgesic,2,35-45,4,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,False,0,19.727794000000003
+Street Drugs,4,25-35,2,130-140,-1,$95-105$,3,6-9,6,True,7,False,0,False,0,False,0,8.826038
+Toxins NOS,7,$\geq$ 65,10,110-120,1,$<75$,0,9-14,3,True,7,True,7,True,5,True,8,38.278488
+Toxins NOS,7,<25,0,< 100,4,$75-85$,1,9-14,3,False,0,True,7,False,0,True,8,23.906228
+Toxins NOS,7,25-35,2,100-110,2,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,15.790406
+Toxins NOS,7,<25,0,100-110,2,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,False,0,0.7837019999999997
+Analgesic,2,45-55,6,$\geq$ 140,-3,$85-95$,2,6-9,6,True,7,True,7,True,5,False,0,23.746978000000002
+Sedatives,5,55-65,8,100-110,2,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,26.074852
+Polysubstance,8,25-35,2,130-140,-1,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,43.267230000000005
+Polysubstance,8,45-55,6,< 100,4,$95-105$,3,9-14,3,False,0,False,0,True,5,False,0,12.613387
+Sedatives,5,55-65,8,120-130,0,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,True,8,11.260216
+Analgesic,2,$\geq$ 65,10,120-130,0,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,True,8,20.656205
+Street Drugs,4,35-45,4,130-140,-1,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,5.769102
+Antidepressant,3,35-45,4,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,True,5,False,0,13.340843
+Street Drugs,4,<25,0,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,False,0,0.6658040000000001
+Street Drugs,4,45-55,6,110-120,1,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,12.136306
+Street Drugs,4,25-35,2,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,21.408169
+Analgesic,2,55-65,8,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.812476
+Polysubstance,8,$\geq$ 65,10,120-130,0,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,False,0,11.831865
+Polysubstance,8,35-45,4,100-110,2,$85-95$,2,6-9,6,True,7,False,0,False,0,True,8,28.399558
+Street Drugs,4,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,28.042706000000003
+Toxins NOS,7,45-55,6,110-120,1,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,False,0,21.494055
+"CO, As, CN",6,35-45,4,100-110,2,$95-105$,3,6-9,6,False,0,False,0,False,0,False,0,-8.162682
+Toxins NOS,7,25-35,2,< 100,4,$\geq 105$,4,9-14,3,False,0,True,7,False,0,False,0,11.802582000000001
+Toxins NOS,7,<25,0,130-140,-1,$<75$,0,9-14,3,False,0,True,7,True,5,True,8,28.910798
+Analgesic,2,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,11.255465000000001
+Street Drugs,4,55-65,8,110-120,1,$75-85$,1,6-9,6,True,7,True,7,False,0,False,0,18.953996
+Sedatives,5,35-45,4,110-120,1,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,25.433599
+"CO, As, CN",6,35-45,4,< 100,4,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,15.168599
+Street Drugs,4,25-35,2,120-130,0,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,30.458389000000004
+Analgesic,2,45-55,6,< 100,4,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,False,0,24.606878000000002
+"CO, As, CN",6,$\geq$ 65,10,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,True,8,15.271386
+Street Drugs,4,<25,0,100-110,2,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,19.162965
+Analgesic,2,35-45,4,100-110,2,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,16.319363000000003
+Polysubstance,8,55-65,8,110-120,1,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,43.442672
+Analgesic,2,55-65,8,< 100,4,$\geq 105$,4,9-14,3,False,0,True,7,False,0,False,0,10.261777
+Polysubstance,8,45-55,6,100-110,2,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,True,8,32.884917
+Antidepressant,3,<25,0,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,27.319471
+Alcohol,1,$\geq$ 65,10,100-110,2,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,True,8,21.631766
+Toxins NOS,7,55-65,8,100-110,2,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,7.475903000000001
+Street Drugs,4,45-55,6,110-120,1,$95-105$,3,9-14,3,True,7,True,7,False,0,False,0,19.399456999999998
+Analgesic,2,25-35,2,130-140,-1,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,25.286519
+Analgesic,2,$\geq$ 65,10,120-130,0,$<75$,0,9-14,3,False,0,True,7,True,5,True,8,27.503071
+Sedatives,5,<25,0,110-120,1,$75-85$,1,9-14,3,False,0,False,0,False,0,True,8,10.396835
+Polysubstance,8,25-35,2,110-120,1,$85-95$,2,6-9,6,True,7,True,7,False,0,False,0,26.08735
+Street Drugs,4,45-55,6,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,36.552637000000004
+Alcohol,1,55-65,8,100-110,2,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,False,0,16.916987
+"CO, As, CN",6,$\geq$ 65,10,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,9.735165
+Street Drugs,4,<25,0,100-110,2,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,15.040965
+Sedatives,5,55-65,8,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,24.205855999999997
+Polysubstance,8,45-55,6,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,24.910797000000002
+Analgesic,2,35-45,4,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,21.888238
+Polysubstance,8,55-65,8,< 100,4,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,43.917797
+Street Drugs,4,55-65,8,110-120,1,$85-95$,2,6-9,6,False,0,True,7,False,0,True,8,22.165536000000003
+Alcohol,1,55-65,8,120-130,0,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,24.582526
+"CO, As, CN",6,$\geq$ 65,10,130-140,-1,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,16.488841
+Polysubstance,8,<25,0,$\geq$ 140,-3,$85-95$,2,9-14,3,False,0,True,7,False,0,True,8,29.783751000000002
+Antidepressant,3,25-35,2,< 100,4,$95-105$,3,9-14,3,True,7,False,0,False,0,True,8,20.976094
+Sedatives,5,55-65,8,120-130,0,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,True,8,35.112372
+Sedatives,5,35-45,4,< 100,4,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,False,0,11.206143
+Alcohol,1,55-65,8,130-140,-1,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,12.856037
+Antidepressant,3,35-45,4,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.336843000000002
+Street Drugs,4,25-35,2,100-110,2,$<75$,0,6-9,6,False,0,False,0,False,0,True,8,11.920528000000001
+Polysubstance,8,$\geq$ 65,10,< 100,4,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,False,0,25.838981000000004
+Analgesic,2,$\geq$ 65,10,130-140,-1,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,30.643071
+Street Drugs,4,55-65,8,120-130,0,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,16.656015
+Analgesic,2,<25,0,100-110,2,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,22.656156000000003
+Antidepressant,3,45-55,6,130-140,-1,$<75$,0,9-14,3,True,7,True,7,True,5,True,8,36.072608
+"CO, As, CN",6,$\geq$ 65,10,100-110,2,$95-105$,3,6-9,6,True,7,False,0,True,5,False,0,6.009099999999999
+Antidepressant,3,<25,0,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-0.27275000000000005
+Analgesic,2,35-45,4,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,30.947804000000005
+Toxins NOS,7,25-35,2,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,True,5,False,0,16.298977
+Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,19.141556
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,True,8,29.766529
+Street Drugs,4,25-35,2,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,21.448869000000002
+"CO, As, CN",6,$\geq$ 65,10,100-110,2,$75-85$,1,6-9,6,False,0,False,0,False,0,True,8,4.26182
+"CO, As, CN",6,35-45,4,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,True,8,10.038598
+Antidepressant,3,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,False,0,13.985456
+"CO, As, CN",6,45-55,6,100-110,2,$85-95$,2,9-14,3,True,7,True,7,True,5,True,8,28.524723
+Antidepressant,3,55-65,8,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,35.695847
+Polysubstance,8,55-65,8,130-140,-1,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,False,0,13.286026
+Street Drugs,4,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,27.791850000000004
+Alcohol,1,$\geq$ 65,10,100-110,2,$<75$,0,9-14,3,True,7,True,7,False,0,True,8,30.148411000000003
+Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,15.229295
+Analgesic,2,25-35,2,110-120,1,$75-85$,1,6-9,6,True,7,False,0,True,5,False,0,13.531634
+Antidepressant,3,35-45,4,100-110,2,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,8.871148
+Street Drugs,4,$\geq$ 65,10,110-120,1,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,True,8,16.698379
+Antidepressant,3,35-45,4,120-130,0,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,26.964724000000004
+Antidepressant,3,<25,0,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,21.494005
+Street Drugs,4,25-35,2,110-120,1,$<75$,0,9-14,3,False,0,True,7,False,0,True,8,22.401569000000002
+Alcohol,1,$\geq$ 65,10,100-110,2,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,False,0,11.888005
+Analgesic,2,45-55,6,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,True,8,22.088352
+Analgesic,2,35-45,4,110-120,1,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,25.830708
+"CO, As, CN",6,<25,0,120-130,0,$85-95$,2,9-14,3,False,0,True,7,False,0,True,8,14.393640999999999
+"CO, As, CN",6,25-35,2,130-140,-1,$\geq 105$,4,6-9,6,True,7,True,7,True,5,False,0,15.74381
+Analgesic,2,45-55,6,< 100,4,$75-85$,1,6-9,6,False,0,True,7,True,5,False,0,14.565708
+Analgesic,2,$\geq$ 65,10,130-140,-1,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,14.359365
+Street Drugs,4,$\geq$ 65,10,120-130,0,$85-95$,2,6-9,6,False,0,False,0,True,5,False,0,4.990544
+Alcohol,1,45-55,6,110-120,1,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,True,8,11.518172
+Street Drugs,4,35-45,4,120-130,0,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,True,8,26.469103000000004
+Analgesic,2,45-55,6,110-120,1,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,24.131753000000003
+Sedatives,5,<25,0,120-130,0,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,True,8,19.395350999999998
+Alcohol,1,55-65,8,110-120,1,$95-105$,3,9-14,3,True,7,False,0,False,0,True,8,20.167531
+Toxins NOS,7,$\geq$ 65,10,110-120,1,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,16.117612
+Street Drugs,4,$\geq$ 65,10,< 100,4,$95-105$,3,9-14,3,False,0,False,0,False,0,True,8,12.722859
+"CO, As, CN",6,$\geq$ 65,10,< 100,4,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,False,0,-2.0540700000000003
+Analgesic,2,<25,0,120-130,0,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,22.933611
+Sedatives,5,$\geq$ 65,10,120-130,0,$75-85$,1,6-9,6,False,0,False,0,False,0,True,8,10.30658
+Polysubstance,8,25-35,2,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,True,7,True,5,False,0,22.582925000000003
+"CO, As, CN",6,35-45,4,110-120,1,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,False,0,6.773658
+Polysubstance,8,45-55,6,100-110,2,$85-95$,2,9-14,3,True,7,True,7,True,5,False,0,31.631423000000005
+Toxins NOS,7,35-45,4,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,28.16453
+Toxins NOS,7,<25,0,100-110,2,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,False,0,9.822522
+"CO, As, CN",6,25-35,2,110-120,1,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,False,0,15.194935000000001
+Toxins NOS,7,$\geq$ 65,10,130-140,-1,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,23.925373
+Polysubstance,8,25-35,2,130-140,-1,$85-95$,2,6-9,6,False,0,False,0,True,5,True,8,24.275894
+Analgesic,2,55-65,8,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,False,0,True,8,12.123896
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,0.538235
+Street Drugs,4,<25,0,100-110,2,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,True,8,26.801804000000004
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,False,0,26.582989
+Street Drugs,4,45-55,6,110-120,1,$<75$,0,9-14,3,True,7,False,0,False,0,False,0,9.390941
+Street Drugs,4,55-65,8,130-140,-1,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,5.92253
+Polysubstance,8,55-65,8,130-140,-1,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,False,0,22.310846
+Analgesic,2,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,True,8,25.648075
+"CO, As, CN",6,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,-3.450145
+Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.79613
+"CO, As, CN",6,45-55,6,120-130,0,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,True,8,3.6549169999999993
+Sedatives,5,25-35,2,100-110,2,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,7.68918
+Antidepressant,3,<25,0,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,False,0,9.313645
+Sedatives,5,25-35,2,120-130,0,$85-95$,2,6-9,6,False,0,False,0,True,5,True,8,14.930544000000001
+Street Drugs,4,35-45,4,130-140,-1,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,31.571803000000003
+Sedatives,5,25-35,2,120-130,0,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,24.929714
+Analgesic,2,35-45,4,< 100,4,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,14.055473
+Analgesic,2,25-35,2,130-140,-1,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,True,8,12.869404
+Alcohol,1,<25,0,130-140,-1,$<75$,0,6-9,6,False,0,False,0,True,5,True,8,15.257200000000001
+Antidepressant,3,35-45,4,120-130,0,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,False,0,7.923498
+Sedatives,5,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,True,8,11.183866
+"CO, As, CN",6,45-55,6,100-110,2,$85-95$,2,6-9,6,False,0,True,7,False,0,True,8,14.088908
+Alcohol,1,<25,0,< 100,4,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,False,0,11.463735
+Antidepressant,3,35-45,4,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,False,0,False,0,False,0,-0.051922000000000024
+Alcohol,1,35-45,4,120-130,0,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,21.428324
+Sedatives,5,55-65,8,130-140,-1,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,False,0,11.475321000000001
+Antidepressant,3,35-45,4,< 100,4,$\geq 105$,4,9-14,3,True,7,True,7,True,5,False,0,23.727784
+Antidepressant,3,<25,0,< 100,4,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,21.346901000000003
+Toxins NOS,7,<25,0,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,False,0,5.789572000000001
+Antidepressant,3,35-45,4,120-130,0,$95-105$,3,9-14,3,False,0,False,0,False,0,False,0,-0.11297200000000002
+Toxins NOS,7,<25,0,110-120,1,$95-105$,3,6-9,6,False,0,True,7,True,5,False,0,16.195563
+Polysubstance,8,35-45,4,120-130,0,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,True,8,37.912599
+Antidepressant,3,<25,0,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,False,0,True,8,11.92926
+Polysubstance,8,25-35,2,110-120,1,$85-95$,2,6-9,6,False,0,True,7,False,0,True,8,29.284890000000004
+"CO, As, CN",6,35-45,4,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,18.048368
+Toxins NOS,7,25-35,2,100-110,2,$95-105$,3,6-9,6,True,7,False,0,True,5,False,0,15.310231000000002
+Toxins NOS,7,25-35,2,110-120,1,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,32.066462
+Sedatives,5,45-55,6,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,False,0,2.4284870000000005
+Street Drugs,4,25-35,2,130-140,-1,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,5.664388000000001
+"CO, As, CN",6,45-55,6,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,6.858022
+Street Drugs,4,45-55,6,100-110,2,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,False,0,8.410241
+Alcohol,1,<25,0,100-110,2,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,22.459301000000004
+Street Drugs,4,35-45,4,130-140,-1,$85-95$,2,6-9,6,False,0,False,0,False,0,True,8,12.086292
+"CO, As, CN",6,35-45,4,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,27.508009
+Street Drugs,4,25-35,2,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,False,0,9.226509
+Toxins NOS,7,55-65,8,110-120,1,$<75$,0,9-14,3,False,0,True,7,True,5,False,0,16.954594
+Analgesic,2,45-55,6,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,True,5,True,8,26.903818
+Toxins NOS,7,<25,0,120-130,0,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,True,8,22.985278
+Sedatives,5,35-45,4,130-140,-1,$<75$,0,6-9,6,False,0,False,0,False,0,True,8,10.082788
+Polysubstance,8,45-55,6,110-120,1,$95-105$,3,9-14,3,False,0,False,0,True,5,True,8,24.896797
+Analgesic,2,25-35,2,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,False,0,5.618564000000001
+"CO, As, CN",6,35-45,4,100-110,2,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,True,8,13.504019
+Analgesic,2,55-65,8,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,14.351351000000001
+Street Drugs,4,25-35,2,< 100,4,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,21.888344
+Antidepressant,3,25-35,2,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,True,7,False,0,True,8,22.03224
+Sedatives,5,55-65,8,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,False,0,2.5052010000000005
+Street Drugs,4,45-55,6,110-120,1,$85-95$,2,6-9,6,True,7,False,0,True,5,False,0,13.841586
+Toxins NOS,7,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,False,0,1.1435939999999996
+Toxins NOS,7,45-55,6,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,False,0,10.127714
+"CO, As, CN",6,<25,0,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,False,0,2.713806
+Alcohol,1,45-55,6,100-110,2,$85-95$,2,6-9,6,True,7,False,0,True,5,False,0,12.256752
+Sedatives,5,$\geq$ 65,10,120-130,0,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,12.506035
+Toxins NOS,7,55-65,8,110-120,1,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,25.979414000000002
+Toxins NOS,7,35-45,4,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,29.545701
+Polysubstance,8,25-35,2,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,True,8,44.241580000000006
+Analgesic,2,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,False,0,False,0,True,8,22.227780000000003
+Alcohol,1,<25,0,120-130,0,$<75$,0,9-14,3,False,0,False,0,True,5,True,8,15.731025
+Analgesic,2,35-45,4,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,15.552394
+Sedatives,5,25-35,2,< 100,4,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,25.295835000000004
+Polysubstance,8,35-45,4,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,True,7,False,0,False,0,False,0,17.267298
+Alcohol,1,25-35,2,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,True,8,16.317214
+Alcohol,1,<25,0,< 100,4,$95-105$,3,6-9,6,True,7,True,7,False,0,True,8,29.271966
+Analgesic,2,45-55,6,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,27.920168000000004
+Street Drugs,4,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,26.774295000000002
+Toxins NOS,7,25-35,2,100-110,2,$95-105$,3,9-14,3,False,0,False,0,False,0,False,0,1.8627659999999995
+Polysubstance,8,$\geq$ 65,10,120-130,0,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,34.062741
+"CO, As, CN",6,45-55,6,100-110,2,$75-85$,1,6-9,6,True,7,False,0,False,0,True,8,13.133212
+Sedatives,5,55-65,8,100-110,2,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,10.697341
+Antidepressant,3,<25,0,< 100,4,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,35.246541
+Polysubstance,8,<25,0,130-140,-1,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,21.467815
+Antidepressant,3,35-45,4,100-110,2,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,False,0,9.337323
+Street Drugs,4,35-45,4,< 100,4,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,15.633868
+"CO, As, CN",6,55-65,8,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,False,0,0.6371409999999997
+Street Drugs,4,<25,0,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,True,8,35.257795
+Sedatives,5,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,False,0,12.881132000000001
+Polysubstance,8,25-35,2,< 100,4,$85-95$,2,6-9,6,False,0,True,7,False,0,True,8,29.223840000000003
+Antidepressant,3,35-45,4,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,False,0,13.755314000000002
+Polysubstance,8,55-65,8,100-110,2,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,29.513336000000002
+Street Drugs,4,35-45,4,130-140,-1,$95-105$,3,9-14,3,False,0,True,7,False,0,True,8,22.560983
+Alcohol,1,25-35,2,110-120,1,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,False,0,4.101204
+Street Drugs,4,45-55,6,130-140,-1,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,20.707651
+Toxins NOS,7,<25,0,110-120,1,$75-85$,1,9-14,3,True,7,False,0,True,5,True,8,27.942402
+"CO, As, CN",6,<25,0,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,False,0,7.629326000000001
+Polysubstance,8,<25,0,110-120,1,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,12.89647
+Polysubstance,8,55-65,8,100-110,2,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,False,0,22.249796000000003
+Toxins NOS,7,35-45,4,110-120,1,$85-95$,2,6-9,6,False,0,False,0,True,5,True,8,18.590835
+Toxins NOS,7,$\geq$ 65,10,110-120,1,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,7.572967
+Sedatives,5,<25,0,130-140,-1,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,28.426521
+Alcohol,1,25-35,2,$\geq$ 140,-3,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-1.764566
+Polysubstance,8,<25,0,120-130,0,$95-105$,3,6-9,6,False,0,True,7,True,5,True,8,34.159346
+Polysubstance,8,25-35,2,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,False,0,25.702575000000003
+Analgesic,2,<25,0,< 100,4,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,False,0,5.385400000000001
+Analgesic,2,<25,0,120-130,0,$95-105$,3,9-14,3,True,7,True,7,True,5,False,0,23.963961
+Alcohol,1,25-35,2,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-1.295791
+Sedatives,5,55-65,8,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,False,0,2.431451
+Polysubstance,8,55-65,8,130-140,-1,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,39.102727
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,True,5,False,0,5.441055
+Analgesic,2,<25,0,120-130,0,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,True,8,30.281151
+Antidepressant,3,<25,0,110-120,1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,25.844596000000003
+Analgesic,2,55-65,8,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,True,8,11.615721
+Antidepressant,3,25-35,2,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,True,7,True,5,True,8,34.99953
+Toxins NOS,7,25-35,2,130-140,-1,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,7.292811
+Street Drugs,4,$\geq$ 65,10,< 100,4,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,False,0,15.87801
+Street Drugs,4,<25,0,120-130,0,$85-95$,2,$\leq 6$,9,True,7,True,7,True,5,False,0,23.104135
+Toxins NOS,7,<25,0,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,True,7,True,5,True,8,28.993498000000002
+Sedatives,5,35-45,4,130-140,-1,$85-95$,2,9-14,3,False,0,False,0,True,5,False,0,3.299423
+Analgesic,2,45-55,6,110-120,1,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.7647530000000001
+Polysubstance,8,$\geq$ 65,10,130-140,-1,$<75$,0,6-9,6,True,7,True,7,False,0,False,0,26.406906
+Analgesic,2,<25,0,120-130,0,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,True,8,20.272635
+"CO, As, CN",6,35-45,4,110-120,1,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,18.529843
+Antidepressant,3,35-45,4,110-120,1,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,4.247323000000001
+Toxins NOS,7,35-45,4,130-140,-1,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,True,8,13.19254
+Toxins NOS,7,$\geq$ 65,10,< 100,4,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,True,8,14.817457000000001
+Antidepressant,3,45-55,6,100-110,2,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,True,8,12.625577
+Polysubstance,8,25-35,2,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,True,8,27.958419
+Alcohol,1,$\geq$ 65,10,120-130,0,$85-95$,2,9-14,3,True,7,False,0,False,0,False,0,8.028235
+Polysubstance,8,45-55,6,110-120,1,$75-85$,1,9-14,3,True,7,True,7,True,5,True,8,43.860133000000005
+Street Drugs,4,<25,0,130-140,-1,$75-85$,1,6-9,6,False,0,True,7,True,5,True,8,26.8022
+Antidepressant,3,35-45,4,120-130,0,$85-95$,2,6-9,6,False,0,False,0,False,0,False,0,-0.621147
+Toxins NOS,7,$\geq$ 65,10,120-130,0,$75-85$,1,6-9,6,False,0,False,0,True,5,False,0,6.604967
+Polysubstance,8,35-45,4,120-130,0,$85-95$,2,9-14,3,False,0,False,0,True,5,False,0,12.604073
+"CO, As, CN",6,25-35,2,< 100,4,$75-85$,1,9-14,3,False,0,False,0,True,5,True,8,9.325258999999999
+Sedatives,5,55-65,8,100-110,2,$85-95$,2,6-9,6,True,7,True,7,True,5,False,0,21.888962
+Sedatives,5,$\geq$ 65,10,100-110,2,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,-1.4763050000000002
+"CO, As, CN",6,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,9.816565
+Antidepressant,3,$\geq$ 65,10,100-110,2,$85-95$,2,9-14,3,True,7,False,0,False,0,False,0,9.08729
+Street Drugs,4,35-45,4,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,13.874272000000001
+Analgesic,2,35-45,4,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,False,0,15.619794000000002
+Polysubstance,8,25-35,2,110-120,1,$95-105$,3,6-9,6,False,0,False,0,True,5,False,0,12.026834000000001
+Sedatives,5,45-55,6,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,False,0,False,0,False,0,7.524837
+"CO, As, CN",6,35-45,4,110-120,1,$85-95$,2,6-9,6,False,0,False,0,True,5,False,0,-3.2395120000000004
+Polysubstance,8,25-35,2,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,16.669709
+Polysubstance,8,55-65,8,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,True,5,False,0,12.790551
+"CO, As, CN",6,55-65,8,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,27.681787
+Sedatives,5,45-55,6,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,14.622847
+Alcohol,1,$\geq$ 65,10,130-140,-1,$75-85$,1,9-14,3,True,7,False,0,True,5,True,8,25.173765000000003
+Sedatives,5,45-55,6,120-130,0,$85-95$,2,9-14,3,True,7,False,0,False,0,False,0,7.463787
+"CO, As, CN",6,45-55,6,110-120,1,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,-7.613443
+Street Drugs,4,55-65,8,110-120,1,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,26.12666
+Polysubstance,8,25-35,2,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,23.049100000000003
+Sedatives,5,<25,0,130-140,-1,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,False,0,7.207341
+Antidepressant,3,<25,0,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,30.472171000000003
+Polysubstance,8,25-35,2,< 100,4,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,35.15701
+Street Drugs,4,<25,0,110-120,1,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,31.871850000000002
+Antidepressant,3,<25,0,< 100,4,$75-85$,1,6-9,6,True,7,False,0,True,5,False,0,13.071665
+Street Drugs,4,$\geq$ 65,10,< 100,4,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,20.759329
+Antidepressant,3,25-35,2,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,False,0,False,0,18.8487
+Antidepressant,3,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,False,0,10.551161
+"CO, As, CN",6,35-45,4,100-110,2,$\geq 105$,4,6-9,6,False,0,False,0,True,5,False,0,-3.2318620000000005
+Analgesic,2,<25,0,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,False,0,19.602366
+Street Drugs,4,45-55,6,< 100,4,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,14.302711000000002
+Antidepressant,3,25-35,2,120-130,0,$85-95$,2,9-14,3,False,0,False,0,True,5,False,0,4.713134
+Street Drugs,4,<25,0,120-130,0,$85-95$,2,6-9,6,False,0,True,7,True,5,True,8,26.79585
+Analgesic,2,$\geq$ 65,10,110-120,1,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,True,8,30.616371
+Analgesic,2,55-65,8,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.652389
+Analgesic,2,25-35,2,130-140,-1,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-0.38330600000000004
+Alcohol,1,25-35,2,120-130,0,$<75$,0,6-9,6,True,7,False,0,False,0,False,0,7.199204
+Analgesic,2,55-65,8,100-110,2,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,36.466477000000005
+Analgesic,2,<25,0,110-120,1,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,False,0,10.496146
+Alcohol,1,55-65,8,120-130,0,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,False,0,16.943687
+Sedatives,5,$\geq$ 65,10,120-130,0,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,18.049906
+"CO, As, CN",6,25-35,2,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,19.9297
+"CO, As, CN",6,<25,0,110-120,1,$75-85$,1,6-9,6,False,0,True,7,True,5,False,0,6.559576000000001
+Antidepressant,3,55-65,8,< 100,4,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,23.825212
+Sedatives,5,35-45,4,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,False,0,21.289709000000002
+Street Drugs,4,<25,0,130-140,-1,$95-105$,3,9-14,3,True,7,True,7,True,5,True,8,36.349195
+"CO, As, CN",6,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,True,5,True,8,9.28039
+Analgesic,2,$\geq$ 65,10,110-120,1,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,True,8,16.555855
+Toxins NOS,7,$\geq$ 65,10,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,32.352968000000004
+"CO, As, CN",6,25-35,2,110-120,1,$75-85$,1,9-14,3,False,0,False,0,False,0,False,0,-7.752871
+Antidepressant,3,25-35,2,130-140,-1,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,31.538535000000003
+Antidepressant,3,45-55,6,110-120,1,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,True,8,35.043558000000004
+"CO, As, CN",6,25-35,2,130-140,-1,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,-2.795351
+Alcohol,1,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,True,8,15.013153
+Polysubstance,8,<25,0,110-120,1,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,False,0,8.021650000000001
+"CO, As, CN",6,35-45,4,100-110,2,$75-85$,1,6-9,6,True,7,True,7,False,0,False,0,10.800654
+Analgesic,2,35-45,4,120-130,0,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,31.903104
+Analgesic,2,55-65,8,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,35.498477
+Sedatives,5,55-65,8,110-120,1,$75-85$,1,6-9,6,False,0,False,0,True,5,False,0,2.903976
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,True,7,True,5,False,0,16.569819000000003
+"CO, As, CN",6,25-35,2,< 100,4,$95-105$,3,9-14,3,True,7,False,0,False,0,True,8,13.461258999999998
+Toxins NOS,7,35-45,4,130-140,-1,$<75$,0,6-9,6,False,0,True,7,True,5,False,0,16.347691
+Street Drugs,4,25-35,2,110-120,1,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,True,8,12.957228
+Toxins NOS,7,<25,0,$\geq$ 140,-3,$75-85$,1,9-14,3,True,7,True,7,True,5,True,8,37.990318
+Alcohol,1,45-55,6,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,25.089036999999998
+Sedatives,5,$\geq$ 65,10,110-120,1,$95-105$,3,6-9,6,True,7,False,0,True,5,False,0,12.03351
+Sedatives,5,35-45,4,120-130,0,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,True,8,14.541083
+Toxins NOS,7,55-65,8,< 100,4,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,11.482549
+Sedatives,5,25-35,2,120-130,0,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,False,0,13.677050000000001
+Polysubstance,8,<25,0,100-110,2,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,22.376461
+Analgesic,2,35-45,4,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,True,7,True,5,True,8,35.384449000000004
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$\geq 105$,4,6-9,6,False,0,True,7,False,0,True,8,22.274936
+Analgesic,2,55-65,8,100-110,2,$75-85$,1,6-9,6,True,7,False,0,True,5,False,0,13.741426
+Sedatives,5,<25,0,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,False,0,False,0,False,0,6.77252
+Street Drugs,4,<25,0,120-130,0,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,12.406689
+Toxins NOS,7,<25,0,110-120,1,$<75$,0,9-14,3,False,0,False,0,False,0,True,8,13.986762
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,False,0,18.583221
+Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,False,0,False,0,False,0,-0.315955
+Sedatives,5,55-65,8,110-120,1,$95-105$,3,6-9,6,False,0,False,0,True,5,True,8,15.154336
+Analgesic,2,$\geq$ 65,10,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,False,0,True,8,12.635035
+Sedatives,5,25-35,2,< 100,4,$\geq 105$,4,9-14,3,True,7,False,0,True,5,False,0,12.173779
+Antidepressant,3,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,19.463617
+Toxins NOS,7,$\geq$ 65,10,< 100,4,$85-95$,2,6-9,6,False,0,False,0,True,5,False,0,6.537567000000001
+Street Drugs,4,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,True,8,16.577637
+Polysubstance,8,<25,0,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,35.133696
+Sedatives,5,35-45,4,120-130,0,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,False,0,16.337239
+Toxins NOS,7,55-65,8,120-130,0,$95-105$,3,9-14,3,False,0,False,0,True,5,True,8,19.272788
+Toxins NOS,7,25-35,2,120-130,0,$85-95$,2,6-9,6,True,7,False,0,True,5,False,0,15.336931
+Antidepressant,3,25-35,2,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,False,0,17.84635
+Polysubstance,8,45-55,6,110-120,1,$\geq 105$,4,6-9,6,True,7,True,7,False,0,True,8,38.491138
+Antidepressant,3,25-35,2,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,False,0,False,0,True,8,21.524969
+Analgesic,2,55-65,8,< 100,4,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,19.244597
+Antidepressant,3,35-45,4,< 100,4,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,29.988974
+Street Drugs,4,25-35,2,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,False,0,24.738424000000002
+"CO, As, CN",6,$\geq$ 65,10,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,18.30651
+Alcohol,1,35-45,4,< 100,4,$85-95$,2,6-9,6,True,7,True,7,True,5,False,0,22.105854
+"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,True,7,False,0,False,0,1.8008699999999997
+Toxins NOS,7,35-45,4,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,22.808235
+Antidepressant,3,55-65,8,100-110,2,$75-85$,1,6-9,6,False,0,False,0,False,0,True,8,11.699941
+Street Drugs,4,45-55,6,120-130,0,$75-85$,1,6-9,6,True,7,True,7,False,0,True,8,31.119992000000003
+Alcohol,1,<25,0,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,23.884545000000003
+Alcohol,1,<25,0,< 100,4,$85-95$,2,9-14,3,False,0,False,0,True,5,True,8,15.677625
+Sedatives,5,35-45,4,< 100,4,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,False,0,11.262143
+Antidepressant,3,25-35,2,120-130,0,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,False,0,9.287309
+"CO, As, CN",6,$\geq$ 65,10,< 100,4,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,-2.0820700000000008
+Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,19.43445
+Sedatives,5,35-45,4,120-130,0,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,7.401073
+Antidepressant,3,55-65,8,120-130,0,$<75$,0,9-14,3,False,0,True,7,True,5,False,0,14.881792
+Alcohol,1,25-35,2,120-130,0,$\geq 105$,4,6-9,6,True,7,True,7,True,5,False,0,22.138540000000003
+Polysubstance,8,$\geq$ 65,10,120-130,0,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,20.139755
+Antidepressant,3,55-65,8,100-110,2,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,4.380401000000001
+Street Drugs,4,<25,0,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,11.466689
+Analgesic,2,<25,0,110-120,1,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,31.743326000000003
+Street Drugs,4,55-65,8,< 100,4,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,False,0,24.826116000000003
+Polysubstance,8,35-45,4,100-110,2,$<75$,0,9-14,3,True,7,True,7,False,0,False,0,26.609889000000003
+Polysubstance,8,55-65,8,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,False,0,27.401241999999996
+Alcohol,1,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,True,8,30.564208
+Polysubstance,8,35-45,4,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,17.179944
+Analgesic,2,55-65,8,110-120,1,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,10.761002000000001
+Alcohol,1,<25,0,100-110,2,$95-105$,3,6-9,6,False,0,False,0,True,5,False,0,3.0157900000000004
+Street Drugs,4,55-65,8,< 100,4,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,True,8,23.106836
+Street Drugs,4,$\geq$ 65,10,100-110,2,$\geq 105$,4,6-9,6,False,0,True,7,False,0,True,8,22.2499
+Antidepressant,3,25-35,2,120-130,0,$95-105$,3,9-14,3,True,7,False,0,True,5,False,0,13.751954000000001
+Sedatives,5,25-35,2,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,28.518535
+Street Drugs,4,55-65,8,100-110,2,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,0.422485
+Analgesic,2,<25,0,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,False,0,True,8,21.323335
+Antidepressant,3,<25,0,110-120,1,$75-85$,1,$\geq 14$,0,False,0,False,0,False,0,False,0,0.179425
+Analgesic,2,45-55,6,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,True,7,True,5,False,0,15.202333
+Antidepressant,3,55-65,8,130-140,-1,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,27.138502000000003
+Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,10.326475
+Analgesic,2,55-65,8,120-130,0,$95-105$,3,6-9,6,True,7,True,7,False,0,True,8,31.082182000000003
+Polysubstance,8,<25,0,100-110,2,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,False,0,30.384931
+"CO, As, CN",6,45-55,6,< 100,4,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,16.233663
+Street Drugs,4,55-65,8,110-120,1,$75-85$,1,6-9,6,True,7,False,0,True,5,True,8,26.12666
+Sedatives,5,$\geq$ 65,10,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,12.419981
+"CO, As, CN",6,25-35,2,120-130,0,$<75$,0,9-14,3,False,0,True,7,False,0,False,0,2.219995
+Sedatives,5,35-45,4,< 100,4,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,False,0,12.161839
+Antidepressant,3,55-65,8,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,False,0,9.065672000000001
+Toxins NOS,7,45-55,6,110-120,1,$<75$,0,9-14,3,False,0,True,7,True,5,True,8,29.10024
+Alcohol,1,45-55,6,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,False,0,True,8,19.983113
+Street Drugs,4,<25,0,120-130,0,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,True,8,21.384855
+Alcohol,1,<25,0,120-130,0,$<75$,0,9-14,3,False,0,False,0,True,5,False,0,3.5086650000000006
+Toxins NOS,7,<25,0,< 100,4,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,False,0,7.1703470000000005
+Toxins NOS,7,35-45,4,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,False,0,False,0,False,0,False,0,2.5214049999999997
+"CO, As, CN",6,45-55,6,100-110,2,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,11.851718
+Sedatives,5,45-55,6,< 100,4,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,2.2580370000000003
+Analgesic,2,55-65,8,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,26.555056999999998
+"CO, As, CN",6,45-55,6,130-140,-1,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,-3.1500980000000007
+Toxins NOS,7,$\geq$ 65,10,120-130,0,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,True,8,14.884857
+"CO, As, CN",6,45-55,6,120-130,0,$85-95$,2,6-9,6,False,0,False,0,False,0,False,0,-8.059268000000001
+Sedatives,5,<25,0,130-140,-1,$<75$,0,9-14,3,True,7,True,7,False,0,True,8,29.414870999999998
+"CO, As, CN",6,<25,0,130-140,-1,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,18.389115
+Alcohol,1,55-65,8,100-110,2,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,24.089651000000003
+Street Drugs,4,<25,0,120-130,0,$85-95$,2,6-9,6,True,7,False,0,False,0,False,0,8.714974
+Alcohol,1,45-55,6,< 100,4,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,17.745923
+Antidepressant,3,<25,0,130-140,-1,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,-0.28805000000000003
+Antidepressant,3,25-35,2,130-140,-1,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-1.1996860000000003
+Analgesic,2,35-45,4,120-130,0,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,True,8,22.906284
+Toxins NOS,7,<25,0,130-140,-1,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,1.310927
+Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,False,0,False,0,26.969780999999998
+Analgesic,2,25-35,2,$\geq$ 140,-3,$\geq 105$,4,6-9,6,False,0,False,0,False,0,False,0,-0.2866059999999999
+"CO, As, CN",6,$\geq$ 65,10,< 100,4,$<75$,0,9-14,3,False,0,True,7,False,0,False,0,2.4454509999999994
+Sedatives,5,55-65,8,110-120,1,$95-105$,3,9-14,3,False,0,True,7,True,5,False,0,13.392667
+Toxins NOS,7,35-45,4,120-130,0,$<75$,0,6-9,6,False,0,True,7,True,5,False,0,16.327341
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$85-95$,2,9-14,3,False,0,False,0,True,5,True,8,19.319838
+Street Drugs,4,25-35,2,120-130,0,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,True,8,36.885734
+"CO, As, CN",6,45-55,6,110-120,1,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,False,0,6.281543
+Toxins NOS,7,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,False,0,False,0,21.248708
+Polysubstance,8,35-45,4,130-140,-1,$75-85$,1,9-14,3,False,0,True,7,False,0,True,8,29.882479000000004
+Polysubstance,8,<25,0,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,11.434295
+Sedatives,5,25-35,2,100-110,2,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,2.6394840000000004
+"CO, As, CN",6,35-45,4,110-120,1,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,4.080028
+Analgesic,2,35-45,4,120-130,0,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,False,0,14.062219000000002
+Polysubstance,8,$\geq$ 65,10,< 100,4,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,7.8359950000000005
+Street Drugs,4,35-45,4,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,True,8,21.599333
+Street Drugs,4,35-45,4,110-120,1,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.781222
+"CO, As, CN",6,55-65,8,100-110,2,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,True,8,3.6769309999999997
+Analgesic,2,55-65,8,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,21.495787
+Toxins NOS,7,45-55,6,100-110,2,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,True,8,27.163843999999997
+Alcohol,1,45-55,6,120-130,0,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,True,8,16.497342
+Street Drugs,4,25-35,2,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,False,0,0.803568
+Antidepressant,3,25-35,2,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,False,0,10.264655000000001
+Sedatives,5,$\geq$ 65,10,120-130,0,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,False,0,9.039086000000001
+Toxins NOS,7,25-35,2,120-130,0,$75-85$,1,6-9,6,True,7,True,7,True,5,False,0,25.289447000000003
+Analgesic,2,35-45,4,120-130,0,$75-85$,1,6-9,6,False,0,False,0,True,5,True,8,16.826238
+Sedatives,5,55-65,8,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.5006690000000003
+Alcohol,1,25-35,2,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,-1.295791
+Alcohol,1,35-45,4,< 100,4,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,17.669209000000002
+Analgesic,2,55-65,8,130-140,-1,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,False,0,9.347177
+Polysubstance,8,25-35,2,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,False,0,False,0,16.161534000000003
+Alcohol,1,<25,0,< 100,4,$<75$,0,6-9,6,True,7,True,7,True,5,False,0,21.924426000000004
+Antidepressant,3,35-45,4,100-110,2,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,False,0,8.782494
+Analgesic,2,25-35,2,100-110,2,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,13.991458999999999
+Alcohol,1,55-65,8,120-130,0,$85-95$,2,6-9,6,True,7,True,7,False,0,True,8,29.646222
+Alcohol,1,35-45,4,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,24.971623
+Alcohol,1,45-55,6,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,False,0,11.836327
+Antidepressant,3,$\geq$ 65,10,< 100,4,$<75$,0,9-14,3,True,7,False,0,False,0,True,8,21.240949999999998
+Antidepressant,3,35-45,4,110-120,1,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,False,0,9.357673
+"CO, As, CN",6,35-45,4,110-120,1,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,True,8,14.093198000000001
+Alcohol,1,$\geq$ 65,10,< 100,4,$\geq 105$,4,9-14,3,True,7,True,7,False,0,False,0,17.941351
+Polysubstance,8,<25,0,110-120,1,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,False,0,15.521945
+Sedatives,5,45-55,6,100-110,2,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,2.298737
+Street Drugs,4,45-55,6,110-120,1,$85-95$,2,9-14,3,True,7,False,0,True,5,True,8,26.558121
+Polysubstance,8,55-65,8,< 100,4,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,7.787280999999998
+Antidepressant,3,$\geq$ 65,10,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,26.268866000000003
+Antidepressant,3,55-65,8,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,26.192152
+Polysubstance,8,35-45,4,120-130,0,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,True,8,33.804599
+Alcohol,1,<25,0,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,29.841191000000002
+Antidepressant,3,25-35,2,100-110,2,$\geq 105$,4,6-9,6,False,0,False,0,True,5,False,0,4.206259
+Analgesic,2,35-45,4,< 100,4,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,True,8,36.738524000000005
+Analgesic,2,25-35,2,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,9.61121
+Sedatives,5,25-35,2,100-110,2,$75-85$,1,9-14,3,True,7,False,0,True,5,True,8,24.394838999999997
+Polysubstance,8,55-65,8,110-120,1,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,34.012331
+"CO, As, CN",6,25-35,2,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,False,0,True,8,13.054834
+Analgesic,2,55-65,8,120-130,0,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,31.590357000000004
+Polysubstance,8,<25,0,130-140,-1,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,26.531511000000002
+Alcohol,1,25-35,2,120-130,0,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,14.861389
+Sedatives,5,45-55,6,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,False,0,22.916348
+"CO, As, CN",6,45-55,6,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,12.754786999999999
+Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,True,7,False,0,False,0,17.644781000000002
+Street Drugs,4,<25,0,< 100,4,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,22.319805000000002
+Sedatives,5,55-65,8,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,25.180206
+Sedatives,5,$\geq$ 65,10,< 100,4,$85-95$,2,6-9,6,True,7,True,7,False,0,False,0,17.008156
+Analgesic,2,55-65,8,130-140,-1,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,32.076882000000005
+Polysubstance,8,<25,0,100-110,2,$<75$,0,9-14,3,False,0,True,7,False,0,True,8,29.654001
+Antidepressant,3,55-65,8,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,35.709847
+Analgesic,2,55-65,8,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,17.495491
+Street Drugs,4,25-35,2,120-130,0,$\geq 105$,4,9-14,3,False,0,True,7,True,5,True,8,27.394739
+"CO, As, CN",6,<25,0,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,-3.8337150000000007
+Antidepressant,3,25-35,2,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,True,8,22.479365
+Street Drugs,4,35-45,4,100-110,2,$85-95$,2,9-14,3,False,0,True,7,False,0,False,0,10.263573000000001
+Sedatives,5,<25,0,100-110,2,$95-105$,3,9-14,3,True,7,True,7,False,0,False,0,17.173461
+Alcohol,1,55-65,8,120-130,0,$95-105$,3,6-9,6,False,0,False,0,True,5,True,8,15.585706
+Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,9-14,3,True,7,False,0,False,0,True,8,19.900624999999998
+Polysubstance,8,45-55,6,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,False,0,27.282528
+Toxins NOS,7,55-65,8,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,False,0,2.6621330000000003
+Polysubstance,8,45-55,6,< 100,4,$95-105$,3,9-14,3,True,7,False,0,True,5,False,0,21.638207
+"CO, As, CN",6,45-55,6,100-110,2,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,19.485903
+Analgesic,2,<25,0,110-120,1,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,3.9219250000000003
+Polysubstance,8,45-55,6,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,True,8,44.416658000000005
+Street Drugs,4,$\geq$ 65,10,< 100,4,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,36.122840000000004
+Antidepressant,3,25-35,2,120-130,0,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,True,8,25.899660000000004
+Analgesic,2,55-65,8,< 100,4,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.731076000000002
+Street Drugs,4,45-55,6,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,False,0,8.471291
+Polysubstance,8,55-65,8,130-140,-1,$<75$,0,6-9,6,True,7,True,7,False,0,False,0,26.330191999999997
+Alcohol,1,<25,0,< 100,4,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,8.971136
+Alcohol,1,25-35,2,100-110,2,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,28.909205
+Analgesic,2,55-65,8,< 100,4,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,31.975132000000002
+Antidepressant,3,25-35,2,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,True,8,26.406139000000003
+Toxins NOS,7,45-55,6,120-130,0,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,False,0,10.051364
+Street Drugs,4,25-35,2,130-140,-1,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,True,8,36.878084
+Street Drugs,4,45-55,6,120-130,0,$95-105$,3,6-9,6,True,7,True,7,False,0,True,8,31.147992000000002
+Alcohol,1,45-55,6,120-130,0,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,False,0,23.252318000000002
+"CO, As, CN",6,$\geq$ 65,10,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,7.945496
+Antidepressant,3,55-65,8,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,27.613627
+Alcohol,1,<25,0,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,False,0,6.731365
+Street Drugs,4,45-55,6,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,5.831816000000001
+"CO, As, CN",6,<25,0,100-110,2,$<75$,0,9-14,3,False,0,False,0,True,5,True,8,9.275245
+Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,False,0,-0.41336000000000006
+"CO, As, CN",6,$\geq$ 65,10,120-130,0,$75-85$,1,6-9,6,True,7,True,7,True,5,True,8,28.210676
+Antidepressant,3,35-45,4,110-120,1,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,20.111508
+Alcohol,1,45-55,6,120-130,0,$\geq 105$,4,6-9,6,False,0,True,7,False,0,False,0,8.350328000000001
+Sedatives,5,55-65,8,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,True,7,True,5,False,0,13.432067
+Antidepressant,3,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,21.239318
+Sedatives,5,25-35,2,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,True,8,25.891759999999998
+Street Drugs,4,55-65,8,110-120,1,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,12.22702
+Toxins NOS,7,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,False,0,10.293842
+Sedatives,5,35-45,4,110-120,1,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,-1.6860970000000004
+Alcohol,1,35-45,4,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,True,8,20.589678
+Antidepressant,3,55-65,8,120-130,0,$95-105$,3,$\leq 6$,9,False,0,False,0,False,0,True,8,11.274466
+Alcohol,1,<25,0,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,False,0,-2.421905
+Alcohol,1,55-65,8,< 100,4,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,3.7481210000000003
+Sedatives,5,45-55,6,130-140,-1,$95-105$,3,6-9,6,True,7,True,7,True,5,True,8,34.109658
+Toxins NOS,7,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,False,0,26.222733
+"CO, As, CN",6,25-35,2,< 100,4,$<75$,0,9-14,3,True,7,False,0,True,5,True,8,18.336078999999998
+Analgesic,2,35-45,4,< 100,4,$95-105$,3,9-14,3,True,7,True,7,True,5,True,8,36.258349
+Antidepressant,3,45-55,6,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,False,0,False,0,True,8,12.261152
+"CO, As, CN",6,<25,0,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,True,8,14.894166
+Sedatives,5,35-45,4,110-120,1,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,False,0,11.267192999999999
+Toxins NOS,7,35-45,4,< 100,4,$<75$,0,$\geq 14$,0,False,0,False,0,True,5,False,0,7.267775
+Antidepressant,3,35-45,4,120-130,0,$85-95$,2,6-9,6,False,0,False,0,False,0,False,0,-0.621147
+Sedatives,5,25-35,2,$\geq$ 140,-3,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-2.175586
+Polysubstance,8,25-35,2,100-110,2,$<75$,0,9-14,3,False,0,False,0,False,0,False,0,7.541839000000001
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,26.22206
+Polysubstance,8,$\geq$ 65,10,110-120,1,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,34.54122
+Polysubstance,8,$\geq$ 65,10,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,35.504566000000004
+Antidepressant,3,25-35,2,130-140,-1,$\geq 105$,4,6-9,6,False,0,False,0,True,5,True,8,16.489669
+Toxins NOS,7,25-35,2,110-120,1,$85-95$,2,6-9,6,True,7,False,0,False,0,False,0,10.399761
+Polysubstance,8,$\geq$ 65,10,110-120,1,$75-85$,1,6-9,6,True,7,True,7,True,5,False,0,31.297026000000002
+Sedatives,5,25-35,2,120-130,0,$95-105$,3,9-14,3,False,0,False,0,False,0,False,0,-1.7004610000000002
+"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,3.604538999999999
+Street Drugs,4,$\geq$ 65,10,110-120,1,$95-105$,3,6-9,6,True,7,True,7,False,0,False,0,19.058709999999998
+Sedatives,5,25-35,2,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,False,0,12.227575000000002
+Analgesic,2,55-65,8,< 100,4,$\geq 105$,4,6-9,6,False,0,True,7,False,0,True,8,21.989962
+Alcohol,1,25-35,2,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,24.949609000000002
+"CO, As, CN",6,$\geq$ 65,10,110-120,1,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,False,0,10.570971
+Sedatives,5,25-35,2,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,True,7,True,5,True,8,25.466285
+Sedatives,5,25-35,2,100-110,2,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,False,0,8.71953
+Alcohol,1,<25,0,< 100,4,$\geq 105$,4,6-9,6,True,7,True,7,True,5,True,8,34.202786
+Analgesic,2,45-55,6,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,False,0,9.742592
+Polysubstance,8,<25,0,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,False,0,22.911336000000002
+Analgesic,2,<25,0,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,False,0,22.989611000000004
+Polysubstance,8,45-55,6,$\geq$ 140,-3,$75-85$,1,6-9,6,False,0,False,0,False,0,True,8,19.539202
+Alcohol,1,45-55,6,130-140,-1,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,True,8,34.026503000000005
+"CO, As, CN",6,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,True,7,False,0,False,0,True,8,12.894214999999999
+Sedatives,5,35-45,4,120-130,0,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,29.603949
+Polysubstance,8,<25,0,120-130,0,$95-105$,3,6-9,6,True,7,True,7,True,5,True,8,43.184166000000005
+Alcohol,1,35-45,4,100-110,2,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,True,8,25.390748000000002
+Alcohol,1,35-45,4,120-130,0,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-1.7489020000000002
+Analgesic,2,<25,0,100-110,2,$85-95$,2,$\geq 14$,0,True,7,False,0,False,0,False,0,9.5201
+Antidepressant,3,<25,0,100-110,2,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,False,0,10.125591
+"CO, As, CN",6,<25,0,130-140,-1,$<75$,0,6-9,6,True,7,True,7,True,5,False,0,15.611096
+Sedatives,5,45-55,6,< 100,4,$95-105$,3,$\leq 6$,9,False,0,True,7,True,5,False,0,12.266553000000002
+Street Drugs,4,55-65,8,110-120,1,$95-105$,3,9-14,3,True,7,True,7,True,5,False,0,24.392991000000002
+Polysubstance,8,45-55,6,110-120,1,$95-105$,3,9-14,3,False,0,False,0,True,5,False,0,12.674437000000001
+Street Drugs,4,25-35,2,120-130,0,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,False,0,18.250028999999998
+Sedatives,5,35-45,4,$\geq$ 140,-3,$75-85$,1,9-14,3,True,7,True,7,True,5,True,8,34.539819
+Analgesic,2,$\geq$ 65,10,130-140,-1,$\geq 105$,4,6-9,6,True,7,True,7,True,5,True,8,36.110066
+Antidepressant,3,55-65,8,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,9.126326
+Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,15.569731
+Street Drugs,4,25-35,2,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,False,0,18.312379
+Analgesic,2,$\geq$ 65,10,110-120,1,$<75$,0,$\leq 6$,9,True,7,True,7,False,0,True,8,30.602370999999998
+Toxins NOS,7,25-35,2,120-130,0,$75-85$,1,9-14,3,True,7,True,7,True,5,True,8,38.005982
+Street Drugs,4,<25,0,< 100,4,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,True,8,36.72762
+Antidepressant,3,$\geq$ 65,10,120-130,0,$75-85$,1,$\leq 6$,9,True,7,False,0,True,5,False,0,13.042460000000002
+Polysubstance,8,45-55,6,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,17.297358000000003
+Polysubstance,8,45-55,6,120-130,0,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,35.363838
+Antidepressant,3,35-45,4,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,True,7,False,0,False,0,18.939414
+Polysubstance,8,<25,0,120-130,0,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,35.105696
+Polysubstance,8,45-55,6,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,True,8,20.528852
+Sedatives,5,35-45,4,100-110,2,$75-85$,1,9-14,3,True,7,False,0,False,0,True,8,19.554733
+Analgesic,2,$\geq$ 65,10,100-110,2,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,9.348841
+Antidepressant,3,45-55,6,$\geq$ 140,-3,$\geq 105$,4,6-9,6,False,0,True,7,False,0,True,8,21.733493000000003
+Antidepressant,3,35-45,4,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,14.296143
+Polysubstance,8,25-35,2,130-140,-1,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,True,8,44.22758
+Street Drugs,4,$\geq$ 65,10,100-110,2,$95-105$,3,9-14,3,True,7,False,0,True,5,True,8,26.705199
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,True,7,False,0,False,0,10.038576
+Alcohol,1,55-65,8,120-130,0,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,34.563042
+Polysubstance,8,55-65,8,110-120,1,$95-105$,3,6-9,6,False,0,False,0,False,0,False,0,7.340155999999999
+Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,True,8,24.742791
+Antidepressant,3,45-55,6,100-110,2,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,False,0,14.316856999999999
+Toxins NOS,7,45-55,6,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,27.740719
+Analgesic,2,$\geq$ 65,10,120-130,0,$85-95$,2,9-14,3,False,0,True,7,True,5,True,8,27.531071000000004
+Street Drugs,4,25-35,2,130-140,-1,$85-95$,2,9-14,3,True,7,False,0,False,0,True,8,21.528573
+Toxins NOS,7,$\geq$ 65,10,120-130,0,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,False,0,12.685013000000001
+Sedatives,5,55-65,8,130-140,-1,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,False,0,7.514197
+"CO, As, CN",6,25-35,2,120-130,0,$<75$,0,9-14,3,False,0,False,0,True,5,True,8,9.392659
+Sedatives,5,25-35,2,100-110,2,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,9.478849
+Street Drugs,4,<25,0,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,0.17162900000000003
+Polysubstance,8,55-65,8,130-140,-1,$<75$,0,9-14,3,True,7,True,7,False,0,False,0,26.824367000000002
+Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,False,0,True,8,10.847805
+Polysubstance,8,55-65,8,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,False,0,False,0,False,0,False,0,8.367906
+Alcohol,1,$\geq$ 65,10,130-140,-1,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,False,0,-1.992585
+Street Drugs,4,25-35,2,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,True,8,13.052628
+Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,True,8,33.154095000000005
+"CO, As, CN",6,$\geq$ 65,10,< 100,4,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,17.710585
+Street Drugs,4,$\geq$ 65,10,100-110,2,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,4.921844
+Alcohol,1,35-45,4,< 100,4,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,False,0,18.163384
+Analgesic,2,<25,0,110-120,1,$85-95$,2,9-14,3,False,0,True,7,False,0,True,8,22.210331
+Sedatives,5,35-45,4,130-140,-1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,True,8,10.632963
+Analgesic,2,55-65,8,110-120,1,$75-85$,1,9-14,3,True,7,False,0,True,5,False,0,14.255951
+Analgesic,2,55-65,8,120-130,0,$\geq 105$,4,6-9,6,True,7,True,7,False,0,False,0,18.873822
+Toxins NOS,7,45-55,6,< 100,4,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,18.084324000000002
+Street Drugs,4,25-35,2,120-130,0,$\geq 105$,4,6-9,6,True,7,True,7,False,0,False,0,18.786203999999998
+Antidepressant,3,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,16.28705
+Analgesic,2,35-45,4,110-120,1,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,True,8,21.902238
+Analgesic,2,45-55,6,100-110,2,$<75$,0,$\geq 14$,0,True,7,True,7,True,5,True,8,36.827938
+Street Drugs,4,$\geq$ 65,10,< 100,4,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,26.678499000000002
+Sedatives,5,<25,0,120-130,0,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,33.817166
+Analgesic,2,45-55,6,100-110,2,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,False,0,14.667062000000001
+Sedatives,5,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,10.875805
+Antidepressant,3,<25,0,110-120,1,$<75$,0,9-14,3,False,0,True,7,True,5,True,8,26.776946000000002
+"CO, As, CN",6,$\geq$ 65,10,110-120,1,$85-95$,2,9-14,3,True,7,True,7,False,0,True,8,23.781681
+Sedatives,5,35-45,4,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,7.895644
+Sedatives,5,25-35,2,120-130,0,$95-105$,3,6-9,6,False,0,True,7,False,0,False,0,7.77188
+Antidepressant,3,<25,0,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,False,0,8.758816
+Alcohol,1,35-45,4,110-120,1,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,False,0,12.619909
+"CO, As, CN",6,45-55,6,120-130,0,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,16.823238
+Sedatives,5,35-45,4,130-140,-1,$75-85$,1,6-9,6,True,7,True,7,True,5,False,0,21.782584
+Alcohol,1,35-45,4,130-140,-1,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,-1.206377
+Polysubstance,8,35-45,4,110-120,1,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,22.550239
+Antidepressant,3,45-55,6,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,True,7,True,5,True,8,35.124958
+Toxins NOS,7,$\geq$ 65,10,120-130,0,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,27.866146999999998
+Antidepressant,3,<25,0,110-120,1,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,30.940946000000004
+Toxins NOS,7,$\geq$ 65,10,100-110,2,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,16.069262000000002
+Alcohol,1,55-65,8,120-130,0,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,17.904037000000002
+Alcohol,1,55-65,8,130-140,-1,$95-105$,3,6-9,6,True,7,False,0,False,0,False,0,7.491696
+"CO, As, CN",6,35-45,4,130-140,-1,$<75$,0,9-14,3,False,0,True,7,True,5,False,0,7.233879
+Toxins NOS,7,$\geq$ 65,10,< 100,4,$\geq 105$,4,6-9,6,False,0,True,7,True,5,True,8,28.754443000000002
+Polysubstance,8,55-65,8,< 100,4,$\geq 105$,4,$\leq 6$,9,True,7,True,7,False,0,True,8,38.012627
+"CO, As, CN",6,35-45,4,100-110,2,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,True,8,8.482323000000001
+Polysubstance,8,$\geq$ 65,10,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,False,0,32.326076
+Sedatives,5,35-45,4,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,True,7,False,0,True,8,21.092354
+Antidepressant,3,55-65,8,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,True,7,True,5,True,8,27.165202
+"CO, As, CN",6,45-55,6,110-120,1,$75-85$,1,6-9,6,True,7,True,7,False,0,True,8,23.120078
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,True,7,True,5,True,8,26.669581
+Street Drugs,4,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,True,5,False,0,24.01493
+Analgesic,2,25-35,2,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,False,0,True,7,False,0,False,0,10.65426
+"CO, As, CN",6,45-55,6,130-140,-1,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,False,0,10.458243
+"CO, As, CN",6,55-65,8,< 100,4,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,7.313556999999999
+Polysubstance,8,<25,0,120-130,0,$85-95$,2,6-9,6,False,0,False,0,True,5,True,8,24.178829999999998
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,2.208658
+Alcohol,1,35-45,4,< 100,4,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,12.633513
+Antidepressant,3,35-45,4,120-130,0,$75-85$,1,$\leq 6$,9,True,7,True,7,False,0,True,8,30.084374000000004
+Sedatives,5,45-55,6,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,True,7,True,7,True,5,False,0,21.419823
+"CO, As, CN",6,25-35,2,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,True,7,True,5,True,8,27.992870000000003
+Toxins NOS,7,35-45,4,$\geq$ 140,-3,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,12.487921
+"CO, As, CN",6,55-65,8,110-120,1,$85-95$,2,9-14,3,True,7,True,7,False,0,False,0,11.482607
+Sedatives,5,35-45,4,130-140,-1,$85-95$,2,$\geq 14$,0,True,7,False,0,True,5,False,0,12.818418000000001
+Polysubstance,8,$\geq$ 65,10,120-130,0,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,True,8,43.087561
+Toxins NOS,7,25-35,2,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,False,0,9.933586
+"CO, As, CN",6,55-65,8,110-120,1,$\geq 105$,4,9-14,3,False,0,False,0,False,0,True,8,4.741631
+Toxins NOS,7,55-65,8,120-130,0,$85-95$,2,9-14,3,False,0,True,7,True,5,True,8,29.225304
+Antidepressant,3,$\geq$ 65,10,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,10.543511
+Alcohol,1,45-55,6,110-120,1,$85-95$,2,$\geq 14$,0,False,0,True,7,False,0,False,0,9.290328
+Analgesic,2,55-65,8,120-130,0,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,26.018486000000003
+Alcohol,1,45-55,6,< 100,4,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,15.935767
+"CO, As, CN",6,25-35,2,120-130,0,$<75$,0,9-14,3,False,0,False,0,False,0,True,8,4.475839
+Sedatives,5,$\geq$ 65,10,130-140,-1,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,12.526385000000001
+Analgesic,2,45-55,6,130-140,-1,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,False,0,14.159283000000002
+Alcohol,1,35-45,4,< 100,4,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,False,0,11.673163
+Alcohol,1,25-35,2,< 100,4,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,False,0,18.11467
+Street Drugs,4,25-35,2,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,False,0,True,5,True,8,17.902048
+Analgesic,2,45-55,6,100-110,2,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,False,0,23.165053
+Street Drugs,4,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,True,7,True,5,True,8,27.748645000000003
+"CO, As, CN",6,35-45,4,110-120,1,$95-105$,3,$\geq 14$,0,False,0,False,0,True,5,True,8,9.985198
+Alcohol,1,<25,0,< 100,4,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,False,0,6.574915
+Street Drugs,4,45-55,6,110-120,1,$\geq 105$,4,$\leq 6$,9,False,0,True,7,False,0,True,8,21.622647
+Sedatives,5,<25,0,< 100,4,$\geq 105$,4,6-9,6,False,0,True,7,False,0,False,0,7.627766
+Alcohol,1,<25,0,130-140,-1,$\geq 105$,4,$\geq 14$,0,True,7,True,7,False,0,False,0,18.153706
+Alcohol,1,45-55,6,110-120,1,$75-85$,1,6-9,6,False,0,False,0,True,5,True,8,15.460642
+Antidepressant,3,35-45,4,< 100,4,$75-85$,1,$\leq 6$,9,False,0,True,7,False,0,False,0,8.755794
+Alcohol,1,$\geq$ 65,10,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,False,0,False,0,7.088235
+Analgesic,2,25-35,2,< 100,4,$75-85$,1,6-9,6,False,0,False,0,True,5,True,8,16.668124
+Street Drugs,4,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,True,7,False,0,False,0,True,8,20.422809
+Antidepressant,3,<25,0,120-130,0,$<75$,0,9-14,3,True,7,False,0,True,5,True,8,25.855600000000003
+"CO, As, CN",6,<25,0,< 100,4,$<75$,0,$\leq 6$,9,True,7,False,0,False,0,False,0,0.13183499999999881
+"CO, As, CN",6,45-55,6,< 100,4,$85-95$,2,6-9,6,True,7,True,7,False,0,False,0,10.850667999999999
+Alcohol,1,45-55,6,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,False,0,8.416032
+"CO, As, CN",6,35-45,4,120-130,0,$<75$,0,6-9,6,True,7,False,0,False,0,True,8,13.083198
+Street Drugs,4,25-35,2,130-140,-1,$85-95$,2,9-14,3,False,0,True,7,False,0,True,8,22.470269000000002
+Toxins NOS,7,$\geq$ 65,10,< 100,4,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,True,8,38.753613
+Polysubstance,8,45-55,6,120-130,0,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,13.174962
+Street Drugs,4,45-55,6,130-140,-1,$95-105$,3,$\leq 6$,9,True,7,True,7,True,5,False,0,23.368627000000004
+Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$75-85$,1,6-9,6,True,7,True,7,True,5,False,0,22.464446000000002
+"CO, As, CN",6,35-45,4,< 100,4,$95-105$,3,6-9,6,True,7,True,7,False,0,False,0,10.787954
+Street Drugs,4,25-35,2,< 100,4,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,11.935828
+Analgesic,2,<25,0,110-120,1,$<75$,0,6-9,6,True,7,True,7,True,5,True,8,35.629796000000006
+Street Drugs,4,45-55,6,110-120,1,$<75$,0,9-14,3,True,7,True,7,False,0,True,8,31.579817
+"CO, As, CN",6,35-45,4,$\geq$ 140,-3,$\geq 105$,4,6-9,6,False,0,True,7,True,5,False,0,6.836404000000001
+Alcohol,1,$\geq$ 65,10,110-120,1,$\geq 105$,4,6-9,6,True,7,True,7,True,5,False,0,22.425046000000002
+Toxins NOS,7,<25,0,100-110,2,$75-85$,1,9-14,3,True,7,True,7,False,0,False,0,20.749388
+Alcohol,1,$\geq$ 65,10,110-120,1,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,True,8,20.183591
+Toxins NOS,7,25-35,2,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,True,8,24.620867
+Sedatives,5,45-55,6,120-130,0,$<75$,0,6-9,6,True,7,False,0,True,5,False,0,11.858432
+Street Drugs,4,25-35,2,100-110,2,$85-95$,2,9-14,3,True,7,False,0,True,5,False,0,14.161983
+Toxins NOS,7,<25,0,< 100,4,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,6.676172
+Sedatives,5,25-35,2,110-120,1,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,False,0,16.268175
+Analgesic,2,45-55,6,130-140,-1,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,False,0,-0.7100530000000002
+Alcohol,1,$\geq$ 65,10,< 100,4,$\geq 105$,4,9-14,3,True,7,False,0,True,5,True,8,25.114015000000002
+Antidepressant,3,25-35,2,< 100,4,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,5.111909000000001
+Alcohol,1,45-55,6,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,False,0,True,5,False,0,13.374852
+"CO, As, CN",6,$\geq$ 65,10,< 100,4,$<75$,0,$\leq 6$,9,False,0,True,7,True,5,False,0,6.373921
+Antidepressant,3,55-65,8,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,27.659377
+"CO, As, CN",6,25-35,2,< 100,4,$95-105$,3,$\leq 6$,9,False,0,False,0,True,5,False,0,-3.857451
+Polysubstance,8,55-65,8,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,True,7,True,7,True,5,True,8,44.512422
+Sedatives,5,45-55,6,120-130,0,$95-105$,3,$\geq 14$,0,True,7,False,0,False,0,True,8,20.194322
+Alcohol,1,25-35,2,100-110,2,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,20.36456
+"CO, As, CN",6,$\geq$ 65,10,120-130,0,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,True,8,29.227026000000002
+Street Drugs,4,45-55,6,< 100,4,$85-95$,2,6-9,6,False,0,False,0,False,0,True,8,12.061256
+Street Drugs,4,35-45,4,130-140,-1,$85-95$,2,$\leq 6$,9,False,0,False,0,False,0,True,8,11.592117
+Polysubstance,8,45-55,6,130-140,-1,$<75$,0,9-14,3,True,7,False,0,False,0,True,8,29.003497000000003
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,True,8,19.800013
+Analgesic,2,55-65,8,100-110,2,$<75$,0,6-9,6,True,7,False,0,False,0,True,8,21.032966000000002
+"CO, As, CN",6,45-55,6,100-110,2,$95-105$,3,6-9,6,True,7,True,7,False,0,False,0,10.905368
+Sedatives,5,55-65,8,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,23.724381
+Street Drugs,4,35-45,4,110-120,1,$\geq 105$,4,$\geq 14$,0,True,7,True,7,False,0,False,0,19.830918
+Analgesic,2,55-65,8,< 100,4,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,False,0,14.689076
+Polysubstance,8,$\geq$ 65,10,100-110,2,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,True,8,28.149525000000004
+Polysubstance,8,45-55,6,130-140,-1,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,33.454142000000004
+Analgesic,2,25-35,2,100-110,2,$85-95$,2,6-9,6,True,7,False,0,True,5,False,0,13.525284
+Alcohol,1,55-65,8,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,24.990647000000003
+Polysubstance,8,45-55,6,$\geq$ 140,-3,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,17.297358000000003
+Alcohol,1,35-45,4,$\geq$ 140,-3,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,False,0,2.7487930000000005
+Analgesic,2,35-45,4,120-130,0,$<75$,0,6-9,6,True,7,True,7,False,0,False,0,18.664394
+Alcohol,1,35-45,4,110-120,1,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-1.769252
+Sedatives,5,45-55,6,110-120,1,$\geq 105$,4,9-14,3,False,0,True,7,False,0,True,8,20.635493
+Sedatives,5,<25,0,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,True,8,25.897745999999998
+Analgesic,2,$\geq$ 65,10,$\geq$ 140,-3,$\geq 105$,4,6-9,6,False,0,False,0,True,5,False,0,4.93707
+Polysubstance,8,55-65,8,120-130,0,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,False,0,20.793971000000003
+"CO, As, CN",6,35-45,4,$\geq$ 140,-3,$\geq 105$,4,$\geq 14$,0,True,7,False,0,False,0,False,0,1.9662379999999997
+Toxins NOS,7,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,6-9,6,True,7,True,7,False,0,True,8,32.948893
+Antidepressant,3,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,True,7,False,0,True,5,True,8,24.8749
+Analgesic,2,55-65,8,110-120,1,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,32.036182000000004
+Toxins NOS,7,25-35,2,130-140,-1,$85-95$,2,6-9,6,False,0,True,7,True,5,True,8,28.521337000000003
+Alcohol,1,45-55,6,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,15.033867
+Antidepressant,3,35-45,4,120-130,0,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,True,8,21.073554
+Alcohol,1,45-55,6,130-140,-1,$\geq 105$,4,$\leq 6$,9,True,7,False,0,True,5,True,8,24.073987000000002
+Alcohol,1,45-55,6,$\geq$ 140,-3,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,22.791193
+Street Drugs,4,<25,0,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,True,7,False,0,True,8,30.484725000000005
+Analgesic,2,55-65,8,$\geq$ 140,-3,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,True,8,32.089582
+Analgesic,2,35-45,4,110-120,1,$75-85$,1,9-14,3,True,7,False,0,True,5,False,0,14.102523000000001
+Polysubstance,8,<25,0,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,True,7,True,7,True,5,True,8,44.233566
+Street Drugs,4,35-45,4,110-120,1,$\geq 105$,4,$\leq 6$,9,True,7,True,7,True,5,False,0,23.265213000000003
+Analgesic,2,25-35,2,120-130,0,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,True,8,16.255349000000002
+Sedatives,5,<25,0,$\geq$ 140,-3,$85-95$,2,$\leq 6$,9,False,0,False,0,True,5,True,8,14.420705
+Toxins NOS,7,25-35,2,< 100,4,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,True,8,29.379936999999998
+Antidepressant,3,25-35,2,$\geq$ 140,-3,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,8.896184
+Antidepressant,3,55-65,8,100-110,2,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,True,8,12.730291
+"CO, As, CN",6,45-55,6,110-120,1,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,False,0,6.8223720000000005
+Analgesic,2,25-35,2,< 100,4,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,11.793304000000001
+Street Drugs,4,$\geq$ 65,10,< 100,4,$\geq 105$,4,6-9,6,True,7,True,7,False,0,False,0,19.01166
+Analgesic,2,$\geq$ 65,10,120-130,0,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,5.328195000000001
+Alcohol,1,45-55,6,< 100,4,$85-95$,2,$\leq 6$,9,True,7,True,7,False,0,True,8,28.993933
+"CO, As, CN",6,<25,0,< 100,4,$<75$,0,6-9,6,False,0,True,7,False,0,True,8,13.790066
+Polysubstance,8,<25,0,130-140,-1,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,19.29636
+Street Drugs,4,25-35,2,120-130,0,$75-85$,1,9-14,3,False,0,False,0,True,5,False,0,5.163863
+Analgesic,2,$\geq$ 65,10,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,False,0,False,0,False,0,9.03107
+Street Drugs,4,55-65,8,< 100,4,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,True,8,23.064836
+Street Drugs,4,45-55,6,100-110,2,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,False,0,19.873282000000003
+Polysubstance,8,45-55,6,120-130,0,$<75$,0,$\geq 14$,0,False,0,True,7,True,5,False,0,23.113478
+"CO, As, CN",6,45-55,6,120-130,0,$\geq 105$,4,$\geq 14$,0,False,0,False,0,False,0,True,8,5.179442
+Analgesic,2,25-35,2,120-130,0,$95-105$,3,$\geq 14$,0,False,0,True,7,True,5,False,0,15.51003
+Polysubstance,8,<25,0,$\geq$ 140,-3,$\geq 105$,4,6-9,6,True,7,False,0,False,0,False,0,16.15352
+Toxins NOS,7,55-65,8,< 100,4,$<75$,0,$\geq 14$,0,True,7,True,7,False,0,True,8,33.718079
+Sedatives,5,<25,0,< 100,4,$<75$,0,$\leq 6$,9,False,0,True,7,False,0,True,8,19.299951
+Alcohol,1,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,$\leq 6$,9,False,0,False,0,False,0,True,8,10.270475
+Street Drugs,4,45-55,6,$\geq$ 140,-3,$95-105$,3,6-9,6,False,0,True,7,False,0,True,8,22.184222
+Antidepressant,3,35-45,4,100-110,2,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,True,8,36.485019
+Alcohol,1,35-45,4,100-110,2,$85-95$,2,9-14,3,False,0,True,7,True,5,False,0,13.615909000000002
+Toxins NOS,7,55-65,8,130-140,-1,$85-95$,2,$\geq 14$,0,True,7,True,7,True,5,False,0,26.542289000000004
+Sedatives,5,<25,0,110-120,1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,False,0,8.677166
+Analgesic,2,55-65,8,130-140,-1,$75-85$,1,6-9,6,False,0,True,7,False,0,False,0,9.827352000000001
+Street Drugs,4,<25,0,< 100,4,$85-95$,2,9-14,3,True,7,True,7,True,5,False,0,24.011085
+Toxins NOS,7,25-35,2,< 100,4,$95-105$,3,6-9,6,True,7,True,7,False,0,True,8,32.541587
+Street Drugs,4,25-35,2,110-120,1,$\geq 105$,4,6-9,6,False,0,False,0,False,0,False,0,-0.22548200000000007
+Antidepressant,3,45-55,6,$\geq$ 140,-3,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,31.252488
+Street Drugs,4,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,6-9,6,False,0,False,0,False,0,True,8,12.329134
+"CO, As, CN",6,35-45,4,< 100,4,$<75$,0,$\geq 14$,0,True,7,False,0,True,5,True,8,18.906968
+Toxins NOS,7,55-65,8,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,7.5369530000000005
+Sedatives,5,25-35,2,$\geq$ 140,-3,$<75$,0,9-14,3,False,0,False,0,False,0,True,8,10.540949
+"CO, As, CN",6,55-65,8,100-110,2,$<75$,0,9-14,3,True,7,False,0,True,5,False,0,6.384561
+Toxins NOS,7,45-55,6,120-130,0,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,2.0428939999999995
+Analgesic,2,45-55,6,110-120,1,$75-85$,1,9-14,3,True,7,False,0,True,5,False,0,14.179237
+Analgesic,2,35-45,4,110-120,1,$85-95$,2,$\geq 14$,0,False,0,False,0,True,5,False,0,5.585878
+"CO, As, CN",6,$\geq$ 65,10,120-130,0,$<75$,0,6-9,6,False,0,False,0,True,5,True,8,9.20534
+Polysubstance,8,25-35,2,< 100,4,$85-95$,2,$\geq 14$,0,True,7,True,7,False,0,True,8,39.237010000000005
+Analgesic,2,45-55,6,$\geq$ 140,-3,$95-105$,3,$\geq 14$,0,False,0,False,0,False,0,True,8,13.063532
+Sedatives,5,35-45,4,110-120,1,$95-105$,3,$\geq 14$,0,True,7,True,7,False,0,True,8,30.063774000000002
+Antidepressant,3,35-45,4,130-140,-1,$85-95$,2,6-9,6,False,0,False,0,True,5,True,8,16.538383
+Analgesic,2,35-45,4,120-130,0,$95-105$,3,9-14,3,True,7,False,0,False,0,True,8,21.456412999999998
+Polysubstance,8,55-65,8,$\geq$ 140,-3,$\geq 105$,4,9-14,3,False,0,False,0,False,0,True,8,20.152091
+Alcohol,1,55-65,8,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,24.644876000000004
+Street Drugs,4,45-55,6,120-130,0,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,15.819982
+Toxins NOS,7,45-55,6,100-110,2,$85-95$,2,$\geq 14$,0,False,0,True,7,True,5,True,8,29.602065000000003
+Alcohol,1,25-35,2,< 100,4,$95-105$,3,6-9,6,False,0,False,0,False,0,True,8,10.357344
+Antidepressant,3,<25,0,120-130,0,$\geq 105$,4,9-14,3,True,7,True,7,False,0,True,8,30.961296000000004
+Toxins NOS,7,$\geq$ 65,10,< 100,4,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,13.376932
+Analgesic,2,$\geq$ 65,10,100-110,2,$75-85$,1,$\geq 14$,0,True,7,False,0,True,5,True,8,27.02885
+Analgesic,2,$\geq$ 65,10,130-140,-1,$75-85$,1,9-14,3,False,0,True,7,False,0,False,0,10.398241
+Sedatives,5,55-65,8,100-110,2,$<75$,0,$\geq 14$,0,False,0,True,7,False,0,False,0,8.907672
+Antidepressant,3,<25,0,< 100,4,$<75$,0,$\geq 14$,0,True,7,False,0,False,0,True,8,21.351554999999998
+Alcohol,1,<25,0,110-120,1,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,True,8,19.800021
+Polysubstance,8,55-65,8,$\geq$ 140,-3,$95-105$,3,$\leq 6$,9,True,7,False,0,False,0,False,0,15.952200999999999
+Polysubstance,8,45-55,6,$\geq$ 140,-3,$95-105$,3,9-14,3,False,0,True,7,True,5,True,8,34.944713
+Street Drugs,4,35-45,4,100-110,2,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,False,0,9.802052
+"CO, As, CN",6,$\geq$ 65,10,130-140,-1,$\geq 105$,4,$\leq 6$,9,False,0,False,0,False,0,True,8,3.8706949999999996
+Antidepressant,3,35-45,4,$\geq$ 140,-3,$85-95$,2,6-9,6,True,7,True,7,True,5,True,8,35.570419
+Street Drugs,4,55-65,8,$\geq$ 140,-3,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,False,0,4.508705000000001
+Antidepressant,3,45-55,6,< 100,4,$\geq 105$,4,9-14,3,False,0,False,0,True,5,True,8,17.035522
+Analgesic,2,$\geq$ 65,10,$\geq$ 140,-3,$85-95$,2,6-9,6,True,7,True,7,True,5,False,0,23.900406000000004
+Toxins NOS,7,55-65,8,$\geq$ 140,-3,$85-95$,2,6-9,6,True,7,True,7,False,0,False,0,20.677819
+"CO, As, CN",6,55-65,8,< 100,4,$\geq 105$,4,$\geq 14$,0,False,0,True,7,False,0,False,0,2.9189119999999997
+Analgesic,2,$\geq$ 65,10,100-110,2,$<75$,0,$\leq 6$,9,True,7,False,0,True,5,True,8,25.532325
+Sedatives,5,25-35,2,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,False,0,True,8,19.086894
+Alcohol,1,35-45,4,130-140,-1,$\geq 105$,4,$\geq 14$,0,False,0,True,7,True,5,False,0,14.199134
+Toxins NOS,7,<25,0,< 100,4,$85-95$,2,6-9,6,True,7,False,0,True,5,True,8,27.401177000000004
+Sedatives,5,55-65,8,100-110,2,$95-105$,3,6-9,6,False,0,False,0,True,5,True,8,15.133986
+Antidepressant,3,25-35,2,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,False,0,False,0,True,8,21.544019
+Analgesic,2,25-35,2,< 100,4,$75-85$,1,$\geq 14$,0,False,0,True,7,True,5,False,0,15.40063
+Alcohol,1,45-55,6,130-140,-1,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,True,8,35.523028000000004
+Sedatives,5,45-55,6,120-130,0,$\geq 105$,4,6-9,6,False,0,False,0,False,0,True,8,10.195152
+"CO, As, CN",6,<25,0,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,True,7,True,5,True,8,18.309411
+Toxins NOS,7,35-45,4,100-110,2,$75-85$,1,9-14,3,True,7,True,7,True,5,False,0,25.819636000000003
+Antidepressant,3,45-55,6,100-110,2,$85-95$,2,$\leq 6$,9,False,0,True,7,False,0,False,0,8.887208000000001
+Toxins NOS,7,35-45,4,120-130,0,$95-105$,3,$\geq 14$,0,True,7,False,0,True,5,True,8,28.638354999999997
+Analgesic,2,35-45,4,130-140,-1,$\geq 105$,4,6-9,6,False,0,True,7,False,0,False,0,9.715924000000001
+Analgesic,2,<25,0,110-120,1,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,False,0,3.935925
+Street Drugs,4,55-65,8,100-110,2,$85-95$,2,9-14,3,False,0,False,0,False,0,True,8,12.672845
+Toxins NOS,7,$\geq$ 65,10,110-120,1,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,18.298802000000002
+Street Drugs,4,45-55,6,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,True,5,False,0,5.3185910000000005
+Street Drugs,4,25-35,2,100-110,2,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,False,0,4.120813
+Toxins NOS,7,45-55,6,120-130,0,$\geq 105$,4,6-9,6,True,7,True,7,False,0,False,0,20.568055
+Alcohol,1,35-45,4,110-120,1,$75-85$,1,$\leq 6$,9,False,0,False,0,False,0,True,8,9.972933000000001
+"CO, As, CN",6,45-55,6,110-120,1,$<75$,0,6-9,6,False,0,False,0,False,0,False,0,-8.107618
+Antidepressant,3,<25,0,130-140,-1,$75-85$,1,$\geq 14$,0,True,7,True,7,False,0,False,0,19.211461
+Street Drugs,4,55-65,8,130-140,-1,$\geq 105$,4,6-9,6,True,7,False,0,True,5,False,0,13.987000000000002
+Toxins NOS,7,25-35,2,130-140,-1,$95-105$,3,9-14,3,True,7,False,0,False,0,False,0,10.948636
+Street Drugs,4,$\geq$ 65,10,< 100,4,$85-95$,2,9-14,3,False,0,False,0,False,0,False,0,0.4864989999999999
+Sedatives,5,$\geq$ 65,10,120-130,0,$\geq 105$,4,6-9,6,True,7,False,0,True,5,True,8,24.290219999999998
+Sedatives,5,<25,0,110-120,1,$<75$,0,9-14,3,True,7,True,7,True,5,True,8,34.290991000000005
+Toxins NOS,7,<25,0,120-130,0,$\geq 105$,4,$\geq 14$,0,True,7,True,7,True,5,False,0,26.243083000000002
+Polysubstance,8,25-35,2,100-110,2,$\geq 105$,4,9-14,3,False,0,False,0,False,0,False,0,7.5978390000000005
+Polysubstance,8,<25,0,110-120,1,$<75$,0,9-14,3,True,7,True,7,True,5,False,0,31.393631
+"CO, As, CN",6,55-65,8,130-140,-1,$<75$,0,6-9,6,False,0,False,0,True,5,False,0,-3.073384
+Sedatives,5,45-55,6,120-130,0,$75-85$,1,6-9,6,False,0,True,7,True,5,True,8,25.036488
+Polysubstance,8,45-55,6,120-130,0,$<75$,0,$\leq 6$,9,False,0,False,0,True,5,True,8,23.886797
+Street Drugs,4,25-35,2,< 100,4,$75-85$,1,$\leq 6$,9,False,0,False,0,True,5,True,8,16.316473000000002
+Sedatives,5,55-65,8,130-140,-1,$<75$,0,9-14,3,True,7,False,0,False,0,True,8,19.755211
+Polysubstance,8,35-45,4,100-110,2,$\geq 105$,4,$\leq 6$,9,False,0,False,0,True,5,False,0,11.603023
+Toxins NOS,7,45-55,6,$\geq$ 140,-3,$<75$,0,6-9,6,False,0,True,7,False,0,False,0,11.548285
+Alcohol,1,55-65,8,100-110,2,$75-85$,1,$\leq 6$,9,False,0,True,7,True,5,False,0,12.766987
+Alcohol,1,35-45,4,$\geq$ 140,-3,$95-105$,3,6-9,6,True,7,False,0,True,5,True,8,24.518148000000004
+Street Drugs,4,55-65,8,130-140,-1,$<75$,0,6-9,6,True,7,False,0,True,5,False,0,13.931000000000001
+Antidepressant,3,<25,0,130-140,-1,$<75$,0,6-9,6,False,0,True,7,True,5,False,0,14.101111
+Sedatives,5,<25,0,130-140,-1,$75-85$,1,$\geq 14$,0,False,0,False,0,True,5,False,0,3.62617
+Polysubstance,8,$\geq$ 65,10,$\geq$ 140,-3,$<75$,0,9-14,3,True,7,True,7,False,0,True,8,39.164141
+Sedatives,5,35-45,4,110-120,1,$85-95$,2,6-9,6,False,0,True,7,False,0,False,0,7.814244
+Polysubstance,8,25-35,2,130-140,-1,$95-105$,3,9-14,3,False,0,False,0,True,5,True,8,24.784069000000002
+Toxins NOS,7,55-65,8,100-110,2,$85-95$,2,6-9,6,False,0,False,0,False,0,True,8,13.807093
+"CO, As, CN",6,$\geq$ 65,10,130-140,-1,$\geq 105$,4,9-14,3,True,7,True,7,True,5,True,8,28.767201
+Antidepressant,3,35-45,4,$\geq$ 140,-3,$75-85$,1,9-14,3,False,0,True,7,True,5,True,8,27.025774
