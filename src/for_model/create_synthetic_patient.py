@@ -1,7 +1,7 @@
 import random
 import os
 import yaml
-
+import uuid
 from slugify import slugify
 
 '''
@@ -17,49 +17,42 @@ PATH_TO_KERNEL_VALUES = os.path.join(DATA_PATH, 'kernel.yml')
 kernel =yaml.safe_load(open(PATH_TO_KERNEL_VALUES, 'r'))
 flattened_kernel = {item['variable_name']: item['variable_value'] for item in kernel}
 
-print(flattened_kernel)
-
 PATH_TO_PREDICTIVE_VARIABLES = os.path.join(DATA_PATH, 'predictive_variables.yml')
 predictive_variables = yaml.safe_load(open(PATH_TO_PREDICTIVE_VARIABLES, 'r'))
+
+score = {variable['value']:{value['name']:value['value'] 
+         for value in yaml.safe_load(open(os.path.join(DATA_PATH, f"{variable['value']}_values.yml"), 'r'))}
+         for variable in predictive_variables}
 
 def create_patient():
     patient = {}
     for variable in predictive_variables:
         variable_name = variable['value']
 
-        PATH_TO_VARIABLE_VALUES = os.path.join(DATA_PATH, f'{variable_name}_values.yml')
-        variable_values = yaml.safe_load(open(PATH_TO_VARIABLE_VALUES, 'r'))
+        value_name, value_score = random.choice(list(score[variable_name].items()))
 
-        value = random.choice(variable_values)
-        value_name = value['name']
-
-        patient[f'{variable_name}_value'] = value_name
+        patient[variable_name] = {}
+        patient[variable_name]['value'] = value_name
+        patient[variable_name]['score'] = value_score
 
     patient['risk'] = risk_score(patient)
+    patient['patient_id'] = str(uuid.uuid4())
 
     return patient
 
 def risk_score(patient):
     risk_score = 0
-    for variable_value in patient:
-        name,value = variable_value.split('_')
+    for variable_name in patient:
 
-        standard_name = slugify(name.lower(), separator='_')
-        score = score[variable][value]
-        weight = kernel[standard_name]
-        risk_score += (score * weight)
+        value = patient[variable_name]['value']
+        score = patient[variable_name]['score']
 
-    return risk_score
-
-
-    for variable_name in predictive_variables:
-        score = patient[f'{variable_name}_value']
-        kernel_variable_name = slugify(variable_name.lower(), separator='_')
-        if kernel_variable_name == 'CO, As, CN':
-            weight = flattened_kernel['toxins_nos']
-        elif kernel_variable_name == 'intoxicant':
-            weight = flattened_kernel[slugify(patient['intoxicant_name'].lower(), separator='_')]
+        # hierarchy has two levels for intoxicants, one level for everything else.
+        if variable_name == 'intoxicant':
+            standard_name = slugify(value.lower(), separator='_')
         else:
-            weight = flattened_kernel[kernel_variable_name]
+            standard_name = slugify(variable_name.lower(), separator='_')
+        weight = flattened_kernel[standard_name]
         risk_score += (score * weight)
+
     return risk_score
