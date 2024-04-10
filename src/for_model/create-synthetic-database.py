@@ -12,55 +12,19 @@ from slugify import slugify
 Ideally would populate a MongoDB database. I use a CSV here for the first iteration.
 '''
 
-#DATA_PATH = os.path.join(cwd, 'data','for_model')
-
-project_path = 'c:\\Users\\rzeml\\intoxicate\\INTOXICATE'
-
+project_path = os.path.join('..','..',) #  Relative to src/for_model 
 DATA_PATH = os.path.join(project_path, 'data', 'for_model')
-kernel =yaml.safe_load(open(os.path.join(DATA_PATH, 'kernel.yml'), 'r'))
-#converts to a dict datatype
+
+PATH_TO_KERNEL_VALUES = os.path.join(DATA_PATH, 'kernel.yml')
+kernel =yaml.safe_load(open(PATH_TO_KERNEL_VALUES, 'r'))
 flattened_kernel = {item['variable_name']: item['variable_value'] for item in kernel}
-predictive_variables = ['intoxicant', 'age', 'sbp', 'hr', 'gcs', 'second_diagnose', 'cirrhosis', 'dysrhythmia', 'respiratory'] 
 
-
-def chose_variable(variable_name):
-    data = yaml.safe_load(open(os.path.join(DATA_PATH, f'{variable_name}_values.yml'), 'r'))
-    return random.choice(data)
-
-
-
-def create_patient():
-    ans = {}
-    for variable_name in predictive_variables:
-        tmp = chose_variable(variable_name)
-        name = tmp['name']
-        value = tmp['value']
-        ans[f'{variable_name}_name'] = name
-        ans[f'{variable_name}_value'] = value
-
-    risk_score = calculate_risk_score(ans)
-    ans['risk'] = risk_score
-    return ans
-
-def calculate_risk_score(patient):
-    risk_score = 0
-    for variable_name in predictive_variables:
-        score = patient[f'{variable_name}_value']
-        kernel_variable_name = slugify(variable_name.lower(), separator='_')
-        if kernel_variable_name == 'CO, As, CN':
-            weight = flattened_kernel['toxins_nos']
-        elif kernel_variable_name == 'intoxicant':
-            weight = flattened_kernel[slugify(patient['intoxicant_name'].lower(), separator='_')]
-        else:
-            weight = flattened_kernel[kernel_variable_name]
-        risk_score += (score * weight)
-    return risk_score
+PATH_TO_PREDICTIVE_VARIABLES = os.path.join(DATA_PATH, 'predictive_variables.yml')
+predictive_variables = yaml.safe_load(open(PATH_TO_PREDICTIVE_VARIABLES, 'r'))
 
 
 input_ranges = []
-#create list of lists for each possible values for each input class
 for variable_name in predictive_variables:
-#returns list of dicts
     data = yaml.safe_load(open(os.path.join(DATA_PATH, f'{variable_name}_values.yml'), 'r'))
     input_ranges.append(np.array([sample['value'] for sample in data]))
 
