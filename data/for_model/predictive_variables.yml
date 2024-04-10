@@ -1,0 +1,18 @@
+- type: variable name
+  value: intoxicant
+- type: variable name
+  value: age
+- type: variable name
+  value: sbp
+- type: variable name
+  value: hr
+- type: variable name
+  value: gcs
+- type: variable name
+  value: second_diagnose
+- type: variable name
+  value: cirrhosis
+- type: variable name
+  value: dysrhythmia
+- type: variable name
+  value: respiratory

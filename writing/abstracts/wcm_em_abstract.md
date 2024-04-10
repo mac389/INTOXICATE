@@ -1,6 +1,6 @@
 **Title**. Which poisoned patients require treatment in the intensive care unit? A pilot study of the INTOXICATE Clinical Decision Rule
 
-Background: Our overall goal is to reduce unnecessary admissions to the intensive care unit (ICU). INTOXICATE (ex-TOXIC-Europe study) is a clinical decision rule developed in the Netherlands to predict which poisoned patients will require ventilatory or vasopressor support. INTOXICATE reduced ICU admissions for poisoned patients by one-third in the Netherlands. 
+Background: Our overall goal is to reduce unnecessary admissions to the intensive care unit (ICU). INTOXICATE (ex-TOXIC-Europe study) is a clinical decision rule developed in the Netherlands to predict which poisoned patients will require ventilatory or vasopressor support. INTOXICATE reduced ICU admissions for poisoned patients by one-third in the Netherlands.
 
 **Objective**. Determine the applicability of INTOXICATE to poisoned patients in the US.
 
