@@ -8,7 +8,7 @@
   value: 4
 - name: Sedatives
   value: 5
-- name: CO, As, CN
+- name: "CO, As, CN"
   value: 6
 - name: Toxins NOS
   value: 7
