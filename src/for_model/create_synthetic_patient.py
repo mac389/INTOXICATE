@@ -17,6 +17,8 @@ PATH_TO_KERNEL_VALUES = os.path.join(DATA_PATH, 'kernel.yml')
 kernel =yaml.safe_load(open(PATH_TO_KERNEL_VALUES, 'r'))
 flattened_kernel = {item['variable_name']: item['variable_value'] for item in kernel}
 
+print(flattened_kernel)
+
 PATH_TO_PREDICTIVE_VARIABLES = os.path.join(DATA_PATH, 'predictive_variables.yml')
 predictive_variables = yaml.safe_load(open(PATH_TO_PREDICTIVE_VARIABLES, 'r'))
 
@@ -40,9 +42,11 @@ def create_patient():
 def risk_score(patient):
     risk_score = 0
     for variable_value in patient:
-        variable,value = variable_value.split('_')
+        name,value = variable_value.split('_')
+
+        standard_name = slugify(name.lower(), separator='_')
         score = score[variable][value]
-        weight = kernel[variable]
+        weight = kernel[standard_name]
         risk_score += (score * weight)
 
     return risk_score
