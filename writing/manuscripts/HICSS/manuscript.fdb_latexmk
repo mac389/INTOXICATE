@@ -1,13 +1,13 @@
 # Fdb version 4
-["biber manuscript"] 1712402292 "manuscript.bcf" "manuscript.bbl" "manuscript" 1712402660 0
-  "./sample.bib" 1712402173 854 75a3ed9ab62a93fe176276141799dbc1 ""
-  "manuscript.bcf" 1712402660 126024 6ca5df5a128f67a9014e4f06409a47c7 "pdflatex"
+["biber manuscript"] 1713032743 "manuscript.bcf" "manuscript.bbl" "manuscript" 1713033567 0
+  "./sample.bib" 1712780917 854 75a3ed9ab62a93fe176276141799dbc1 ""
+  "manuscript.bcf" 1713033566 126024 6ca5df5a128f67a9014e4f06409a47c7 "pdflatex"
   (generated)
   "manuscript.bbl"
   "manuscript.blg"
   (rewritten before read)
-["pdflatex"] 1712402659 "manuscript.tex" "manuscript.pdf" "manuscript" 1712402660 2
-  "/dev/null" 1712402660 0 d41d8cd98f00b204e9800998ecf8427e ""
+["pdflatex"] 1713033565 "manuscript.tex" "manuscript.pdf" "manuscript" 1713033567 2
+  "/dev/null" 1713033564 0 d41d8cd98f00b204e9800998ecf8427e ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -101,13 +101,12 @@
   "/usr/local/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1707662007 4623355 b8cad38412faebe1ce5b780a45db67bd ""
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1707661967 7883461 41bde3417fb8909c2fb5d61ca08d1b5f ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "hicss-packages.tex" 1712402275 303 ae08fee2967de8b440bc53451bcb7255 ""
-  "hicss.sty" 1712402231 7062 2e37361e23fac2b5e10f95b709312264 ""
-  "manuscript.aux" 1712402660 2945 e8e5807c74434fea22494a3cfece2a8a "pdflatex"
-  "manuscript.bbl" 1712402294 8310 a085b5a3e93bb585a88b374c74844dde "biber manuscript"
-  "manuscript.run.xml" 1712402660 2465 23157296d08586243c38205013819a6e "pdflatex"
-  "manuscript.tex" 1712402657 9592 d3127f1714956011448e8c0f7effe20a ""
-  "sample-image" 0 -1 0 ""
+  "hicss-packages.tex" 1712780917 303 ae08fee2967de8b440bc53451bcb7255 ""
+  "hicss.sty" 1712780917 7062 2e37361e23fac2b5e10f95b709312264 ""
+  "manuscript.aux" 1713033566 3277 d4644fc9e77feaf4f00d38f8f04ff64a "pdflatex"
+  "manuscript.bbl" 1713032744 8310 a085b5a3e93bb585a88b374c74844dde "biber manuscript"
+  "manuscript.run.xml" 1713033566 2465 23157296d08586243c38205013819a6e "pdflatex"
+  "manuscript.tex" 1713033564 5408 139042ea3787a2ce42442baddc8f2613 ""
   (generated)
   "manuscript.aux"
   "manuscript.bcf"
