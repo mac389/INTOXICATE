@@ -9,3 +9,11 @@ output/.DS_Store
 *.log
 *.pyc
 */.jekyll*
+*.aux
+*.aux
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
+*.gz
