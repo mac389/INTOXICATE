@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.11)  13 APR 2024 14:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.2.11)  13 APR 2024 15:03
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -621,13 +621,10 @@ Underfull \hbox (badness 3514) in paragraph at lines 45--46
 \OT1/ptm/m/it/10 ra-tio-nale to stake-hold-ers not di-rectly in-volved in
  []
 
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 60.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 59.
 (/usr/local/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 Underfull \hbox (badness 1147) in paragraph at lines 82--83
 []\OT1/ptm/m/n/10 Grayscale Im-ages: Bicu-bic Down-sam-pling at
  []
@@ -692,9 +689,6 @@ Underfull \hbox (badness 1122) in paragraph at lines 142--142
 [2
 
 ] (./manuscript.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package logreq Info: Writing requests to 'manuscript.run.xml'.
 \openout1 = `manuscript.run.xml'.
 
@@ -702,16 +696,16 @@ Package logreq Info: Writing requests to 'manuscript.run.xml'.
 Here is how much of TeX's memory you used:
  14287 strings out of 476025
  282465 string characters out of 5790017
- 1859388 words of memory out of 5000000
+ 1860388 words of memory out of 5000000
  34561 multiletter control sequences out of 15000+600000
  525106 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  82i,10n,84p,683b,5046s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on manuscript.pdf (2 pages, 63257 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on manuscript.pdf (2 pages, 71066 bytes).
 PDF statistics:
- 32 PDF objects out of 1000 (max. 8388607)
- 19 compressed objects within 1 object stream
+ 37 PDF objects out of 1000 (max. 8388607)
+ 22 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
