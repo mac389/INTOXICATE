@@ -9,3 +9,10 @@ output/.DS_Store
 *.log
 *.pyc
 */.jekyll*
+*.aux
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex(busy)
