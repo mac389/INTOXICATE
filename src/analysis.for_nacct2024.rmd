@@ -1,0 +1,42 @@
+---
+title: "Supporting Material for NACCCT 2024 Abstract"
+output : html_document
+fontsize: 12pt
+---
+
+TODO:
+
+- [ ]  Extract gender
+
+```{r setup, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(gt)
+
+df  <-  read_excel("../data/snapshot.04292024.xlsx", sheet = "INTOXICATE", range = cell_cols("A:N"))
+
+xtab  <- df %>%
+ tabyl(`Actual Disposition`,`Predicted Disposition`)
+```
+```{r table, echo=FALSE, fig.cap="INTOXICATE Predicted vs Actual Disposition", fig.height=4, fig.width=6}
+
+xtab %>%
+  adorn_totals("row") %>%
+  adorn_totals("col") %>%
+  gt() %>%
+  tab_header(title = "Actual vs Predicted Disposition") %>%
+  tab_footnote("ICU, Intensive Care Unit; GMF, General Medical Floor; NA, Data Not Available") %>%
+  tab_spanner(label = "Predicted Disposition", columns = `GMF`:`NA_`)  
+```
+<br>
+*Results.*  We included `r nrow(df)` patients, aged `r quantile(df$Age, c(0.50))` [`r quantile(df$Age, c(0.25))` to `r quantile(df$Age, c(0.75))`] years, X% male, X% non-binary. We excluded `r sum(is.na(df$"Predicted Disposition"))` patients because the chart did not contain all information needed to predict disposition or the the patient's poisoning was not a main contributor to disposition.  Of the remaining X patients, `r sum(df$"Actual Disposition"=="ICU")` were admitted to the ICU,
+`r sum(df$"Actual Disposition"=="GMF")` to the floor, and `r sum(df$"Actual Disposition"=="Discharge")` discharged. INTOXICATE predicted that `r sum(df$"Predicted Disposition"=="ICU" & df$"Actual Disposition"=="GMF", na.rm=TRUE)` of `r sum(df$"Actual Disposition"=="GMF", na.rm=TRUE)` patients admitted to the floor should be admitted to the ICU. X of these Y were transferred from the floor to the ICU or Stepdown Unit. All X had a length of stay in the Emergency Department greater than X hours, were on naloxone infusions. One also received octreotide. We did not calculate the inter-rater reliability because we obtained too few samples to accurately estimate Cohen's kappa. All records contained the fields needed to calculate the INTOXICATE risk score and inter-rater reliability of Y patients admitted to the ICU should be admitted to the ICU. It predicted that X of the X patients admitted to the floor should be admitted to the
+ICU. None of these X patients admitted to the floor that INTOXICATE
+predicted needing ICU level of care were transferred from the floor to
+the ICU or Stepdown Unit. All X had a length of stay in the Emergency
+Department greater than X hours, were on naloxone infusions. One also
+received octreotide. We did not calculate the inter-rater reliability
+because we obtained too few samples to accurately estimate Cohen\'s
+kappa. All records contained the fields needed to calculate the
+INTOXICATE risk score and inter-rater reliability.
