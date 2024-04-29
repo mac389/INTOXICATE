@@ -17,3 +17,5 @@ output/.DS_Store
 *.log
 *.pdf
 *.gz
+*.synctex(busy)
+*.blg
