@@ -1,42 +1,9 @@
-- [ ] Fill in numbers currently n=30, 40 [28-56] years
-- [ ] hopefully enough to calculate inter-rater reliability
+Title: Which poisoned patients require treatment in the intensive care unit? External Validation of the INTOXICATE Clinical Decision Rule
 
-Title: Which poisoned patients require treatment in the intensive care
-unit? A pilot study of the INTOXICATE Clinical Decision Rule
+Background: Approximately 1 in 10 poisoned patients in the United States is admitted to the Intensive Care or Stepdown Units (collectively, ICU) for observation, meaning currently clinically stable but with anticipated respiratory or cardiovascular collapse. If we could predict which poisoned patients will not decompensate, we could simultaneously accelerate the care of some poisoned patients and improve ICU utilization. INTOXICATE (ex-TOXIC-Europe study) is a clinical decision rule developed in the Netherlands to predict which poisoned patients will require ventilatory or hemodynamic support for more than 24 hours. A retrospective study demonstrated that INTOXICATE could have decreased admissions to Dutch ICUs by 32%. Our objective in this project is to determine the performance of INTOXICATE in the U.S. healthcare system.
 
-Backgrdound: Our overall goal is to reduce unnecessary admissions to the
-intensive care unit (ICU). INTOXICATE (ex-TOXIC-Europe study) is a
-clinical decision rule developed in the Netherlands to predict which
-poisoned patients will require ventilatory or vasopressor support.
-INTOXICATE reduced ICU admissions for poisoned patients by one-third in
-the Netherlands.
+Methods: We conducted a retrospective study of toxicology consultations from Jan 2023 to Apr 2024 at one urban tertiary care center with a 24/7 bedside toxicology service. We used the methodology described by Brandenburg et al. (2017). Our outcome measure was the inter-rater reliability between the INTOXICATE’s prediction disposition and the treating physician's decision. To detect an inter-rater reliability of at least 0.6 with power 0.8 and 95% confidence, we needed to include 94 patients. We evaluated return visits by searching for encounters throughout the health system affiliated with this medical center and with the local health information exchange ('CareEverywhere'). This study was granted an exemption from review by the Institutional Review Board.
 
-Objective: Determine the applicability of INTOXICATE to poisoned
-patients in the US.
+Results: We included 112 patients aged 28.5 [16 to 43] years, expressed as median [interquartile range]; 46% male, 53% female. We excluded 2 patients due to incomplete information. Of the remaining 110 patients, 21 (19%) were admitted to the ICU, 16 (14%) to a general medical floor, and 75 (68%) were discharged or transferred directly to psychiatry. INTOXICATE recommended ICU admission for 14/21 (67%) of patients for whom the toxicologist recommended ICU admission, ICU admission for 12 of the 16 (75%) patients for whom admission the toxicologist recommended a general medical floor, and ICU admission for and 37 of the 44 (84%) patients for whom the toxicologist recommended discharge. No patients for whom toxicology recommended a floor admission were admitted to a floor and then transferred to the ICU. No patients who were discharged but for whom INTOXICATE recommended admission returned to any hospital in the metropolitan area in 48 hours. The interrater agreement (Cohen's kappa) between INTOXICATE and the actual disposition was 0.045 (p=0.474).
 
-Methods: We conducted a retrospective analysis of data from a bedside toxicology consultation services at one academic medical center. The data used for this study are gathered as part of the service's quality assurance and participation in ToxIC, a national registry of poisoned patients treated by toxicologists. Our measure of interest was the inter-rater reliability between the clinical decision rule and the treating physician\'s decision.
-
-Results: We included X patients, median age X years, interquartile
-range \[X-X\]; X% male. X identified as non-binary. We excluded X
-patients because their discharge presentations were ultimately
-determined not to be related to poisoning or they were not
-hemodynamically unstable or in respiratory failure at the time of
-presentation. Of the remaining X patients, X were admitted to the ICU,
-X to the floor, and X discharged. INTOXICATE predicted that all X
-patients admitted to the ICU should be admitted to the ICU. It predicted
-that X of the X patients admitted to the floor should be admitted to the
-ICU. None of these X patients admitted to the floor that INTOXICATE
-predicted needing ICU level of care were transferred from the floor to
-the ICU or Stepdown Unit. All X had a length of stay in the Emergency
-Department greater than X hours, were on naloxone infusions. One also
-received octreotide. We did not calculate the inter-rater reliability
-because we obtained too few samples to accurately estimate Cohen\'s
-kappa. All records contained the fields needed to calculate the
-INTOXICATE risk score and inter-rater reliability.
-
-Conclusions: In this small sample, INTOXICATE identified all patients
-who required admission to the ICU, but predicted that some patients
-required ICU care when they did not, increasing ICU utilization. Our
-sample size was too small to calculate inter-rater reliability. Future
-work can do so on a larger sample.
-
+Conclusions: INTOXICATE did not recommend ICU admission in 33% of patients for whom the bedside toxicologist recommended ICU admission and recommended ICU admission in 57% of the patients for whom the bedside toxicologist recommended discharge. This increased ICU utilization by approximately 200% (from 21 to 44). There was no more than chance agreement between INTOXICATE and the recommendation of the patient on the bedside, suggesting that the two approaches use different criteria, which can reflect geographic variation in the type of poisoning and variation in care practices across health care systems.
