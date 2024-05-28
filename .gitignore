@@ -20,3 +20,5 @@ output/.DS_Store
 *.synctex(busy)
 *.blg
 writing/abstracts/~$stract.nacct.2024.docx
+data/mongodump/*
+!data/*.jsonl
