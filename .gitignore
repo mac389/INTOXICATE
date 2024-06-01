@@ -21,3 +21,6 @@ output/.DS_Store
 *.blg
 writing/abstracts/~$stract.nacct.2024.docx
 data/dots.snapshot.xlsx
+data/mongodump/*
+!data/*.jsonl
+data/~$snapshot.05062024.xlsx
