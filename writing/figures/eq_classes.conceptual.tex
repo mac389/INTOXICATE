@@ -1,0 +1,25 @@
+\documentclass[tikz]{standalone}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+
+\begin{document}
+
+% Draw a figure with two panels side by side. Each panel contains an axis centered at 0. Left has title "A" and right has title "B".
+
+\begin{tikzpicture}
+  \node[draw, rectangle, minimum width=5cm, minimum height=5cm] (A) at (0,0) {
+     \begin{axis}[title=A, axis lines=middle, xlabel=$x$, ylabel=$y$]
+       \addplot[domain=-2:2, samples=100] {x^2};
+     \end{axis}
+
+    };
+  \node[draw, rectangle, minimum width=5cm, minimum height=5cm] (B) at (6,0) 
+  {
+      \begin{axis}[title=B, axis lines=middle, xlabel=$x$, ylabel=$y$]
+        \addplot[domain=-2:2, samples=100] {x^3};
+      \end{axis}
+  };
+\end{tikzpicture}
+
+\end{document}
