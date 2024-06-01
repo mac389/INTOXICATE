@@ -1,0 +1,24 @@
+---
+title: Notebook for HICSS 2025
+author: "Aiden Peleg, Roland Zemla, Michael Chary"
+output: 
+  html_document:
+    keep_md: true
+---
+```{r setup-chunk, include=FALSE}
+knitr::opts_chunk$set(dev = "png",
+                      dpi = 300,
+                      echo = FALSE,
+                      cache = TRUE)
+
+library(jsonlite)
+library(dplyr)
+
+lines <- readLines("myfile.jsonl")
+lines <- lapply(lines, fromJSON)
+lines <- lapply(lines, unlist)
+x <- bind_rows(lines)
+```
+
+
+

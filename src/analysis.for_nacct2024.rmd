@@ -14,6 +14,7 @@ library(gt)
 library(irr)
 library(verification)
 library(ggplot2)
+library(gtsummary)
 library(cutpointr)
 
 df  <-  read_excel("../data/snapshot.05062024.xlsx", sheet = "INTOXICATE", range = cell_cols("A:O"))
@@ -35,6 +36,12 @@ xtab  <- xf %>%
  tabyl(`Actual Disposition`,`Predicted Disposition`)
 ```
 ```{r table, echo=FALSE, fig.cap="INTOXICATE Predicted vs Actual Disposition", fig.height=4, fig.width=6}
+
+
+xf %>%
+  filter(`Predicted Disposition` %in% c("ICU","Not ICU")) %>%
+  tbl_cross(`Actual Disposition`,`Predicted Disposition`, percent="col") %>%
+  bold_labels()
 
 xf %>%
   tabyl(`Actual Disposition`,`Predicted Disposition`) %>%
