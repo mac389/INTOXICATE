@@ -11,14 +11,24 @@ knitr::opts_chunk$set(dev = "png",
                       echo = FALSE,
                       cache = TRUE)
 
-library(jsonlite)
 library(dplyr)
+library(tidyjson)
+library(gtsummary)
 
-lines <- readLines("myfile.jsonl")
-lines <- lapply(lines, fromJSON)
-lines <- lapply(lines, unlist)
-x <- bind_rows(lines)
+patients <- readLines("../data/synthetic.snapshot.052982024.jsonl") %>%
+  spread_all() %>% 
+  as_tibble() %>%
+  mutate(across(everything(), ~gsub("[[:punct:]]", "",.)))
 ```
 
+
+```{r demographics}
+
+patients %>%
+  mutate_if(is.character, as.factor) %>%
+  tbl_strata(strata=risk,
+    .tbl_fun= ~ .x %>% tbl_summary(include = age.value))
+
+```
 
 
