@@ -1,0 +1,8 @@
+criteria: categorical
+values:
+  - name: Yes
+    representation: Yes
+    score: 7
+  - name: No
+    representation: No
+    score: 0

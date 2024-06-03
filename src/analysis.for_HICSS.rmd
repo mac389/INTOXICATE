@@ -15,19 +15,19 @@ library(dplyr)
 library(tidyjson)
 library(gtsummary)
 
-patients <- readLines("../data/synthetic.snapshot.052982024.jsonl") %>%
-  spread_all() %>% 
-  as_tibble() %>%
-  mutate(across(everything(), ~gsub("[[:punct:]]", "",.)))
+patients <- read_json("../data/synthetic.snapshot.06032024.json", simplifyVector=TRUE) %>%
+  select(presentation) 
+  # as_tibble() %>%
+  # mutate(across(everything(), ~gsub("[[:punct:]]", "",.)))
 ```
 
 
 ```{r demographics}
 
-patients %>%
-  mutate_if(is.character, as.factor) %>%
-  tbl_strata(strata=risk,
-    .tbl_fun= ~ .x %>% tbl_summary(include = age.value))
+# patients %>%
+#   mutate_if(is.character, as.factor) %>%
+#   tbl_strata(strata=risk,
+#     .tbl_fun= ~ .x %>% tbl_summary(include = age.value))
 
 ```
 

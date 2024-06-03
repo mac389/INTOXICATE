@@ -1,8 +1,0 @@
-- name: $\geq 14$
-  value: 0
-- name: 9-14
-  value: 3
-- name: 6-9
-  value: 6
-- name: $\leq 6$
-  value: 9
