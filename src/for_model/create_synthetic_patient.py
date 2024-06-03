@@ -1,44 +1,68 @@
-import os
 import random
+import os
 import uuid
 
-from slugify import slugify
 from yaml import safe_load
 
-'''
-1. Don't use absolute paths. They don't transfer well between systems. Use relative paths.
-2. Use os.path.join() to join paths. Unix, older Macs, and Windows use different path separators.
-'''
-
-
-project_path = os.path.join('..','..',) #   Relative to src/for_model 
+project_path = os.path.join('..', '..')
 DATA_PATH = os.path.join(project_path, 'data', 'for_model')
 
 PATH_TO_PREDICTIVE_VARIABLES = os.path.join(DATA_PATH, 'predictive_variables.yml')
 predictive_variables = safe_load(open(PATH_TO_PREDICTIVE_VARIABLES, 'r'))
 
-variable_numeric_range = os.path.join(DATA_PATH, 'variable_numeric_range.yml')
+name_to_score = {variable['value']: safe_load(open(os.path.join(DATA_PATH,
+                                f"{variable['value']}_score.yml"), 'r')) 
+                                for variable in predictive_variables}
 
-score = {variable['value']: {value['name']: value['value']
-         for value in safe_load(open(os.path.join(DATA_PATH, f"{variable['value']}_values.yml"), 'r'))}
-         for variable in predictive_variables}
+def simulate_patient_value(variable_name):
+    if variable_name == 'hr':
+        return random.randint(20, 240)
+    elif variable_name == 'sbp':
+        return random.randint(70, 240)
+    elif variable_name == 'gcs':
+        return random.randint(3, 15)
+    elif variable_name == 'age':
+        return random.randint(18, 100)
+    elif variable_name == 'intoxicant':
+        return random.choice(['Alcohol', 'Analgesic', 'Antidepressant', 'Street Drugs', 'Sedatives', 'CO, As, CN', 'Toxins NOS', 'Polysubstance'])
+    elif variable_name == 'second_diagnose':
+        return random.choice([True, False])
+    elif variable_name == 'cirrhosis':
+        return random.choice([True, False])
+    elif variable_name == 'dysrhythmia':
+        return random.choice([True, False])
+    elif variable_name == 'respiratory':
+        return random.choice([True, False])
+    else:
+        raise ValueError(f"Variable {variable_name} not found")
+
+
+def score_from_value(variable_name, variable_value):
+    relevant_variable = name_to_score[variable_name]
+    if relevant_variable['criteria'] == 'categorical':
+        payload = [item for item in relevant_variable['values'] if variable_value == item['name']]
+        if len(payload) == 0:
+            raise ValueError(f"Value {variable_value} not found in {variable_name}")
+        else:
+            return payload[0]['score']
+    elif relevant_variable['criteria'] == 'range':
+        payload = [item for item in relevant_variable['values'] if variable_value >= item['min'] and variable_value <= item['max']]
+        if len(payload) == 0:
+            raise ValueError(f"Value {variable_value} not found in range for {variable_name}")
+        else:
+            return payload[0]['score']
 
 
 def create_patient():
     patient = {}
+    patient['presentation'] = []
     for variable in predictive_variables:
-        variable_name = variable['value']
+        name = variable['value']
+        value = simulate_patient_value(name)
+        score = score_from_value(name, value)
+        patient['presentation'] += [{'name': name, 'score': score, 'value': value}]
 
-        value_numeric = random.int(variable_range[variable_name]['min'],
-                                   variable_name[variable_name]['max'])
-        value_name, value_score = random.choice(list(score[variable_name].items()))
-
-
-        patient[variable_name] = {}
-        patient[variable_name]['value'] = value_name
-        patient[variable_name]['score'] = value_score
-
-    patient['risk'] = sum([patient[variable_name]['score'] for variable_name in patient])
+    patient['risk'] = sum([feature['score'] for feature in patient['presentation']])
     patient['patient_id'] = str(uuid.uuid4())
 
     return patient
