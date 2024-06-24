@@ -1,0 +1,87 @@
+---
+title: "Supporting Material for NACCT 2024 Abstract"
+output : html_document
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(yardstick)
+library(gt)
+library(ggplot2)
+library(gtsummary)
+library(psych)
+
+df  <-  read_excel("../data/snapshot.05062024.xlsx", sheet = "INTOXICATE", range = cell_cols("A:O"))
+
+df <- df %>%
+  mutate(age_category = case_when(
+    Age < 12 ~ "Pediatric",
+    Age >= 12 & Age < 18 ~ "Adolescent",
+    Age >= 18 ~ "Adult"
+  ))
+
+xf <-  df %>%
+  mutate(`Actual Disposition`  = case_when(
+    `Actual Disposition` == "ICU" ~ "ICU",
+    `Actual Disposition` == "GMF" ~ "Not ICU",
+    `Actual Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"
+  ), 
+  `Predicted Disposition`  = case_when(
+    `Predicted Disposition` == "ICU" ~ "ICU",
+    `Predicted Disposition` == "GMF" ~ "Not ICU",
+    `Predicted Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"))
+```
+
+```{r demographics, echo=FALSE}
+
+df %>%
+  select(Age, Gender, `Actual Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`) %>%
+  filter(age_category != "Pediatric") %>%
+  tbl_summary(missing='no', by=age_category) %>%
+  add_p() %>%
+  bold_labels()
+
+
+```
+
+```{r predicted x actual disposition x age group, echo=FALSE}
+
+my_irr <- function(data, ...) {
+  ck  <-  cohen.kappa(x=cbind(data$`Actual Disposition`, data$`Predicted Disposition`))
+  dplyr::tibble(statistic = ck$kappa, p.value = ck$plevel)
+}
+
+xf %>%
+  filter(age_category != "Pediatric") %>%
+  select(`Actual Disposition`, `Predicted Disposition`, age_category) %>%
+    tbl_strata(strata = age_category, 
+     .tbl_fun = ~.x %>% tbl_cross(`Actual Disposition`, `Predicted Disposition`) %>% 
+      add_stat(fns=all_categorical() ~ my_irr) %>%
+      modify_header(list(statistic ~ "**Cohen's kappa**", p.value ~ "**p-value**"))  %>% bold_labels())
+
+
+xf %>%
+  filter(age_category != "Pediatric") %>%
+  select(`Actual Disposition`, `Predicted Disposition`, age_category) %>%
+    tbl_strata(strata = age_category, 
+     .tbl_fun = ~.x %>% tbl_cross(`Actual Disposition`, `Predicted Disposition`))
+```
+
+```{r subgroup analyses adult}
+
+xf %>%
+  filter(age_category == "Adult") %>%
+  select(`Actual Disposition`, `Predicted Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`, Pulse, SBP, Age) %>%
+    mutate(SBP=as.numeric(SBP), GCS = as.factor(GCS)) %>%
+    tbl_strata(strata = `Actual Disposition`, 
+      .tbl_fun = ~.x %>% tbl_summary(by='Predicted Disposition')%>% bold_labels() %>% add_p())
+
+
+
+```
