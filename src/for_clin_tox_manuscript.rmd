@@ -1,8 +1,9 @@
----
+f--
 title: "Supporting Material for NACCT 2024 Abstract"
 output : html_document
 fontsize: 12pt
 ---
+
 
 ```{r setup, include=FALSE, message=FALSE}
 library(tidyverse)
@@ -22,7 +23,8 @@ df <- df %>%
     Age < 12 ~ "Pediatric",
     Age >= 12 & Age < 18 ~ "Adolescent",
     Age >= 18 ~ "Adult"
-  ))
+  ), 
+  SBP = as.numeric(SBP))
 
 xf <-  df %>%
   mutate(`Actual Disposition`  = case_when(
@@ -41,7 +43,7 @@ xf <-  df %>%
 ```{r demographics, echo=FALSE}
 
 df %>%
-  select(Age, Gender, `Actual Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`) %>%
+  select(Age, Gender, Pulse, SBP, `Actual Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`) %>%
   filter(age_category != "Pediatric") %>%
   tbl_summary(missing='no', by=age_category) %>%
   add_p() %>%
