@@ -24,3 +24,5 @@ data/dots.snapshot.xlsx
 data/mongodump/*
 !data/*.jsonl
 data/~$snapshot.05062024.xlsx
+*\$*.xlsx
+writing/manuscripts/Clin Tox/~$Working - snapshot.05062024.xlsx
