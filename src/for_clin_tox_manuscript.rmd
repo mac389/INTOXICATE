@@ -1,6 +1,8 @@
 ---
 title: "Supporting Material for NACCT 2024 Abstract"
-output : html_document
+output : 
+  html_document:
+    keep_md: true
 fontsize: 12pt
 ---
 
@@ -14,7 +16,11 @@ library(gt)
 library(ggplot2)
 library(gtsummary)
 library(psych)
-
+library(pROC)
+knitr::opts_chunk$set(dev = "png",
+                      dpi = 300,
+                      echo = FALSE,
+                      cache = TRUE)
 df  <-  read_excel("../data/snapshot.05062024.xlsx", sheet = "INTOXICATE", range = cell_cols("A:U"))
 
 df <- df %>%
@@ -95,4 +101,35 @@ xf %>%
 ```
 
 
+```{r ROC, echo=FALSE}
+
+roc_obj  <- xf %>%
+  select(`INTOXICATE SCORE`, `Actual Disposition`) %>%
+  {roc(response = .$`Actual Disposition`, predictor = .$`INTOXICATE SCORE`)}
+
+# Plotting the ROC curve
+plot(roc_obj, main="ROC Curve", col="#1c61b6", lwd=2, xlab="1 - Specificity", ylab="Sensitivity")
+auc_value <- auc(roc_obj)
+text(0,0, paste("AUC =", round(auc_value, 2)), col="black", cex=1.2)
+
+
+# Identifying and plotting points
+optimal <- coords(roc_obj, "best", best.method="youden")
+specific_threshold <- 6  # Corrected for consistency with your legend
+
+closest_index <- which.min(abs(roc_obj$thresholds - specific_threshold))
+
+# Get the specificity and sensitivity at the closest threshold
+predefined_specificity <- roc_obj$specificities[closest_index]
+predefined_sensitivity <- roc_obj$sensitivities[closest_index]
+
+# Adding points to the plot
+points(optimal["specificity"], optimal["sensitivity"], col="red", pch=19, cex=1.5)  # Optimal point in red
+points(predefined_specificity, predefined_sensitivity, col="blue", pch=19, cex=1.5)  # Predefined point in blue
+
+# Adding text labels
+text(optimal["specificity"], optimal["sensitivity"], labels = paste("Optimal Thresh =", round(optimal["threshold"], 2)), pos = 2, cex = 1.2, col="red", adj=0.5)
+text(predefined_specificity, predefined_sensitivity, labels = paste("Thresh =", specific_threshold), pos = 4, cex = 1.2, col="blue")
+
+```
 
