@@ -14,43 +14,30 @@ name_to_score = {variable['value']: safe_load(open(os.path.join(DATA_PATH,
                                 f"{variable['value']}_score.yml"), 'r')) 
                                 for variable in predictive_variables}
 
+allowable_range = {variable['value']: variable['allowed_values'] for variable in predictive_variables}
+
+
 def simulate_patient_value(variable_name):
-    if variable_name == 'hr':
-        return random.randint(20, 240)
-    elif variable_name == 'sbp':
-        return random.randint(70, 240)
-    elif variable_name == 'gcs':
-        return random.randint(3, 15)
-    elif variable_name == 'age':
-        return random.randint(18, 100)
-    elif variable_name == 'intoxicant':
-        return random.choice(['Alcohol', 'Analgesic', 'Antidepressant', 'Street Drugs', 'Sedatives', 'CO, As, CN', 'Toxins NOS', 'Polysubstance'])
-    elif variable_name == 'second_diagnose':
-        return random.choice([True, False])
-    elif variable_name == 'cirrhosis':
-        return random.choice([True, False])
-    elif variable_name == 'dysrhythmia':
-        return random.choice([True, False])
-    elif variable_name == 'respiratory':
-        return random.choice([True, False])
+    if isinstance(allowable_range[variable_name], list):
+        return random.choice(allowable_range[variable_name])
+    elif isinstance(allowable_range[variable_name], dict):
+        min_value = allowable_range[variable_name]['min']
+        max_value = allowable_range[variable_name]['max']
+        return random.randint(min_value, max_value)
     else:
         raise ValueError(f"Variable {variable_name} not found")
 
-
 def score_from_value(variable_name, variable_value):
     relevant_variable = name_to_score[variable_name]
+    payload = []
     if relevant_variable['criteria'] == 'categorical':
         payload = [item for item in relevant_variable['values'] if variable_value == item['name']]
-        if len(payload) == 0:
-            raise ValueError(f"Value {variable_value} not found in {variable_name}")
-        else:
-            return payload[0]['score']
     elif relevant_variable['criteria'] == 'range':
         payload = [item for item in relevant_variable['values'] if variable_value >= item['min'] and variable_value <= item['max']]
-        if len(payload) == 0:
+    if len(payload) == 0:
             raise ValueError(f"Value {variable_value} not found in range for {variable_name}")
-        else:
-            return payload[0]['score']
+    else:
+        return payload[0]['score']
 
 
 def create_patient():
@@ -66,3 +53,7 @@ def create_patient():
     patient['patient_id'] = str(uuid.uuid4())
 
     return patient
+
+if __name__ == '__main__':
+    patient = create_patient()
+    print(patient)

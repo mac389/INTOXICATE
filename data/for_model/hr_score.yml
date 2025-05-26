@@ -2,7 +2,7 @@ criteria: range
 values:
   - name: "<75"
     representation: $<75$
-    min: 0
+    min: 60
     max: 74
     score: 0
   - name: "75-85"
@@ -23,5 +23,5 @@ values:
   - name: "<105"
     representation: $\geq 105$
     min: 105
-    max: 300
+    max: 200
     score: 4
