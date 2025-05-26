@@ -21,7 +21,7 @@ knitr::opts_chunk$set(dev = "png",
                       dpi = 300,
                       echo = FALSE,
                       cache = TRUE)
-df  <-  read_excel("../data/snapshot.05062024.xlsx", sheet = "INTOXICATE", range = cell_cols("A:U"))
+df  <-  read_excel("../data/snapshot.04192025.xlsx", sheet = "INTOXICATE", range = cell_cols("A:AC"))
 
 df <- df %>%
   mutate(age_category = case_when(
@@ -47,12 +47,14 @@ xf <-  df %>%
 ```{r demographics, echo=FALSE}
 
 df %>%
-  select(Age, Gender, `Actual Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`) %>%
-  filter(age_category != "Pediatric") %>%
+  select(Age, Gender, `Actual Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`, `Confirmed Exposure`) %>%
+  filter(age_category != "Pediatric",`Confirmed Exposure` != "N/A - Withdrawal") %>%
   tbl_summary(missing='no', by=age_category) %>%
   add_p() %>%
   bold_labels()
 
+xf  <-  xf %>%
+         filter(`Confirmed Exposure` != "N/A - Withdrawal", age_category != "Pediatric")
 
 ```
 
@@ -73,7 +75,6 @@ my_irr <- function(data, ...) {
 #
 
 xf %>%
-  filter(age_category != "Pediatric") %>%
   select(`Actual Disposition`, `Predicted Disposition`, age_category) %>%
     tbl_strata(strata = age_category, 
      .tbl_fun = ~.x %>% tbl_cross(`Actual Disposition`, `Predicted Disposition`))
@@ -82,7 +83,7 @@ xf %>%
 ```{r subgroup analyses adult}
 
 xf %>%
-  filter(age_category == "Adult") %>%
+  filter(age_category == "Adult", `Confirmed Exposure` != "N/A - Withdrawal") %>%
   select(`Actual Disposition`, `Predicted Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`, Pulse, SBP, Age) %>%
     mutate(SBP=as.numeric(SBP), GCS = as.factor(GCS)) %>%
     tbl_strata(strata = `Actual Disposition`, 
@@ -93,7 +94,7 @@ xf %>%
 ```{r analysis Adult, ICU Needs}
 
 xf %>%
-  filter(age_category == "Adult") %>%
+  filter(age_category == "Adult", `Confirmed Exposure` != "N/A - Withdrawal") %>%
   select(`Actual Disposition`,`Predicted Disposition`, `In Retrospect Required ICU`) %>% 
   filter(`Actual Disposition` == "ICU" | `Predicted Disposition` == "ICU", `In Retrospect Required ICU` !="Policy") %>%
   tbl_strata(strata = `In Retrospect Required ICU`, 
