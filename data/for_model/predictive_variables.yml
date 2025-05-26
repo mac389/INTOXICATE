@@ -1,18 +1,51 @@
 - type: variable name
   value: intoxicant
+  allowed_values:
+    - Alcohol
+    - Analgesic
+    - Antidepressant
+    - Street Drugs
+    - Sedatives
+    - "CO, As, CN"
+    - Toxins NOS
+    - Polysubstance
 - type: variable name
   value: age
+  allowed_values: 
+    min: 12
+    max: 100
 - type: variable name
   value: sbp
+  allowed_values:
+    min: 100
+    max: 140
 - type: variable name
   value: hr
+  allowed_values:
+    min: 60
+    max: 200
 - type: variable name
   value: gcs
+  allowed_values:
+    min: 3
+    max: 15
 - type: variable name
   value: second_diagnose
+  allowed_values:
+    - No
+    - Yes
 - type: variable name
   value: cirrhosis
+  allowed_values:
+    - No
+    - Yes
 - type: variable name
   value: dysrhythmia
+  allowed_values:
+    - No
+    - Yes
 - type: variable name
   value: respiratory
+  allowed_values:
+    - No
+    - Yes
