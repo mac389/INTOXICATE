@@ -15,6 +15,7 @@ name_to_score = {variable['value']: safe_load(open(os.path.join(DATA_PATH,
                                 for variable in predictive_variables}
 
 def simulate_cirrhosis(context):
+    # simple comment
     platelet = context.get('platelet', 200000)
     albumin = context.get('albumin', 4.0)
     ast = context.get('AST', 25)
