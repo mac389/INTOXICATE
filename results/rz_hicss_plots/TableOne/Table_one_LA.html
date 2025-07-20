@@ -1,0 +1,37 @@
+import pandas as pd
+from tableone import TableOne
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
+data = pd.read_csv('synthetic_patients.csv')
+
+rename_dict = {
+    'age': 'Age',
+    'sbp': 'Systolic BP',
+    'hr': 'Heart Rate',
+    'gcs': 'GCS Score',
+    'second_diagnose': 'Secondary Diagnosis',
+    'cirrhosis': 'Cirrhosis',
+    'dysrhythmia': 'Dysrhythmia',
+    'respiratory': 'Respiratory Score',
+    'risk': 'Risk Score'
+}
+
+columns = ['intoxicant', 'age', 'sbp', 'hr', 'gcs', 'second_diagnose', 'cirrhosis', 'dysrhythmia', 'respiratory', 'risk']
+categorical = ['intoxicant', 'second_diagnose', 'gcs','cirrhosis', 'dysrhythmia', 'respiratory', 'risk']
+continuous = ['age', 'sbp', 'hr']
+#rename= {'sbp': 'systolic Blood Pressure','hr': 'Heart Rate', 'gcs':'Glasgow Coma Scale (GCS)','second_diagnose': 'Secondary Diagnosis', 'risk': 'Risk Score', 'True': 'Yes', 'False':'No'}
+nonnormal = ['age']
+mytable = TableOne(data, columns=columns, categorical=categorical, continuous=continuous,  nonnormal=nonnormal, pval=False)
+
+print(mytable.tabulate(tablefmt = "fancy_grid"))
+
+mytable.to_excel('mytable.xlsx')
+
+with open("results/rz_hicss_plots/Table_one_LA.html", "w") as f:
+    f.write(table1.to_html())
+
+table1_as_df = table1.tableone.reset_index()
+table1_as_df.to_csv("results/Table_one_LA.csv", index=False)
+
