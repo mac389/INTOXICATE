@@ -1,0 +1,37 @@
+---
+title: "[placeholder] Demographics"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+library(dplyr)
+library(gt)
+library(tidyr)
+```
+
+```{r load-data}
+data <- read_excel("your_file.xls", sheet = 1)
+
+# Show first few rows
+head(data)
+```
+
+
+```{r demographics-table}
+summary_df <- data %>%
+  group_by(CategoryColumn) %>%
+  summarise(
+    Count = n(),
+    MeanValue = mean(NumericColumn, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+summary_df %>%
+  gt() %>%
+  tab_header(
+    title = "Summary Table",
+    subtitle = "Grouped Summary from Excel File"
+  )
+  ```
