@@ -35,4 +35,3 @@ with open(output_file, 'w') as f:
     json.dump(patients, f, indent=2)
 
 print(f" Saved {n_patients} synthetic patients to {output_file}")
-
