@@ -31,13 +31,13 @@ def simulate_patient_value(variable_name):
     elif variable_name == 'gcs':
         return np.round(np.random.normal(13, 2)) #find literature/ depends on intoxicant
     elif variable_name == 'cirrhosis':
-        return np.random.choice((False,True), p=[0.8, 0.2]) 
+        return bool(np.random.choice((False,True), p=[0.8, 0.2]))
     elif variable_name == 'second_diagnose':
-        return np.random.choice((False,True), p=[0.9, 0.1]) #find literature on this 
+        return bool(np.random.choice((False,True), p=[0.9, 0.1])) #find literature on this 
     elif variable_name == 'dysrhythmia':
-        return np.random.choice((False,True), p=[0.8, 0.2]) # find literature on this
+        return bool(np.random.choice((False,True), p=[0.8, 0.2])) # find literature on this
     elif variable_name == 'respiratory':
-        return np.random.choice((False,True), p=[0.8, 0.2]) # find literature on this
+        return bool(np.random.choice((False,True), p=[0.8, 0.2])) # find literature on this
     else:
         raise ValueError(f"Variable {variable_name} not found")
 
