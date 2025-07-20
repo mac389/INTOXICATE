@@ -23,11 +23,11 @@ def simulate_patient_value(variable_name):
     if variable_name == 'intoxicant':
         return random.choice(allowable_range[variable_name])
     elif variable_name == 'age':
-        return np.round(np.random.normal(35, 10)) #based on average age of pt w/ overdoses
+        return np.round(np.random.normal(35, 20)) #based on average age of pt w/ overdoses
     elif variable_name == 'sbp':
         return np.round(np.random.normal(120, 20)) #literature says it depends on intoxicant, hard to get an average for all intoxicants and is dose dependent. 
     elif variable_name == 'hr':
-        return np.round(np.random.normal(90, 20)) #literature says it depends on intoxicant
+        return np.round(np.random.normal(90, 20)) #literature says it depends on intoxicant - look at intoxicate score (what do you want its av to be)
     elif variable_name == 'gcs':
         return np.round(np.random.normal(13, 2)) #find literature/ depends on intoxicant
     elif variable_name == 'cirrhosis':
@@ -35,11 +35,20 @@ def simulate_patient_value(variable_name):
     elif variable_name == 'second_diagnose':
         return bool(np.random.choice((False,True), p=[0.7, 0.3])) #find literature on this - kind of hard to get a percentage
     elif variable_name == 'dysrhythmia':
-        return bool(np.random.choice((False,True), p=[0.9, 0.1])) # (Simpson et al., 2025)
+        return bool(np.random.choice((False,True), p=[0.9, 0.1])) # (Simpson et al., 2025) - only for opioids
     elif variable_name == 'respiratory':
-        return bool(np.random.choice((False,True), p=[0.9, 0.1])) #(Baldo & Rose, 2022)
+        return bool(np.random.choice((False,True), p=[0.9, 0.1])) #(Baldo & Rose, 2022) - only for opioids
     else:
         raise ValueError(f"Variable {variable_name} not found")
+
+#NPDS report cardiotoxicity 
+#percentage on general population if cant find on overdosed population
+# only plausible physiological conditions
+#GCS is ordinal scale - not continuous - use randint 
+    #inverse hypergeometric distr. - search it up
+#partial overlap of hr with poisoned pop. and normal population 
+# doesn't take into account othr types of dysrythmias 
+# 2 sets of yml files for continuous variables sbp, hr
 
 def score_from_value(variable_name, variable_value):
     relevant_variable = name_to_score[variable_name]
