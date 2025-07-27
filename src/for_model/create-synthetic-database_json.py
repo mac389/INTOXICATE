@@ -22,7 +22,7 @@ def flatten_patient(patient):
     return flat
 
 flat_patients = [flatten_patient(p) for p in patients]
-df_flat_patients = pd.DataFrame(flat_patients)
+df_flat_patients = pd.DataFrame(flat_patients).sort_values(['gcs','risk'], ascending=True, inplace=False)
 df_flat_patients.to_csv('synthetic_patients.csv')
 
 project_path = os.path.join('..', '..')
