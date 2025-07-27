@@ -36,12 +36,10 @@ Table_One = TableOne(
     missing=False
 )
 
-print(Table_One.tabulate(tablefmt="fancy_grid"))
 
-# Export as Excel
 Table_One.to_excel("results/Table_One.xlsx")
 
-# Export as HTML
+
 with open("results/Table_one_LA.html", "w") as f:
     f.write(Table_One.to_html())
 
