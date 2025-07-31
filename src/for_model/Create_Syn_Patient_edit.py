@@ -29,7 +29,7 @@ def simulate_patient_value(variable_name):
     elif variable_name == 'hr':
         return np.round(np.random.normal(90, 20)) #literature says it depends on intoxicant - look at intoxicate score (what do you want its av to be)
     elif variable_name == 'gcs':
-        return np.round(np.random.normal(13, 2)) #find literature/ depends on intoxicant
+        return int(np.clip(np.round(np.random.normal(13, 5)), 1, 15)) #find literature/ depends on intoxicant
     elif variable_name == 'cirrhosis':
         return bool(np.random.choice((False,True), p=[0.8, 0.2])) #(Bashir, Hoilat, Parul Sarwal, & Mehta, 2023)
     elif variable_name == 'second_diagnose':
