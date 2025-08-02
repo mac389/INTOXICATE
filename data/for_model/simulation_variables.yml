@@ -1,0 +1,59 @@
+- name: intoxicant
+  type: categorical
+
+- name: age
+  type: continuous
+  distribution:
+    type: normal
+    mean: 35
+    stddev: 20
+
+- name: sbp
+  type: continuous
+  distribution:
+    type: normal
+    mean: 120
+    stddev: 20
+
+- name: hr
+  type: continuous
+  distribution:
+    type: normal
+    mean: 90
+    stddev: 20
+
+- name: gcs
+  type: categorical
+  values: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+- name: cirrhosis
+  type: categorical
+  values:
+    - value: False
+      probability: 0.8
+    - value: True
+      probability: 0.2
+
+- name: second_diagnose
+  type: categorical
+  values:
+    - value: False
+      probability: 0.7
+    - value: True
+      probability: 0.3
+
+- name: dysrhythmia
+  type: categorical
+  values:
+    - value: False
+      probability: 0.9
+    - value: True
+      probability: 0.1
+
+- name: respiratory
+  type: categorical
+  values:
+    - value: False
+      probability: 0.9
+    - value: True
+      probability: 0.1
