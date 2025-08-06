@@ -57,7 +57,7 @@ def is_value_in_range(value, score_data):
             if min_val <= value <= max_val:
                 return True
     return False
-    
+
 def score_from_value(variable_name, variable_value):
     relevant_variable = name_to_score[variable_name]
 
