@@ -51,9 +51,13 @@ def simulate_patient_value_i(variable_name):
             ))
 def is_value_in_range(value, score_data):
     for entry in score_data.get("values", []):
-        if entry.get("min") <= value <= entry.get("max"):
-            return True
+        min_val = entry.get("min")
+        max_val = entry.get("max")
+        if min_val is not None and max_val is not None:
+            if min_val <= value <= max_val:
+                return True
     return False
+    
 def score_from_value(variable_name, variable_value):
     relevant_variable = name_to_score[variable_name]
 

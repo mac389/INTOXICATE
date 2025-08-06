@@ -16,7 +16,7 @@ n_patients = 10000
 patients =[]
 for i in range(n_patients):
     #patients += [csp.simulate_patient_value_i()]
-    patients.append(csp.simulate_patient_value_i())
+    patients.append(csp.create_patient())
 
 
 flat_patients = [flatten_patient(p) for p in patients]
@@ -33,7 +33,7 @@ os.makedirs(DATABASE_PATH, exist_ok=True)
 
 output_file = os.path.join(DATABASE_PATH, 'synthetic_patients.json')
 
-with open(output_file, 'w') as f:
-    json.dump(patients, f, indent=2)
+#with open(output_file, 'w') as f:
+    #json.dump(patients, f, indent=2)
 
 print(f" Saved {n_patients} synthetic patients to {output_file}")
