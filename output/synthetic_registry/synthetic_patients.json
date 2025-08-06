@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "presentation": [
+      {
+        "name": "intoxicant",
+        "score": 0,
+        "value": "Alcohol",
+        "range_flag": "out of range"
+      },
+      {
+        "name": "age",
+        "score": 2,
+        "value": 29,
+        "range_flag": "in range"
+      },
+      {
+        "name": "sbp",
+        "score": 1,
+        "value": 110,
+        "range_flag": "in range"
+      },
+      {
+        "name": "hr",
+        "score": 2,
+        "value": 91,
+        "range_flag": "in range"
+      },
+      {
+        "name": "gcs",
+        "score": 3,
+        "value": 9,
+        "range_flag": "in range"
+      },
+      {
+        "name": "second_diagnose",
+        "score": 0,
+        "value": 
