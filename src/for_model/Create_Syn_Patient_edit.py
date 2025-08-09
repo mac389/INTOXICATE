@@ -1,9 +1,9 @@
-import random
 import os
+import random
 import uuid
+
 import numpy as np
 from scipy.stats import truncnorm
-
 from yaml import safe_load
 
 DATA_PATH = os.path.join('..','..', 'data', 'for_model')
