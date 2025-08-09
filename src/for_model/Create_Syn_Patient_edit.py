@@ -1,9 +1,9 @@
-import random
 import os
+import random
 import uuid
+
 import numpy as np
 from scipy.stats import truncnorm
-
 from yaml import safe_load
 
 DATA_PATH = os.path.join('..','..', 'data', 'for_model')
@@ -105,28 +105,5 @@ def create_patient():
 
     return patient
 
-
-#commented out in case need it later
-# def simulate_patient_value(variable_name):
-#     if variable_name == 'intoxicant':
-#         return random.choice(allowable_range[variable_name])
-#     elif variable_name == 'age':
-#         return int(np.random.normal(35, 20)) #based on average age of pt w/ overdoses
-#     elif variable_name == 'sbp':
-#         return int(np.random.normal(120, 20)) #literature says it depends on intoxicant, hard to get an average for all intoxicants and is dose dependent. 
-#     elif variable_name == 'hr':
-#         return int(np.random.normal(90, 20)) #depends on intoxicant - look at intoxicate score (what do you want its av to be)
-#     elif variable_name == 'gcs':
-#         return int(np.clip(np.round(np.random.normal(13, 5)), 1, 15)) #find literature/ depends on intoxicant
-#     elif variable_name == 'cirrhosis':
-#         return bool(np.random.choice((False,True), p=[0.8, 0.2])) #(Bashir, Hoilat, Parul Sarwal, & Mehta, 2023)
-#     elif variable_name == 'second_diagnose':
-#         return bool(np.random.choice((False,True), p=[0.7, 0.3])) #find literature on this - kind of hard to get a percentage
-#     elif variable_name == 'dysrhythmia':
-#         return bool(np.random.choice((False,True), p=[0.9, 0.1])) # (Simpson et al., 2025) - only for opioids
-#     elif variable_name == 'respiratory':
-#         return bool(np.random.choice((False,True), p=[0.9, 0.1])) #(Baldo & Rose, 2022) - only for opioids
-#     else:
-#         raise ValueError(f"Variable {variable_name} not found")
 
 
