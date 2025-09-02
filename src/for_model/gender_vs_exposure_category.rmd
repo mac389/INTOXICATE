@@ -1,0 +1,66 @@
+---
+title: "Exposure by Gender Category Analysis"
+author: "Your Name"
+output:
+  tufte::tufte_handout: default
+  tufte::tufte_html: default
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(dplyr)
+library(ggplot2)
+library(readxl)
+library(knitr)
+library(stringr)
+library(gtsummary)
+library(gtExtras)
+library(ggthemes)
+library(scales)
+
+data <- read_excel("../../data/snapshot.05062024.deidentified.xlsx", sheet = "INTOXICATE")
+
+df <- data %>% 
+  filter(Gender %in% c("M","F")) %>%
+  group_by(`Exposure Category`) %>%
+  filter(n() >= 10) %>%
+  ungroup() 
+
+```
+```{r contingency-table, echo=FALSE}
+
+df %>%
+  tbl_cross(row=`Exposure Category`, col=`Gender`, percent="row") %>% bold_labels() %>% add_p()
+
+```
+```{r graph, echo=FALSE, fig.cap="Exposure Category"}
+
+df <- df %>%
+  mutate(`Exposure Category` = str_wrap(`Exposure Category`, 20))
+
+
+ggplot(df, aes(x = `Exposure Category`, fill = Gender)) +
+  geom_bar(position = position_dodge(width = 0.75), width = 0.6, color = "black") +
+  labs(
+    title = "Exposure Category by Gender",
+    x = NULL,
+    y = NULL
+  ) +
+  scale_fill_manual(values = c("gray20", "gray70")) +
+  theme_minimal(base_size = 12) +
+  theme_tufte() +
+  coord_flip() +  # <-- Flip axes
+  scale_y_continuous(breaks = breaks_width(1)) +  # <-- Only whole-number ticks on count axis
+  theme(
+    panel.grid.major.y = element_line(color = "grey80", size = 0.3),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    axis.text.x = element_text(angle = 0, hjust = 1, size = 10),
+    axis.ticks = element_blank(),
+    legend.position = "top",
+    legend.title = element_blank(),
+    plot.title = element_text(face = "bold", size = 14),
+    panel.border = element_blank()
+  )
+```

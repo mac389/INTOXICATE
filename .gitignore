@@ -26,3 +26,5 @@ data/mongodump/*
 data/~$snapshot.05062024.xlsx
 *\$*.xlsx
 writing/manuscripts/Clin Tox/~$Working - snapshot.05062024.xlsx
+
+src/for_clin_tox_manucript_cache/

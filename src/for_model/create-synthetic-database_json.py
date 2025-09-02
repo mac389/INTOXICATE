@@ -15,7 +15,6 @@ def flatten_patient(patient):
 n_patients = 10000
 patients =[]
 for i in range(n_patients):
-    #patients += [csp.simulate_patient_value_i()]
     patients.append(csp.create_patient())
 
 
