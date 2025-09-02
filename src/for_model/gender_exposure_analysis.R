@@ -11,6 +11,7 @@ library(dplyr)
 library(ggplot2)
 library(readxl)
 library(knitr)
+library(stringr) # for wrapping long labels
 
 # 2. Load Excel Data (update path if needed)
 data <- read_excel("Downloads/Tox Book.v2.xlsx", sheet = "INTOXICATE")
@@ -41,15 +42,10 @@ collapse_categories <- function(data) {
 
 # 3c. Reorder Categories
 reorder_categories <- function(data) {
-  # Get unique categories in order of appearance
   categories <- unique(data$`Exposure Category`)
-  
-  # Move "Other(...)" second-to-last, "Unknown" last
   other_cat <- grep("^Other", categories, value = TRUE)
   categories <- categories[!categories %in% c(other_cat, "Unknown")]
   categories <- c(categories, other_cat, "Unknown")
-  
-  # Apply ordering
   data$`Exposure Category` <- factor(data$`Exposure Category`, levels = categories)
   return(data)
 }
@@ -65,7 +61,6 @@ create_contingency_table <- function(clean_data) {
 # 5. Chi-square + Fisher's Exact Test (simulated)
 perform_tests <- function(cont_table) {
   chi <- chisq.test(cont_table)
-  
   low_expected <- sum(chi$expected < 5)
   if (low_expected > 0) {
     message("⚠️ Warning: Some expected frequencies are < 5. Chi-square may be unreliable.")
@@ -85,22 +80,28 @@ perform_tests <- function(cont_table) {
   return(list(chi_result = chi, fisher_result = fisher, summary = summary_df))
 }
 
-# 6. Visualization
+# 6. Visualization (wrapped labels + cleaner bar spacing)
 create_visualization <- function(data) {
+  # Wrap long labels at ~20 characters
+  data <- data %>%
+    mutate(`Exposure Category` = str_wrap(as.character(`Exposure Category`), width = 20))
+  
+  # Count plot
   p1 <- ggplot(data, aes(x = `Exposure Category`, fill = Gender)) +
-    geom_bar(position = "dodge") +
-    theme_minimal() +
+    geom_bar(position = position_dodge(width = 0.8), width = 0.7) +
+    theme_minimal(base_size = 12) +
     labs(title = "Exposure Category by Gender (Count)", 
          x = "Exposure Category", y = "Count") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 10))
   print(p1)
   
+  # Proportion plot
   p2 <- ggplot(data, aes(x = `Exposure Category`, fill = Gender)) +
-    geom_bar(position = "fill") +
-    theme_minimal() +
+    geom_bar(position = "fill", width = 0.7) +
+    theme_minimal(base_size = 12) +
     labs(title = "Exposure Category by Gender (Proportion)", 
          x = "Exposure Category", y = "Proportion") +
-    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 10))
   print(p2)
   
   return(list(count_plot = p1, proportion_plot = p2))
@@ -129,5 +130,7 @@ run_analysis <- function() {
 results <- run_analysis()
 
 # 9. Optional Views
-results$summary    # Clean summary table
+results$summary             # Clean summary table
 results$contingency_table
+results$plots$count_plot
+results$plots$proportion_plot
