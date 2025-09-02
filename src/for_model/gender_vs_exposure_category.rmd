@@ -31,7 +31,10 @@ df <- data %>%
 ```{r contingency-table, echo=FALSE}
 
 df %>%
-  tbl_cross(row=`Exposure Category`, col=`Gender`, percent="row") %>% bold_labels() %>% add_p()
+  tbl_cross(row=`Exposure Category`, col=`Gender`, percent="row") %>% 
+  bold_labels() %>% 
+  add_p() %>% 
+  as_kable()
 
 ```
 ```{r graph, echo=FALSE, fig.cap="Exposure Category"}
@@ -53,8 +56,8 @@ ggplot(df, aes(x = `Exposure Category`, fill = Gender)) +
   coord_flip() +  # <-- Flip axes
   scale_y_continuous(breaks = breaks_width(1)) +  # <-- Only whole-number ticks on count axis
   theme(
-    panel.grid.major.y = element_line(color = "grey80", size = 0.3),
-    panel.grid.major.x = element_blank(),
+    panel.grid.major.x = element_line(color = "grey80", size = 0.3),
+    panel.grid.major.y = element_blank(),
     panel.grid.minor = element_blank(),
     axis.text.x = element_text(angle = 0, hjust = 1, size = 10),
     axis.ticks = element_blank(),
