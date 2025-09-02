@@ -6,537 +6,128 @@
 # Gender by Ingestion Analysis - Starter Exercise
 # Chi-square test to examine relationship between gender and exposure categories
 
-# Load required libraries
+# 1. Load Required Libraries
 library(dplyr)
 library(ggplot2)
+library(readxl)
 library(knitr)
 
-# Step 1: Load your data from Excel
-library(readxl)
-# Replace 'your_file.xlsx' with actual filename
-# data <- read_excel("your_file.xlsx", sheet = "Dashboard")
+# 2. Load Excel Data (update path if needed)
+data <- read_excel("Downloads/Tox Book.v2.xlsx", sheet = "INTOXICATE")
 
-# Step 2: Explore the data structure
-# Uncomment these lines once you load your data
-# str(data)
-# head(data)
-# summary(data)
-
-# Step 3: Check column names for gender and ingestion variables
-# Look for columns that might represent gender (M/F, Male/Female, etc.)
-# and ingestion/exposure categories
-# colnames(data)
-
-# Step 4: Clean and prepare data
-# Gender is in Column C (values: M or F)
-# Exposure Category is in Column D (8 categories: Alcohol, Analgesic, Antidepressants, Street Drugs, Sedatives, CO/As/CN, Unknown, Combination)
-
+# 3. Clean Data
 clean_data <- function(data) {
-  # Remove rows with missing gender or exposure data
-  clean <- data %>%
-    filter(!is.na(Gender) & !is.na(`Exposure Category`)) %>%
-    # Standardize gender coding 
+  data_clean <- data %>%
+    filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
     mutate(
-      Gender = case_when(
-        Gender == "M" ~ "Male",
-        Gender == "F" ~ "Female",
-        TRUE ~ as.character(Gender)
-      ),
-      # Clean up exposure categories if needed
-      `Exposure Category` = trimws(`Exposure Category`)  # Remove any extra whitespace
-    )
-  
-  return(clean)
+      Gender = trimws(Gender),
+      `Exposure Category` = trimws(`Exposure Category`)
+    ) %>%
+    filter(Gender %in% c("M", "F"))
+  return(data_clean)
 }
 
-# Step 5: Create contingency table
-create_contingency_table <- function(data) {
-  # Create cross-tabulation using correct column names
-  cont_table <- table(data$Gender, data# Gender by Ingestion Analysis - Starter Exercise
-# Chi-square test to examine relationship between gender and exposure categories
-
-# Load required libraries
-library(dplyr)
-library(ggplot2)
-library(knitr)
-
-# Step 1: Load your data from Excel
-library(readxl)
-# Replace 'your_file.xlsx' with actual filename
-# data <- read_excel("your_file.xlsx", sheet = "Dashboard")
-
-# Step 2: Explore the data structure
-# Uncomment these lines once you load your data
-# str(data)
-# head(data)
-# summary(data)
-
-# Step 3: Check column names for gender and ingestion variables
-# Look for columns that might represent gender (M/F, Male/Female, etc.)
-# and ingestion/exposure categories
-# colnames(data)
-
-# Step 4: Clean and prepare data
-# Gender is in Column C (values: M or F)
-# Exposure Category is in Column D (8 categories: Alcohol, Analgesic, Antidepressants, Street Drugs, Sedatives, CO/As/CN, Unknown, Combination)
-
-clean_data <- function(data) {
-  # Remove rows with missing gender or exposure data
-  clean <- data %>%
-    filter(!is.na(Gender) & !is.na(`Exposure Category`)) %>%
-    # Standardize gender coding 
-    mutate(
-      Gender = case_when(
-        Gender == "M" ~ "Male",
-        Gender == "F" ~ "Female",
-        TRUE ~ as.character(Gender)
-      ),
-      # Clean up exposure categories if needed
-      `Exposure Category` = trimws(`Exposure Category`)  # Remove any extra whitespace
-    )
-  
-  return(clean)
+# 3b. Collapse Rare Categories
+collapse_categories <- function(data) {
+  rare_cats <- c("Antipsychotic", "Chlorine Gas", "clorox bleach", "Sedative (Combination)")
+  data <- data %>%
+    mutate(`Exposure Category` = ifelse(
+      `Exposure Category` %in% rare_cats,
+      paste0("Other (", paste(rare_cats, collapse = ", "), ")"),
+      `Exposure Category`
+    ))
+  return(data)
 }
 
-# Step 5: Create contingency table
-Exposure Category`)
+# 3c. Reorder Categories
+reorder_categories <- function(data) {
+  # Get unique categories in order of appearance
+  categories <- unique(data$`Exposure Category`)
   
-  # Print the table
-  print("Contingency Table: Gender by Exposure Category")
-  print(cont_table)
+  # Move "Other(...)" second-to-last, "Unknown" last
+  other_cat <- grep("^Other", categories, value = TRUE)
+  categories <- categories[!categories %in% c(other_cat, "Unknown")]
+  categories <- c(categories, other_cat, "Unknown")
   
-  # Convert to data frame for easier viewing
-  cont_df <- as.data.frame.matrix(cont_table)
-  print(knitr::kable(cont_df, caption = "Gender by Exposure Category"))
-  
+  # Apply ordering
+  data$`Exposure Category` <- factor(data$`Exposure Category`, levels = categories)
+  return(data)
+}
+
+# 4. Create Contingency Table
+create_contingency_table <- function(clean_data) {
+  cont_table <- table(clean_data$`Exposure Category`, clean_data$Gender)
+  print(knitr::kable(as.data.frame.matrix(cont_table),
+                     caption = "Exposure Category by Gender"))
   return(cont_table)
 }
 
-# Step 6: Handle zero categories
-examine_zero_categories <- function(cont_table) {
-  # Check for categories with zero counts
-  zero_counts <- which(cont_table == 0, arr.ind = TRUE)
+# 5. Chi-square + Fisher's Exact Test (simulated)
+perform_tests <- function(cont_table) {
+  chi <- chisq.test(cont_table)
   
-  if(nrow(zero_counts) > 0) {
-    print("Categories with zero counts:")
-    print(zero_counts)
-    print("Consider combining categories or excluding empty ones")
+  low_expected <- sum(chi$expected < 5)
+  if (low_expected > 0) {
+    message("⚠️ Warning: Some expected frequencies are < 5. Chi-square may be unreliable.")
   }
   
-  # Show row and column totals
-  print("Row totals (by gender):")
-  print(rowSums(cont_table))
-  print("Column totals (by exposure):")
-  print(colSums(cont_table))
+  fisher <- fisher.test(cont_table, simulate.p.value = TRUE, B = 10000)
   
-  return(zero_counts)
+  summary_df <- data.frame(
+    Test = c("Chi-square", "Fisher (Simulated)"),
+    Statistic = c(round(chi$statistic, 3), NA),
+    DF = c(chi$parameter, NA),
+    P_Value = c(signif(chi$p.value, 4), signif(fisher$p.value, 4))
+  )
+  
+  print(knitr::kable(summary_df, caption = "Test Results Summary"))
+  
+  return(list(chi_result = chi, fisher_result = fisher, summary = summary_df))
 }
 
-# Step 7: Perform chi-square test
-perform_chi_square <- function(cont_table) {
-  # Chi-square test
-  chi_result <- chisq.test(cont_table)
-  
-  print("Chi-square Test Results:")
-  print(chi_result)
-  
-  # Check assumptions
-  expected_freq <- chi_result$expected
-  low_expected <- sum(expected_freq < 5)
-  
-  print(paste("Cells with expected frequency < 5:", low_expected))
-  
-  if(low_expected > 0) {
-    print("Warning: Some expected frequencies < 5. Consider:")
-    print("1. Combining categories")
-    print("2. Using Fisher's exact test")
-    print("3. Monte Carlo simulation")
-  }
-  
-  return(chi_result)
-}
-
-# Step 8: Alternative tests if assumptions violated
-perform_alternative_tests <- function(data) {
-  # Fisher's exact test (for small samples)
-  fisher_result <- fisher.test(table(data$Gender, data# Gender by Ingestion Analysis - Starter Exercise
-# Chi-square test to examine relationship between gender and exposure categories
-
-# Load required libraries
-library(dplyr)
-library(ggplot2)
-library(knitr)
-
-# Step 1: Load your data from Excel
-library(readxl)
-# Replace 'your_file.xlsx' with actual filename
-# data <- read_excel("your_file.xlsx", sheet = "Dashboard")
-
-# Step 2: Explore the data structure
-# Uncomment these lines once you load your data
-# str(data)
-# head(data)
-# summary(data)
-
-# Step 3: Check column names for gender and ingestion variables
-# Look for columns that might represent gender (M/F, Male/Female, etc.)
-# and ingestion/exposure categories
-# colnames(data)
-
-# Step 4: Clean and prepare data
-# Gender is in Column C (values: M or F)
-# Exposure Category is in Column D (8 categories: Alcohol, Analgesic, Antidepressants, Street Drugs, Sedatives, CO/As/CN, Unknown, Combination)
-
-clean_data <- function(data) {
-  # Remove rows with missing gender or exposure data
-  clean <- data %>%
-    filter(!is.na(Gender) & !is.na(`Exposure Category`)) %>%
-    # Standardize gender coding 
-    mutate(
-      Gender = case_when(
-        Gender == "M" ~ "Male",
-        Gender == "F" ~ "Female",
-        TRUE ~ as.character(Gender)
-      ),
-      # Clean up exposure categories if needed
-      `Exposure Category` = trimws(`Exposure Category`)  # Remove any extra whitespace
-    )
-  
-  return(clean)
-}
-
-# Step 5: Create contingency table
-create_contingency_table <- function(data) {
-  # Create cross-tabulation using correct column names
-  cont_table <- table(data$Gender, data# Gender by Ingestion Analysis - Starter Exercise
-# Chi-square test to examine relationship between gender and exposure categories
-
-# Load required libraries
-library(dplyr)
-library(ggplot2)
-library(knitr)
-
-# Step 1: Load your data from Excel
-library(readxl)
-# Replace 'your_file.xlsx' with actual filename
-# data <- read_excel("your_file.xlsx", sheet = "Dashboard")
-
-# Step 2: Explore the data structure
-# Uncomment these lines once you load your data
-# str(data)
-# head(data)
-# summary(data)
-
-# Step 3: Check column names for gender and ingestion variables
-# Look for columns that might represent gender (M/F, Male/Female, etc.)
-# and ingestion/exposure categories
-# colnames(data)
-
-# Step 4: Clean and prepare data
-# Gender is in Column C (values: M or F)
-# Exposure Category is in Column D (8 categories: Alcohol, Analgesic, Antidepressants, Street Drugs, Sedatives, CO/As/CN, Unknown, Combination)
-
-clean_data <- function(data) {
-  # Remove rows with missing gender or exposure data
-  clean <- data %>%
-    filter(!is.na(Gender) & !is.na(`Exposure Category`)) %>%
-    # Standardize gender coding 
-    mutate(
-      Gender = case_when(
-        Gender == "M" ~ "Male",
-        Gender == "F" ~ "Female",
-        TRUE ~ as.character(Gender)
-      ),
-      # Clean up exposure categories if needed
-      `Exposure Category` = trimws(`Exposure Category`)  # Remove any extra whitespace
-    )
-  
-  return(clean)
-}
-
-# Step 5: Create contingency table
-Exposure Category`)
-  
-  # Print the table
-  print("Contingency Table: Gender by Exposure Category")
-  print(cont_table)
-  
-  # Convert to data frame for easier viewing
-  cont_df <- as.data.frame.matrix(cont_table)
-  print(knitr::kable(cont_df, caption = "Gender by Exposure Category"))
-  
-  return(cont_table)
-}
-
-# Step 6: Handle zero categories
-examine_zero_categories <- function(cont_table) {
-  # Check for categories with zero counts
-  zero_counts <- which(cont_table == 0, arr.ind = TRUE)
-  
-  if(nrow(zero_counts) > 0) {
-    print("Categories with zero counts:")
-    print(zero_counts)
-    print("Consider combining categories or excluding empty ones")
-  }
-  
-  # Show row and column totals
-  print("Row totals (by gender):")
-  print(rowSums(cont_table))
-  print("Column totals (by exposure):")
-  print(colSums(cont_table))
-  
-  return(zero_counts)
-}
-
-# Step 7: Perform chi-square test
-perform_chi_square <- function(cont_table) {
-  # Chi-square test
-  chi_result <- chisq.test(cont_table)
-  
-  print("Chi-square Test Results:")
-  print(chi_result)
-  
-  # Check assumptions
-  expected_freq <- chi_result$expected
-  low_expected <- sum(expected_freq < 5)
-  
-  print(paste("Cells with expected frequency < 5:", low_expected))
-  
-  if(low_expected > 0) {
-    print("Warning: Some expected frequencies < 5. Consider:")
-    print("1. Combining categories")
-    print("2. Using Fisher's exact test")
-    print("3. Monte Carlo simulation")
-  }
-  
-  return(chi_result)
-}
-
-Exposure Category`))
-  print("Fisher's Exact Test:")
-  print(fisher_result)
-  
-  # If you want to try Monte Carlo simulation
-  # chi_mc <- chisq.test(table(data$Gender, data# Gender by Ingestion Analysis - Starter Exercise
-# Chi-square test to examine relationship between gender and exposure categories
-
-# Load required libraries
-library(dplyr)
-library(ggplot2)
-library(knitr)
-
-# Step 1: Load your data from Excel
-library(readxl)
-# Replace 'your_file.xlsx' with actual filename
-# data <- read_excel("your_file.xlsx", sheet = "Dashboard")
-
-# Step 2: Explore the data structure
-# Uncomment these lines once you load your data
-# str(data)
-# head(data)
-# summary(data)
-
-# Step 3: Check column names for gender and ingestion variables
-# Look for columns that might represent gender (M/F, Male/Female, etc.)
-# and ingestion/exposure categories
-# colnames(data)
-
-# Step 4: Clean and prepare data
-# Gender is in Column C (values: M or F)
-# Exposure Category is in Column D (8 categories: Alcohol, Analgesic, Antidepressants, Street Drugs, Sedatives, CO/As/CN, Unknown, Combination)
-
-clean_data <- function(data) {
-  # Remove rows with missing gender or exposure data
-  clean <- data %>%
-    filter(!is.na(Gender) & !is.na(`Exposure Category`)) %>%
-    # Standardize gender coding 
-    mutate(
-      Gender = case_when(
-        Gender == "M" ~ "Male",
-        Gender == "F" ~ "Female",
-        TRUE ~ as.character(Gender)
-      ),
-      # Clean up exposure categories if needed
-      `Exposure Category` = trimws(`Exposure Category`)  # Remove any extra whitespace
-    )
-  
-  return(clean)
-}
-
-# Step 5: Create contingency table
-create_contingency_table <- function(data) {
-  # Create cross-tabulation using correct column names
-  cont_table <- table(data$Gender, data# Gender by Ingestion Analysis - Starter Exercise
-# Chi-square test to examine relationship between gender and exposure categories
-
-# Load required libraries
-library(dplyr)
-library(ggplot2)
-library(knitr)
-
-# Step 1: Load your data from Excel
-library(readxl)
-# Replace 'your_file.xlsx' with actual filename
-# data <- read_excel("your_file.xlsx", sheet = "Dashboard")
-
-# Step 2: Explore the data structure
-# Uncomment these lines once you load your data
-# str(data)
-# head(data)
-# summary(data)
-
-# Step 3: Check column names for gender and ingestion variables
-# Look for columns that might represent gender (M/F, Male/Female, etc.)
-# and ingestion/exposure categories
-# colnames(data)
-
-# Step 4: Clean and prepare data
-# Gender is in Column C (values: M or F)
-# Exposure Category is in Column D (8 categories: Alcohol, Analgesic, Antidepressants, Street Drugs, Sedatives, CO/As/CN, Unknown, Combination)
-
-clean_data <- function(data) {
-  # Remove rows with missing gender or exposure data
-  clean <- data %>%
-    filter(!is.na(Gender) & !is.na(`Exposure Category`)) %>%
-    # Standardize gender coding 
-    mutate(
-      Gender = case_when(
-        Gender == "M" ~ "Male",
-        Gender == "F" ~ "Female",
-        TRUE ~ as.character(Gender)
-      ),
-      # Clean up exposure categories if needed
-      `Exposure Category` = trimws(`Exposure Category`)  # Remove any extra whitespace
-    )
-  
-  return(clean)
-}
-
-# Step 5: Create contingency table
-Exposure Category`)
-  
-  # Print the table
-  print("Contingency Table: Gender by Exposure Category")
-  print(cont_table)
-  
-  # Convert to data frame for easier viewing
-  cont_df <- as.data.frame.matrix(cont_table)
-  print(knitr::kable(cont_df, caption = "Gender by Exposure Category"))
-  
-  return(cont_table)
-}
-
-# Step 6: Handle zero categories
-examine_zero_categories <- function(cont_table) {
-  # Check for categories with zero counts
-  zero_counts <- which(cont_table == 0, arr.ind = TRUE)
-  
-  if(nrow(zero_counts) > 0) {
-    print("Categories with zero counts:")
-    print(zero_counts)
-    print("Consider combining categories or excluding empty ones")
-  }
-  
-  # Show row and column totals
-  print("Row totals (by gender):")
-  print(rowSums(cont_table))
-  print("Column totals (by exposure):")
-  print(colSums(cont_table))
-  
-  return(zero_counts)
-}
-
-# Step 7: Perform chi-square test
-perform_chi_square <- function(cont_table) {
-  # Chi-square test
-  chi_result <- chisq.test(cont_table)
-  
-  print("Chi-square Test Results:")
-  print(chi_result)
-  
-  # Check assumptions
-  expected_freq <- chi_result$expected
-  low_expected <- sum(expected_freq < 5)
-  
-  print(paste("Cells with expected frequency < 5:", low_expected))
-  
-  if(low_expected > 0) {
-    print("Warning: Some expected frequencies < 5. Consider:")
-    print("1. Combining categories")
-    print("2. Using Fisher's exact test")
-    print("3. Monte Carlo simulation")
-  }
-  
-  return(chi_result)
-}
-
-Exposure Category`), 
-  #                      simulate.p.value = TRUE, B = 10000)
-  # print("Chi-square with Monte Carlo simulation:")
-  # print(chi_mc)
-}
-
-# Step 9: Visualize the relationship
+# 6. Visualization
 create_visualization <- function(data) {
-  # Bar plot
   p1 <- ggplot(data, aes(x = `Exposure Category`, fill = Gender)) +
     geom_bar(position = "dodge") +
     theme_minimal() +
-    labs(title = "Distribution of Gender by Exposure Category",
-         x = "Exposure Category",
-         y = "Count",
-         fill = "Gender") +
+    labs(title = "Exposure Category by Gender (Count)", 
+         x = "Exposure Category", y = "Count") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  
   print(p1)
   
-  # Proportional bar plot
   p2 <- ggplot(data, aes(x = `Exposure Category`, fill = Gender)) +
     geom_bar(position = "fill") +
     theme_minimal() +
-    labs(title = "Proportion of Gender by Exposure Category",
-         x = "Exposure Category",
-         y = "Proportion",
-         fill = "Gender") +
+    labs(title = "Exposure Category by Gender (Proportion)", 
+         x = "Exposure Category", y = "Proportion") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1))
-  
   print(p2)
+  
+  return(list(count_plot = p1, proportion_plot = p2))
 }
 
-# Step 10: Main analysis function
-run_gender_ingestion_analysis <- function(data) {
-  # Clean data
-  clean_data_result <- clean_data(data)
-  
-  # Create contingency table
-  cont_table <- create_contingency_table(clean_data_result)
-  
-  # Examine zero categories
-  zero_cats <- examine_zero_categories(cont_table)
-  
-  # Perform chi-square test
-  chi_result <- perform_chi_square(cont_table)
-  
-  # Create visualizations
-  create_visualization(clean_data_result)
-  
-  # If assumptions violated, run alternative tests
-  if(any(chi_result$expected < 5)) {
-    perform_alternative_tests(clean_data_result)
-  }
+# 7. Main Function
+run_analysis <- function() {
+  cleaned <- clean_data(data)
+  collapsed <- collapse_categories(cleaned)
+  reordered <- reorder_categories(collapsed)
+  cont_table <- create_contingency_table(reordered)
+  test_results <- perform_tests(cont_table)
+  plots <- create_visualization(reordered)
   
   return(list(
+    cleaned_data = reordered,
     contingency_table = cont_table,
-    chi_square_result = chi_result,
-    clean_data = clean_data_result
+    chi_result = test_results$chi_result,
+    fisher_result = test_results$fisher_result,
+    summary = test_results$summary,
+    plots = plots
   ))
 }
 
-# Example usage (uncomment and modify once you have your data):
-# results <- run_gender_ingestion_analysis(your_data)
+# 8. Run Analysis
+results <- run_analysis()
 
-# Debugging tips:
-# 1. Start by examining your column names: colnames(data)
-# 2. Check unique values: unique(data$gender), unique(data$exposure_category)
-# 3. Look for missing data: sum(is.na(data$gender)), sum(is.na(data$exposure_category))
-# 4. If you get errors, check data types: class(data$gender), class(data$exposure_category)
+# 9. Optional Views
+results$summary    # Clean summary table
+results$contingency_table
