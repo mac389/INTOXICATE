@@ -1,6 +1,6 @@
 "Add exposure by gender category chi-square analysis
 
-- Initial starter exercise for examining relationship between gender and exposure types
+- Initial exercise for examining relationship between gender and exposure types
 - Includes contingency tables, chi-square test, and visualizations
 - Handles zero categories and assumption checking"
 # Ingestion by Gender Analysis - Starter Exercise
