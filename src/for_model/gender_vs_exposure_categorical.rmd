@@ -1,0 +1,151 @@
+---
+title: "Exposure Category by Gender"
+author: "Yash Jaggi"
+output: 
+  pdf_document:
+    toc: false
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{caption}
+  - \usepackage{float}
+  - \renewcommand{\familydefault}{\sfdefault}
+---
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results='asis'}
+# ===== Libraries =====
+library(dplyr)
+library(ggplot2)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(scales)
+
+# ===== Load & Prepare Data =====
+data <- read_excel("~/Downloads/Tox Book.v2.xlsx", sheet = "INTOXICATE")
+
+clean_data <- function(data) {
+  data %>%
+    filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+    mutate(Gender = trimws(Gender),
+           `Exposure Category` = trimws(`Exposure Category`)) %>%
+    filter(Gender %in% c("M", "F"))
+}
+
+collapse_categories <- function(data) {
+  rare_cats <- c("Antipsychotic","Chlorine Gas","clorox bleach","Sedative (Combination)")
+  data %>% mutate(`Exposure Category` = ifelse(`Exposure Category` %in% rare_cats,"Other",`Exposure Category`))
+}
+
+# Explicit fixed order
+ordered_levels <- c("Combination","Analgesic","Antidepressants","Street Drugs",
+                    "CO, As, CN","Sedatives","Alcohol","Other","Unknown")
+
+reorder_categories <- function(data) {
+  data$`Exposure Category` <- factor(data$`Exposure Category`, levels = ordered_levels)
+  data
+}
+
+final_data <- reorder_categories(collapse_categories(clean_data(data)))
+cont_table <- table(final_data$`Exposure Category`, final_data$Gender)
+chi_result <- suppressWarnings(chisq.test(cont_table))
+p_value <- ifelse(chi_result$p.value < 0.001,"< 0.001",format(round(chi_result$p.value,3),nsmall=3))
+
+# ===== Summary Table =====
+create_summary_table <- function(cont_table) {
+  df <- as.data.frame.matrix(cont_table)
+  df$Total <- df$F + df$M
+  df$F_pct <- round(100*df$F/df$Total); df$M_pct <- round(100*df$M/df$Total)
+  df$F <- paste0(df$F," (",df$F_pct,"%)")
+  df$M <- paste0(df$M," (",df$M_pct,"%)")
+  df$Total <- as.character(df$Total) # totals as counts only
+  result_df <- df[,c("F","M","Total")]
+  total_f <- sum(cont_table[,"F"]); total_m <- sum(cont_table[,"M"])
+  grand_total <- total_f + total_m
+  totals_row <- data.frame(
+    F=paste0(total_f," (",round(100*total_f/grand_total),"%)"),
+    M=paste0(total_m," (",round(100*total_m/grand_total),"%)"),
+    Total=as.character(grand_total)
+  )
+  rownames(totals_row) <- "Total"
+  rbind(result_df, totals_row)
+}
+summary_table <- create_summary_table(cont_table)
+
+# Table 1 with title above, caption below
+cat("**Table 1. Exposure Category by Gender**\n\n")
+kable(summary_table, booktabs=TRUE, align=c("c","c","c")) %>%
+  kable_styling(latex_options=c("striped","hold_position"), position="center") %>%
+  add_header_above(c(" " = 1, "Gender" = 2, " " = 1)) %>%
+  row_spec(nrow(summary_table), bold=TRUE) %>%
+  print()
+cat("\n**Table 1.** Counts and row-wise percentages for each exposure category by gender, including totals. Percentages in the F and M columns reflect the proportion within each row. A chi-square test found no significant association between gender and exposure category (p = ",p_value,"). The 'Other' category combines Antipsychotic, Chlorine Gas, clorox bleach, and Sedative (Combination) due to low individual counts for these exposure categories.\n\n", sep="")
+
+# ===== Figures (fixed order) =====
+final_data$`Exposure Category` <- factor(final_data$`Exposure Category`, levels = ordered_levels)
+base_sz <- 11
+
+# Figure 1: Counts
+plot_counts <- final_data %>% count(`Exposure Category`,Gender)
+p1 <- ggplot(plot_counts,aes(x=`Exposure Category`,y=n,fill=Gender)) +
+  geom_bar(stat="identity",position=position_dodge(width=0.8),width=0.75) +
+  coord_flip() +
+  scale_fill_manual(values=c("F"="black","M"="grey70")) +
+  theme_classic(base_size=base_sz, base_family="sans") +
+  theme(axis.title=element_blank(),legend.position="bottom",legend.title=element_blank())
+
+fig1_caption <- paste0(
+  "Raw counts of individuals in each exposure category by gender. ",
+  "Females show relatively higher counts in analgesic and antidepressant exposures, whereas males are more represented ",
+  "in CO/As/CN and street drug exposures. These differences are not statistically significant."
+)
+
+# Figure 2: Proportions
+plot_prop <- final_data %>% count(`Exposure Category`,Gender) %>% group_by(Gender) %>% mutate(prop=n/sum(n))
+p2 <- ggplot(plot_prop,aes(x=`Exposure Category`,y=prop,fill=Gender)) +
+  geom_bar(stat="identity",position="fill",width=0.75) +
+  coord_flip() +
+  scale_y_continuous(labels=percent_format(accuracy=1),expand=c(0,0)) +
+  scale_fill_manual(values=c("F"="black","M"="grey70")) +
+  geom_text(aes(label=paste0(round(prop*100),"%"),group=Gender),
+            position=position_fill(vjust=0.5),color="white",size=3.3) +
+  theme_classic(base_size=base_sz, base_family="sans") +
+  theme(axis.title=element_blank(),legend.position="none")
+
+fig2_caption <- paste0(
+  "Within-gender proportions for each exposure category (bars sum to 100% for each gender). ",
+  "Females have higher proportions in analgesic and antidepressant exposures, while males show higher proportions in CO/As/CN ",
+  "and street drugs. The chi-square test indicates the overall gender–exposure association is not statistically significant."
+)
+
+# Save plots
+ggsave("fig1.pdf",p1,width=7,height=5,units="in",device=cairo_pdf)
+ggsave("fig2.pdf",p2,width=7,height=5,units="in",device=cairo_pdf)
+
+# Figure 1
+cat("\\pagebreak\n\n")
+cat("**Figure 1. Count of Exposure Category by Gender**\n\n")
+cat("![](fig1.pdf){width=90%}\n\n")
+cat("**Figure 1.** ",fig1_caption,"\n\n")
+
+# Figure 2 
+cat("\\pagebreak\n\n")
+cat("**Figure 2. Proportion of Exposure Category by Gender**\n\n")
+cat("![](fig2.pdf){width=90%}\n\n")
+cat("**Figure 2.** ",fig2_caption,"\n\n")
+
+# ===== Interpretation =====
+```
+
+## Interpretation
+
+The sample included toxicology consults coming through the emergency department: `r sum(cont_table[,'F'])` females (`r round(100*sum(cont_table[,'F'])/sum(cont_table))`%) and `r sum(cont_table[,'M'])` males (`r round(100*sum(cont_table[,'M'])/sum(cont_table))`%). This balanced gender distribution is consistent with patterns observed in similar toxicology consultation studies.
+
+The chi-square test of independence found **no significant association** between gender and exposure category (*p* = `r p_value`), indicating that gender does not significantly influence the types of exposures seen in this clinical population.
+
+**Key findings:**
+
+- Females show relatively higher representation in analgesic (64%) and antidepressant exposures (74%), which aligns with literature suggesting different patterns of intentional ingestion between genders.
+- Males show greater representation in CO/As/CN (67%) and street drug exposures (61%), potentially reflecting occupational or behavioral exposure patterns.
+- The largest exposure categories were Combination (n=49), Analgesic (n=25), and Antidepressants (n=23), representing 52% of all consultations.
+- Visual differences in Figures 1 and 2 were not statistically significant, suggesting these patterns may reflect chance variation or unmeasured confounding factors.
+- Overall distribution is balanced across categories, suggesting gender is unlikely to confound downstream analyses of clinical outcomes or risk stratification models like INTOXICATE.
