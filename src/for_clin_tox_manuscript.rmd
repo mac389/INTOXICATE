@@ -21,8 +21,8 @@ library(pROC)
 knitr::opts_chunk$set(dev = "png",
                       dpi = 300,
                       echo = FALSE,
-                      cache = FALSE)
-df  <-  read_excel("../data/snapshots/snapshot.04192025.xlsx", sheet = "INTOXICATE", range = cell_cols("A:AC"))
+                      cache = TRUE)
+df  <-  read_excel("../data/snapshots/snapshot.04192025.no-mrn.xlsx", sheet = "INTOXICATE", range = cell_cols("A:AC"))
 
 df <- df %>%
   mutate(age_category = case_when(
@@ -110,19 +110,23 @@ roc_obj  <- xf %>%
   {roc(response = .$`Actual Disposition`, predictor = .$`INTOXICATE SCORE`)}
 
 
+# Extract data from roc object
 roc_df <- data.frame(
   specificity = rev(roc_obj$specificities),
   sensitivity = rev(roc_obj$sensitivities),
   threshold = rev(roc_obj$thresholds)
 )
 
+# AUC
 auc_value <- auc(roc_obj)
 
+# 3. Optimal threshold
 optimal <- coords(roc_obj, "best", best.method = "youden", ret = c("threshold", "specificity", "sensitivity"))
 opt_thresh <- optimal["threshold"]
 opt_spec <- optimal["specificity"]
 opt_sens <- optimal["sensitivity"]
 
+# 4. Predefined threshold (e.g., 6)
 specific_threshold <- 6
 closest_index <- which.min(abs(roc_obj$thresholds - specific_threshold))
 predef_spec <- roc_obj$specificities[closest_index]
@@ -136,7 +140,7 @@ labels_df <- data.frame(
     paste("Threshold for\n intensive care\n unit =", specific_threshold,"         ")
   ),
   hjust = c(1.1, 1.2))
-
+# 5. Plot
 ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity)) +
   geom_line(size = 1.2) +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray",
@@ -146,9 +150,9 @@ ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity)) +
   geom_point(aes(x = 1 - as.numeric(opt_spec), y = as.numeric(opt_sens)), size = 3, shape=19) +
   geom_point(aes(x = 1 - predef_spec, y = predef_sens), shape=19, size = 3) +
 
-  # AUC tex\
-  annotate("text", x = 0.75, y = 0.25, 
-           label = paste("Area under the curve =", round(auc_value, 2)), 
+  # AUC text
+  annotate("text", x = 0.75, y = 0.05, 
+           label = paste("Area Under\n the Curve =", round(auc_value, 2)), 
            hjust = 0.5, size = 4) +
 
   # Threshold labels
@@ -168,7 +172,5 @@ ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity)) +
     axis.text = element_text(color = "black"),
     panel.border = element_blank()
   )
-
-ggsave("../output/imgs/roc_curve.png", width = 8, height = 6, dpi = 300)  
 ```
 
