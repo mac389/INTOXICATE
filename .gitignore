@@ -7,3 +7,6 @@ data/Tox_Book.csv
 *.fls
 *.blg
 data/
+results/binned histograms by risk group/
+results/for_clin_tox_manuscript_cache/html/
+results/rz_hicss_plots/
