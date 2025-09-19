@@ -1,0 +1,34 @@
+---
+title: Notebook for HICSS 2025
+author: "Aiden Peleg, Roland Zemla, Michael Chary"
+output: 
+  html_document:
+    keep_md: true
+---
+```{r setup-chunk, include=FALSE}
+knitr::opts_chunk$set(dev = "png",
+                      dpi = 300,
+                      echo = FALSE,
+                      cache = TRUE)
+
+library(dplyr)
+library(tidyjson)
+library(gtsummary)
+
+patients <- read_json("../data/synthetic.snapshot.06032024.json", simplifyVector=TRUE) %>%
+  select(presentation) 
+  # as_tibble() %>%
+  # mutate(across(everything(), ~gsub("[[:punct:]]", "",.)))
+```
+
+
+```{r demographics}
+
+# patients %>%
+#   mutate_if(is.character, as.factor) %>%
+#   tbl_strata(strata=risk,
+#     .tbl_fun= ~ .x %>% tbl_summary(include = age.value))
+
+```
+
+

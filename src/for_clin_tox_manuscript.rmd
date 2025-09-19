@@ -1,0 +1,176 @@
+---
+title: "Supporting Material for NACCT 2024 Abstract"
+output : 
+  html_document:
+    keep_md: true
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(yardstick)
+library(gt)
+library(ggrepel)
+library(ggplot2)
+library(gtsummary)
+library(psych)
+library(pROC)
+knitr::opts_chunk$set(dev = "png",
+                      dpi = 300,
+                      echo = FALSE,
+                      cache = TRUE)
+df  <-  read_excel("../data/snapshots/snapshot.04192025.no-mrn.xlsx", sheet = "INTOXICATE", range = cell_cols("A:AC"))
+
+df <- df %>%
+  mutate(age_category = case_when(
+    Age < 12 ~ "Pediatric",
+    Age >= 12 & Age < 18 ~ "Adolescent",
+    Age >= 18 ~ "Adult"
+  ))
+
+xf <-  df %>%
+  mutate(`Actual Disposition`  = case_when(
+    `Actual Disposition` == "ICU" ~ "ICU",
+    `Actual Disposition` == "GMF" ~ "Not ICU",
+    `Actual Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"
+  ), 
+  `Predicted Disposition`  = case_when(
+    `Predicted Disposition` == "ICU" ~ "ICU",
+    `Predicted Disposition` == "GMF" ~ "Not ICU",
+    `Predicted Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"))
+```
+
+```{r demographics, echo=FALSE}
+
+df %>%
+  select(Age, Gender, `Actual Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`, `Confirmed Exposure`) %>%
+  filter(age_category != "Pediatric",`Confirmed Exposure` != "N/A - Withdrawal") %>%
+  tbl_summary(missing='no', by=age_category) %>%
+  add_p() %>%
+  bold_labels()
+
+xf  <-  xf %>%
+         filter(`Confirmed Exposure` != "N/A - Withdrawal", age_category != "Pediatric")
+
+```
+
+```{r predicted x actual disposition x age group, echo=FALSE}
+
+my_irr <- function(data, ...) {
+  ck  <-  cohen.kappa(x=cbind(data$`Actual Disposition`, data$`Predicted Disposition`))
+  dplyr::tibble(statistic = ck$kappa, p.value = ck$plevel)
+}
+#
+# xf %>%
+#   filter(age_category != "Pediatric") %>%
+#   select(`Actual Disposition`, `Predicted Disposition`, age_category) %>%
+#     tbl_strata(strata = age_category, 
+#      .tbl_fun = ~.x %>% tbl_cross(`Actual Disposition`, `Predicted Disposition`) %>% 
+#       add_stat(fns=all_categorical() ~ my_irr) %>%
+#       modify_header(list(statistic ~ "**Cohen's kappa**", p.value ~ "**p-value**"))  %>% bold_labels())
+#
+
+xf %>%
+  select(`Actual Disposition`, `Predicted Disposition`, age_category) %>%
+    tbl_strata(strata = age_category, 
+     .tbl_fun = ~.x %>% tbl_cross(`Actual Disposition`, `Predicted Disposition`))
+```
+
+```{r subgroup analyses adult}
+
+xf %>%
+  filter(age_category == "Adult", `Confirmed Exposure` != "N/A - Withdrawal") %>%
+  select(`Actual Disposition`, `Predicted Disposition`, `Respiratory Insufficiency`, Cirrhosis, Dysrhythmia, `Secondary Reason for ICU Admission`, GCS, age_category, `Exposure Category`, Pulse, SBP, Age) %>%
+    mutate(SBP=as.numeric(SBP), GCS = as.factor(GCS)) %>%
+    tbl_strata(strata = `Actual Disposition`, 
+      .tbl_fun = ~.x %>% tbl_summary(by='Predicted Disposition')%>% bold_labels() %>% add_p())
+
+```
+
+```{r analysis Adult, ICU Needs}
+
+xf %>%
+  filter(age_category == "Adult", `Confirmed Exposure` != "N/A - Withdrawal") %>%
+  select(`Actual Disposition`,`Predicted Disposition`, `In Retrospect Required ICU`) %>% 
+  filter(`Actual Disposition` == "ICU" | `Predicted Disposition` == "ICU", `In Retrospect Required ICU` !="Policy") %>%
+  tbl_strata(strata = `In Retrospect Required ICU`, 
+    .tbl_fun = ~.x %>% tbl_summary(by='Predicted Disposition')%>% bold_labels() %>%  modify_header(label = "**Predicted Disposition**"))
+```
+
+
+```{r ROC, echo=FALSE}
+
+roc_obj  <- xf %>%
+  select(`INTOXICATE SCORE`, `Actual Disposition`) %>%
+  {roc(response = .$`Actual Disposition`, predictor = .$`INTOXICATE SCORE`)}
+
+
+# Extract data from roc object
+roc_df <- data.frame(
+  specificity = rev(roc_obj$specificities),
+  sensitivity = rev(roc_obj$sensitivities),
+  threshold = rev(roc_obj$thresholds)
+)
+
+# AUC
+auc_value <- auc(roc_obj)
+
+# 3. Optimal threshold
+optimal <- coords(roc_obj, "best", best.method = "youden", ret = c("threshold", "specificity", "sensitivity"))
+opt_thresh <- optimal["threshold"]
+opt_spec <- optimal["specificity"]
+opt_sens <- optimal["sensitivity"]
+
+# 4. Predefined threshold (e.g., 6)
+specific_threshold <- 6
+closest_index <- which.min(abs(roc_obj$thresholds - specific_threshold))
+predef_spec <- roc_obj$specificities[closest_index]
+predef_sens <- roc_obj$sensitivities[closest_index]
+
+labels_df <- data.frame(
+  x = c(1 - as.numeric(opt_spec), 1 - predef_spec),
+  y = c(as.numeric(opt_sens), predef_sens),
+  label = c(
+    paste("Threshold for emergency\ndepartment =", round(as.numeric(opt_thresh), 2)),
+    paste("Threshold for\n intensive care\n unit =", specific_threshold,"         ")
+  ),
+  hjust = c(1.1, 1.2))
+# 5. Plot
+ggplot(roc_df, aes(x = 1 - specificity, y = sensitivity)) +
+  geom_line(size = 1.2) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray",
+              size=1.2) +
+
+  # Optimal and predefined points
+  geom_point(aes(x = 1 - as.numeric(opt_spec), y = as.numeric(opt_sens)), size = 3, shape=19) +
+  geom_point(aes(x = 1 - predef_spec, y = predef_sens), shape=19, size = 3) +
+
+  # AUC text
+  annotate("text", x = 0.75, y = 0.05, 
+           label = paste("Area Under\n the Curve =", round(auc_value, 2)), 
+           hjust = 0.5, size = 4) +
+
+  # Threshold labels
+ 
+ geom_text(data = labels_df, aes(x = x, y = y, label = label, hjust = hjust), size = 4) +
+
+  # Axes
+  scale_x_continuous(name = "1 - Specificity", limits = c(0, 1)) +
+  scale_y_continuous(name = "Sensitivity", limits = c(0, 1)) +
+
+  # Theme
+  theme_minimal(base_size = 14) +
+  theme(
+    panel.grid = element_blank(),
+    axis.line = element_line(color = "black"),
+    axis.ticks = element_line(color = "black"),
+    axis.text = element_text(color = "black"),
+    panel.border = element_blank()
+  )
+```
+

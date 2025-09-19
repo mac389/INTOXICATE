@@ -1,0 +1,108 @@
+---
+title: "Supporting Material for NACCT 2024 Abstract"
+output : html_document
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(yardstick)
+library(gt)
+library(irr)
+library(verification)
+library(ggplot2)
+library(gtsummary)
+library(cutpointr)
+
+df  <-  read_excel("../data/snapshot.05062024.xlsx", sheet = "INTOXICATE", range = cell_cols("A:O"))
+
+xf <-  df %>%
+  mutate(`Actual Disposition`  = case_when(
+    `Actual Disposition` == "ICU" ~ "ICU",
+    `Actual Disposition` == "GMF" ~ "Not ICU",
+    `Actual Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"
+  ), 
+  `Predicted Disposition`  = case_when(
+    `Predicted Disposition` == "ICU" ~ "ICU",
+    `Predicted Disposition` == "GMF" ~ "Not ICU",
+    `Predicted Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"))
+
+xtab  <- xf %>%
+ tabyl(`Actual Disposition`,`Predicted Disposition`)
+```
+```{r table, echo=FALSE, fig.cap="INTOXICATE Predicted vs Actual Disposition", fig.height=4, fig.width=6}
+
+
+xf %>%
+  filter(`Predicted Disposition` %in% c("ICU","Not ICU")) %>%
+  tbl_cross(`Actual Disposition`,`Predicted Disposition`, percent="col") %>%
+  bold_labels()
+
+xf %>%
+  tabyl(`Actual Disposition`,`Predicted Disposition`) %>%
+  adorn_totals("row") %>%
+  adorn_totals("col") %>%
+  gt() %>%
+  cols_move("NA", after = "Not ICU") %>%
+  tab_header(title = "INTOXICATE vs Clinician Judgement") %>%
+  tab_spanner(label = "INTOXICATE", 
+    columns=c("ICU","Not ICU","NA")) %>%
+  tab_footnote(html("ICU, Intensive Care Unit; Not ICU, Discharged,<br>Transferred to Psychiatry, or Admitted to<br>a General Medical Floor")) %>%
+  tab_spanner(label = "Predicted Disposition")
+```
+<br>
+
+```{r combined table, echo=FALSE}
+
+act_icu = df %>%
+  drop_na("INTOXICATE SCORE") %>%
+  filter(`Actual Disposition`=="ICU") %>%
+  nrow()
+
+act_gmf = df %>%
+  drop_na("INTOXICATE SCORE") %>%
+  filter(`Actual Disposition`=="GMF") %>%
+  nrow()
+   
+ 
+```
+```
+
+`````
+
+*Results.*  We included `r nrow(df)` patients, aged `r quantile(df$Age, c(0.50))` [`r quantile(df$Age, c(0.25))` to `r quantile(df$Age, c(0.75))`] years, `r round(100*sum(df$Gender=="M")/nrow(df))`% male, `r round(100*sum(df$Gender=="F")/nrow(df))`% female. We excluded `r sum(is.na(df$"Predicted Disposition"))` patients because the chart did not contain all information needed to predict disposition or the the patient's poisoning was not a main contributor to disposition.  Of the remaining `r df %>% drop_na("INTOXICATE SCORE") %>% nrow()` patients, `r act_icu` were admitted to the ICU,
+`r act_gmf` to the floor, and `r sum(df$"Actual Disposition"=="Discharge")` discharged. INTOXICATE predicted that `r sum(df$"Predicted Disposition"=="ICU" & df$"Actual Disposition"=="GMF", na.rm=TRUE)` of `r sum(df$"Actual Disposition"=="GMF", na.rm=TRUE)` patients admitted to the floor should be admitted to the ICU and that `r sum(df$"Predicted Disposition"=="ICU" & df$"Actual Disposition"=="Discharge", na.rm=TRUE)` of the `r sum(df$"Predicted Disposition"=="GMF", na.rm=TRUE)` patients discharged should be admitted to the ICU. None of these were transferred from the floor to the ICU or Stepdown Unit. Cohen\'s
+kappa was `r round(kappa2(xf[,c("Predicted Disposition","Actual Disposition")])$value,4)`. All records contained the fields needed to calculate the
+INTOXICATE risk score and inter-rater reliability, demonstrating no agreement above chance between INTOXICATE's recommendations and those of bedside toxicologists.
+
+
+#### ROC Curve
+
+```{r ROC, echo=FALSE, fig.cap="INTOXICATE ROC Curve", fig.height=4, fig.width=6}
+
+ xf %>%
+    mutate(`Actual Disposition` = as.factor(`Actual Disposition`)) %>%
+    roc_curve(`Actual Disposition`, `INTOXICATE SCORE`) %>%
+    ggplot(aes(x=1-specificity, y=sensitivity)) +
+    geom_path() +
+    geom_abline(lty=3) + 
+    coord_equal() +
+    theme_bw()
+```
+
+`````
+#### Cutpoint Analysis
+
+```{r cutpoint, }
+cp  <-  xf %>%
+       cutpointr(`INTOXICATE SCORE`, `Actual Disposition`, method = maximize_metric, metric = sum_sens_spec, pos_class = "ICU", neg_class="Not ICU", na.rm=TRUE)
+
+summary(cp)
+```
+
+
