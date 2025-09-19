@@ -6,3 +6,4 @@ data/Tox_Book.csv
 *.fdb_latexmk
 *.fls
 *.blg
+data/
