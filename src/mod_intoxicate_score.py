@@ -1,19 +1,3 @@
-#!/usr/bin/env python3
-"""
-INTOXICATE Score Calculator
-
-This script replicates the functionality of the VB macro (macro_v2.vb) to calculate
-INTOXICATE scores for patient data in Excel files.
-
-The script reads an input Excel file, applies the INTOXICATE scoring algorithm,
-and outputs a new Excel file with the calculated scores and ICU/GMF classifications.
-
-Usage:
-    python mod_intoxicate_score.py input.xlsx [endpoint_column] [classification_column]
-
-If no column numbers are specified, defaults to column 12 for endpoint and column 13 for classification.
-"""
-
 import pandas as pd
 import numpy as np
 import argparse
