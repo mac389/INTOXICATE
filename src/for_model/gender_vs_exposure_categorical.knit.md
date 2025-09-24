@@ -74,3 +74,5 @@ The chi-square test of independence found **no significant association** between
 \begin{figure}
 \includegraphics[width=0.9\linewidth]{../../notebook/yash/fig2} \caption{Within-gender proportions for each exposure category (bars sum to 100\% for each gender). Females have higher proportions in analgesic and antidepressant exposures, while males show higher proportions in CO/As/CN and street drugs. The chi-square test indicates the overall gender–exposure association is not statistically significant.}\label{fig:fig2}
 \end{figure}
+
+

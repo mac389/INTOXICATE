@@ -110,5 +110,6 @@ def create_patient():
 #how do we want to describe the final results and work backwards
     #how would physicians perceive the database - what stats should we use/ plots 
     # ? is this patient realistic/ plausible or not - can they distinguish between synthetic and real patient 
-    #comment hi 
+    #comment hello
+    
 
