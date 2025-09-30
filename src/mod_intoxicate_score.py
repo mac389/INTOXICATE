@@ -1,9 +1,16 @@
-import pandas as pd
-import numpy as np
-import argparse
 import os
-import sys
-from pathlib import Path
+
+import pandas as pd
+
+'''
+Load the first 112 columns from INTOXICATE, fit a model, including gender but not dysrhythmia. 
+'''
+
+input_file = "../data/snapshots/snapshot.05062024.xlsx"
+
+df = pd.read_excel(input_file, sheet_name="INTOXICATE")
+model_variables = 
+print(df)
 
 
 def round_to_specified_age(age):
@@ -288,57 +295,3 @@ def process_excel_file(input_file, endpoint_col=12, classification_col=13):
     except Exception as e:
         print(f"Error writing output file {output_path}: {e}")
         sys.exit(1)
-
-
-def main():
-    """Main function to handle command line arguments and process files."""
-    parser = argparse.ArgumentParser(
-        description="Calculate INTOXICATE scores from Excel files",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-    python mod_intoxicate_score.py data.xlsx
-    python mod_intoxicate_score.py data.xlsx 12 13
-    python mod_intoxicate_score.py /path/to/data.xlsx 15 16
-        """
-    )
-    
-    parser.add_argument('input_file', 
-                       help='Path to the input Excel file')
-    parser.add_argument('endpoint_column', 
-                       type=int, 
-                       nargs='?', 
-                       default=12,
-                       help='Column number (1-indexed) for endpoint scores (default: 12)')
-    parser.add_argument('classification_column', 
-                       type=int, 
-                       nargs='?', 
-                       default=13,
-                       help='Column number (1-indexed) for ICU/GMF classification (default: 13)')
-    
-    args = parser.parse_args()
-    
-    # Validate input file exists
-    if not os.path.exists(args.input_file):
-        print(f"Error: Input file '{args.input_file}' does not exist")
-        sys.exit(1)
-    
-    # Validate column numbers
-    if args.endpoint_column < 1 or args.classification_column < 1:
-        print("Error: Column numbers must be positive integers")
-        sys.exit(1)
-    
-    if args.endpoint_column == args.classification_column:
-        print("Error: Endpoint and classification columns must be different")
-        sys.exit(1)
-    
-    # Process the file
-    output_file = process_excel_file(args.input_file, 
-                                   args.endpoint_column, 
-                                   args.classification_column)
-    
-    print(f"Processing complete. Output file: {output_file}")
-
-
-if __name__ == "__main__":
-    main()
