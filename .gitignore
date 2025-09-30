@@ -6,9 +6,12 @@ data/Tox_Book.csv
 *.fdb_latexmk
 *.fls
 *.blg
+*.gz
+
 data/
 results/binned histograms by risk group/
 results/for_clin_tox_manuscript_cache/html/
 results/rz_hicss_plots/
 results/analysis.for_HICSS_cache/*
 results/for_clin_tox_manuscript_files/figure-html
+src/for_model/__pycache__/
