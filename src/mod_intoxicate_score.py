@@ -60,8 +60,6 @@ for var, criteria in category_bins.items():
         df[f"{var}_cat"] = df[var].apply(lambda x: categorize(x, criteria))
 
 print(df.columns)
-# --- Encode each category separately (one-hot encoding) ---
-# This ensures each category has its own column and its own coefficient.
 
 ordinal_cat_cols = [f"{var}_cat" for var in category_bins if f"{var}_cat" in df.columns]
 
@@ -74,31 +72,26 @@ df = pd.concat([df, encoded_df], axis=1)
 predictor_cols = list(encoded_df.columns)
 X = df[predictor_cols]
 
-# --- Map textual outcome to numeric ---
 df[OUTCOME_VAR.lower()] = df[OUTCOME_VAR.lower()].map({
     "Discharge": 0,
-    "GMF": 0,        # Treat GMF as low-risk; set to 1 if you prefer high-risk.
+    "GMF": 0,  
     "ICU": 1
 })
 y = df[OUTCOME_VAR.lower()]
 
-# --- Fit logistic regression ---
 model = LogisticRegression(max_iter=1000)
 model.fit(X, y)
 
-# --- Build coefficient + odds ratio table ---
 coef_df = pd.DataFrame({
     "Variable": X.columns,
     "Coefficient": model.coef_[0],
     "Odds_Ratio": np.exp(model.coef_[0])
 }).sort_values("Odds_Ratio", ascending=False)
 
-# --- Derive point values ---
 ref_coef = coef_df.loc[coef_df["Coefficient"].abs() > 0, "Coefficient"].abs().min()
 coef_df["Points"] = (coef_df["Coefficient"] / ref_coef).round().astype(int)
 coef_df.loc[coef_df["Points"] == 0, "Points"] = np.sign(coef_df["Coefficient"])
 
-# --- Generate per-category composite scoring table ---
 composite_rows = []
 for var, rule_dict in category_bins.items():
     for r in rule_dict["values"]:
