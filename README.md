@@ -1,4 +1,3 @@
-@ -1,14 +1,21 @@
 ### INTOXICATE
 
 This repository contains supporting material for the INTOXICATE-US project, which aims to develop and validate a clinical decision support tool to predict which poisoned patients need intensive care unit (ICU) admission. See my lab's [project page](https://charylab.github.io/projects/intoxicate/) for more information. 
