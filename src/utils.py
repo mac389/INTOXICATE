@@ -14,7 +14,6 @@ for var in predictive_variables:
     with open(score_file) as sf:
         name_to_score[name] = yaml.safe_load(sf)
 
-# ── 3) score_from_value for one feature ───────────────────────────────────────
 def score_from_value(name, value):
     tbl = name_to_score.get(name)
     if not tbl:

@@ -1,344 +1,116 @@
+import os
+import re
+import yaml
+
 import pandas as pd
 import numpy as np
-import argparse
-import os
-import sys
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import OneHotEncoder
 from pathlib import Path
+from scipy.special import expit
 
+DATA_PATH = Path(__file__).parent.parent / 'data'
+RESULTS_PATH = Path(__file__).parent.parent / 'results'
+SNAPSHOTS_PATH = DATA_PATH / 'snapshots'
+MODEL_PATH = DATA_PATH / 'model'
+input_file = SNAPSHOTS_PATH / 'snapshot.05062024.xlsx'
+OUTCOME_VAR = 'Actual Disposition'
 
-def round_to_specified_age(age):
-    """
-    Round age to the nearest specified age value.
-    
-    Args:
-        age (float): The age to round
-        
-    Returns:
-        int: The closest age from the specified ages [20, 30, 40, 50, 60, 70]
-    """
-    specified_ages = [20, 30, 40, 50, 60, 70]
-    
-    min_difference = float('inf')
-    closest_age = None
-    
-    for target_age in specified_ages:
-        difference = abs(age - target_age)
-        if difference < min_difference:
-            min_difference = difference
-            closest_age = target_age
-    
-    return closest_age
-
-
-def calculate_exposure_score(exposure_category):
-    """
-    Calculate exposure score based on exposure category.
-    
-    Args:
-        exposure_category (str): The exposure category
-        
-    Returns:
-        int: The exposure score
-    """
-    exposure_scores = {
-        "Alcohol": -5,
-        "Analgesic": 1,
-        "Antidepressants": 0,
-        "Street Drugs": 1,
-        "Sedatives": -1,
-        "CO, As, CN": -6,
-        "Unknown ": 2,  # Note: includes trailing space as in VB code
-        "Combination": 0
-    }
-    
-    return exposure_scores.get(exposure_category, 0)  # Default to 0 if not found
-
-
-def calculate_hr_score(hr):
-    """
-    Calculate heart rate score.
-    
-    Args:
-        hr (float): Heart rate value
-        
-    Returns:
-        int: The heart rate score
-    """
-    if hr < 75:
-        return 0
-    elif hr < 85:
-        return 1
-    elif hr < 95:
-        return 2
-    elif hr < 105:
-        return 3
+def categorize(value, criteria):
+    data_type = criteria['criteria']
+    if data_type == "categorical":
+        return categorize_categorical(value, criteria['values'])
+    elif data_type == "range":
+        return categorize_range(value, criteria['values'])
     else:
-        return 4
+        raise ValueError(f"Unknown data type: {data_type}")
 
+def categorize_range(value, rules):
+    for r in rules:
+        if r["min"] <= value <= r["max"]:
+            return r["name"]
+    return None
 
-def calculate_sbp_score(sbp):
-    """
-    Calculate systolic blood pressure score.
-    
-    Args:
-        sbp (float): Systolic blood pressure value
-        
-    Returns:
-        int: The SBP score
-    """
-    if sbp >= 140:
-        return -3
-    elif sbp >= 130:
-        return -1
-    elif sbp >= 120:
-        return 0
-    elif sbp >= 110:
-        return 1
-    elif sbp >= 100:
-        return 2
-    else:
-        return 4
+def categorize_categorical(value, rules):
+    for r in rules:
+        if r["name"] == value:
+            return r["name"]
+    return None
 
+def load_category_bins(model_path):
+    bins = {}
+    for fname in os.listdir(model_path):
+        if fname.endswith("_score.yml"):
+            var = fname.replace("_score.yml", "")
+            with open(os.path.join(model_path, fname), "r") as f:
+                bins[var] = yaml.safe_load(f)
+    return bins
 
-def calculate_gcs_score(gcs):
-    """
-    Calculate Glasgow Coma Scale score.
-    
-    Args:
-        gcs (float): GCS value
-        
-    Returns:
-        int: The GCS score
-    """
-    if gcs >= 14:
-        return 0
-    elif gcs >= 9:
-        return 3
-    elif gcs >= 6:
-        return 7
-    else:
-        return 9
+df = pd.read_excel(input_file, sheet_name="INTOXICATE")
+model_variables = [field for field in open(DATA_PATH / 'model_variables.txt').read().splitlines() if not field.startswith('%')]
 
+df = df[model_variables]
+df.rename({'Pulse': 'HR'}, axis=1, inplace=True)
+df.columns = [var.lower() for var in df.columns]
 
-def calculate_binary_score(value):
-    """
-    Calculate binary condition score (Yes = 1, No/other = 0).
-    
-    Args:
-        value (str): The binary condition value
-        
-    Returns:
-        int: 1 if "Yes", 0 otherwise
-    """
-    return 1 if value == "Yes" else 0
+category_bins = load_category_bins(MODEL_PATH)
+for var, criteria in category_bins.items():
+    if var.lower() in df.columns.str.lower().tolist():
+        df[f"{var}_cat"] = df[var].apply(lambda x: categorize(x, criteria))
 
+print(df.columns)
 
-def calculate_gender_score(gender):
-    """
-    Calculate gender score.
-    
-    Args:
-        gender (str): The gender value (F for Female, M for Male)
-        
-    Returns:
-        int: -5 for Female (F), +5 for Male (M), 0 for other values
-    """
-    if gender == "F":
-        return 0
-    elif gender == "M":
-        return 5
-    else:
-        return 0
+ordinal_cat_cols = [f"{var}_cat" for var in category_bins if f"{var}_cat" in df.columns]
 
+onehot = OneHotEncoder(drop="first", sparse_output=False)
+encoded = onehot.fit_transform(df[ordinal_cat_cols])
+encoded_df = pd.DataFrame(encoded, columns=onehot.get_feature_names_out(ordinal_cat_cols))
+df = pd.concat([df, encoded_df], axis=1)
 
-def calculate_intoxicate_score(row):
-    """
-    Calculate the complete INTOXICATE score for a single patient row.
-    
-    Args:
-        row (pandas.Series): A row of patient data
-        
-    Returns:
-        float: The calculated INTOXICATE endpoint score
-    """
-    # Extract values from the row (assuming columns are in the same order as VB macro)
-    gender = row.iloc[1]  # Column B (index 1)
-    exposure_category = row.iloc[2]  # Column C (index 2)
-    age = row.iloc[3]  # Column D (index 3)
-    hr = row.iloc[4]  # Column E (index 4)
-    sbp = row.iloc[5]  # Column F (index 5)
-    gcs = row.iloc[6]  # Column G (index 6)
-    respiratory_insufficiency = row.iloc[7]  # Column H (index 7)
-    cirrhosis = row.iloc[8]  # Column I (index 8)
-    dysrhythmia = row.iloc[9]  # Column J (index 9)
-    second_icu_reason = row.iloc[10]  # Column K (index 10)
-    
-    # Round age to specified values
-    age = round_to_specified_age(age)
-    
-    # Calculate individual scores
-    exposure_score = calculate_exposure_score(exposure_category)
-    hr_score = calculate_hr_score(hr)
-    sbp_score = calculate_sbp_score(sbp)
-    gcs_score = calculate_gcs_score(gcs)
-    gender_score = calculate_gender_score(gender)
-    
-    # Binary condition scores
-    respiratory_score = calculate_binary_score(respiratory_insufficiency) * 8
-    cirrhosis_score = calculate_binary_score(cirrhosis) * 7
-    dysrhythmia_score = calculate_binary_score(dysrhythmia) * 5
-    secondary_diagnosis_score = calculate_binary_score(second_icu_reason) * 7
-    
-    # Calculate the endpoint score
-    endpoint = (exposure_score + 
-                ((age - 20) / 5) + 
-                hr_score + 
-                sbp_score + 
-                gcs_score + 
-                gender_score +
-                respiratory_score + 
-                cirrhosis_score + 
-#               dysrhythmia_score + 
-                secondary_diagnosis_score)
-    
-    return endpoint
+# Combine predictors for regression
+predictor_cols = list(encoded_df.columns)
+X = df[predictor_cols]
 
+df[OUTCOME_VAR.lower()] = df[OUTCOME_VAR.lower()].map({
+    "Discharge": 0,
+    "GMF": 0,  
+    "ICU": 1
+})
+y = df[OUTCOME_VAR.lower()]
 
-def classify_icu_gmf(endpoint_score):
-    """
-    Classify patient as ICU or GMF based on endpoint score.
-    
-    Args:
-        endpoint_score (float): The calculated endpoint score
-        
-    Returns:
-        str: "ICU" if score > 6, "GMF" otherwise
-    """
-    return "ICU" if endpoint_score > 6 else "GMF"
+model = LogisticRegression(max_iter=1000)
+model.fit(X, y)
 
+coef_df = pd.DataFrame({
+    "Variable": X.columns,
+    "Coefficient": model.coef_[0],
+    "Odds_Ratio": np.exp(model.coef_[0])
+}).sort_values("Odds_Ratio", ascending=False)
 
-def process_excel_file(input_file, endpoint_col=12, classification_col=13):
-    """
-    Process an Excel file to calculate INTOXICATE scores and classifications.
-    
-    Args:
-        input_file (str): Path to the input Excel file
-        endpoint_col (int): Column number (1-indexed) for endpoint scores
-        classification_col (int): Column number (1-indexed) for ICU/GMF classification
-        
-    Returns:
-        str: Path to the output file
-    """
-    # Read the Excel file from the "INTOXICATE" sheet
-    try:
-        df = pd.read_excel(input_file, sheet_name="INTOXICATE")
-    except Exception as e:
-        print(f"Error reading Excel file {input_file} from sheet 'INTOXICATE': {e}")
-        sys.exit(1)
-    
-    # Check if we have enough columns
-    if len(df.columns) < 11:
-        print(f"Error: Input file must have at least 11 columns, but found {len(df.columns)}")
-        sys.exit(1)
-    
-    # Calculate scores for each row (skip header row)
-    endpoint_scores = []
-    classifications = []
-    
-    for index, row in df.iterrows():
-        try:
-            endpoint_score = calculate_intoxicate_score(row)
-            classification = classify_icu_gmf(endpoint_score)
-            
-            endpoint_scores.append(endpoint_score)
-            classifications.append(classification)
-        except Exception as e:
-            print(f"Error processing row {index + 1}: {e}")
-            endpoint_scores.append(np.nan)
-            classifications.append("ERROR")
-    
-    # Add the calculated columns
-    # Convert to 0-indexed for pandas
-    endpoint_col_idx = endpoint_col - 1
-    classification_col_idx = classification_col - 1
-    
-    # Ensure we have enough columns
-    while len(df.columns) <= max(endpoint_col_idx, classification_col_idx):
-        df[f'Column_{len(df.columns) + 1}'] = np.nan
-    
-    # Add the new columns with proper headers
-    df.iloc[:, endpoint_col_idx] = endpoint_scores
-    df.iloc[:, classification_col_idx] = classifications
-    
-    # Set column headers for the new columns
-    df.columns.values[endpoint_col_idx] = "INTOXICATE SCORE"
-    df.columns.values[classification_col_idx] = "Predicted Disposition"
-    
-    # Generate output filename
-    input_path = Path(input_file)
-    output_filename = f"{input_path.stem}_rescored{input_path.suffix}"
-    output_path = input_path.parent / output_filename
-    
-    # Write the output file to the "INTOXICATE" sheet
-    try:
-        df.to_excel(output_path, sheet_name="INTOXICATE", index=False)
-        print(f"Successfully processed {input_file}")
-        print(f"Output saved to: {output_path}")
-        return str(output_path)
-    except Exception as e:
-        print(f"Error writing output file {output_path}: {e}")
-        sys.exit(1)
+ref_coef = coef_df.loc[coef_df["Coefficient"].abs() > 0, "Coefficient"].abs().min()
+coef_df["Points"] = (coef_df["Coefficient"] / ref_coef).round().astype(int)
+coef_df.loc[coef_df["Points"] == 0, "Points"] = np.sign(coef_df["Coefficient"])
 
+composite_rows = []
+for var, rule_dict in category_bins.items():
+    for r in rule_dict["values"]:
+        cat_name = r["name"]
+        col_name_matches = [col for col in coef_df["Variable"] if f"{var}_cat_{cat_name}" in col]
+        coef_val = coef_df.loc[coef_df["Variable"].isin(col_name_matches), "Coefficient"].values
+        points_val = coef_df.loc[coef_df["Variable"].isin(col_name_matches), "Points"].values
 
-def main():
-    """Main function to handle command line arguments and process files."""
-    parser = argparse.ArgumentParser(
-        description="Calculate INTOXICATE scores from Excel files",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Examples:
-    python mod_intoxicate_score.py data.xlsx
-    python mod_intoxicate_score.py data.xlsx 12 13
-    python mod_intoxicate_score.py /path/to/data.xlsx 15 16
-        """
-    )
-    
-    parser.add_argument('input_file', 
-                       help='Path to the input Excel file')
-    parser.add_argument('endpoint_column', 
-                       type=int, 
-                       nargs='?', 
-                       default=12,
-                       help='Column number (1-indexed) for endpoint scores (default: 12)')
-    parser.add_argument('classification_column', 
-                       type=int, 
-                       nargs='?', 
-                       default=13,
-                       help='Column number (1-indexed) for ICU/GMF classification (default: 13)')
-    
-    args = parser.parse_args()
-    
-    # Validate input file exists
-    if not os.path.exists(args.input_file):
-        print(f"Error: Input file '{args.input_file}' does not exist")
-        sys.exit(1)
-    
-    # Validate column numbers
-    if args.endpoint_column < 1 or args.classification_column < 1:
-        print("Error: Column numbers must be positive integers")
-        sys.exit(1)
-    
-    if args.endpoint_column == args.classification_column:
-        print("Error: Endpoint and classification columns must be different")
-        sys.exit(1)
-    
-    # Process the file
-    output_file = process_excel_file(args.input_file, 
-                                   args.endpoint_column, 
-                                   args.classification_column)
-    
-    print(f"Processing complete. Output file: {output_file}")
+        subset = df[df[f"{var}_cat"] == cat_name]
+        risk = subset[OUTCOME_VAR.lower()].mean() if not subset.empty else np.nan
 
+        composite_rows.append({
+            "Variable": var,
+            "Category": cat_name,
+            "N": len(subset),
+            "Mean_Risk": round(risk, 3),
+            "Coefficient": coef_val[0] if len(coef_val) else np.nan,
+            "Points": points_val[0] if len(points_val) else np.nan
+        })
 
-if __name__ == "__main__":
-    main()
+composite_df = pd.DataFrame(composite_rows)
+composite_df.to_csv(RESULTS_PATH / "composite_score_table.csv", index=False)
