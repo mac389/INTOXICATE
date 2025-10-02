@@ -4,6 +4,7 @@ import yaml
 
 import pandas as pd
 import numpy as np
+import utils as tech
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import OneHotEncoder
@@ -15,7 +16,11 @@ RESULTS_PATH = Path(__file__).parent.parent / 'results'
 SNAPSHOTS_PATH = DATA_PATH / 'snapshots'
 MODEL_PATH = DATA_PATH / 'model'
 input_file = SNAPSHOTS_PATH / 'snapshot.05062024.xlsx'
+
 OUTCOME_VAR = 'Actual Disposition'
+
+# Use Derivation Study Cutoffs
+# Also use ones implied by this data set
 
 def categorize(value, criteria):
     data_type = criteria['criteria']
@@ -51,7 +56,10 @@ df = pd.read_excel(input_file, sheet_name="INTOXICATE")
 model_variables = [field for field in open(DATA_PATH / 'model_variables.txt').read().splitlines() if not field.startswith('%')]
 
 df = df[model_variables]
-df.rename({'Pulse': 'HR'}, axis=1, inplace=True)
+df.rename({'Pulse': 'HR','Secondary Reason for ICU Admission': 'second_diagnose', 'Respiratory Insufficiency': "Respiratory", "Exposure Category": "Intoxicant"}, axis=1, inplace=True)
+#Hacky
+# Excel field names don't match yaml variable names
+
 df.columns = [var.lower() for var in df.columns]
 
 category_bins = load_category_bins(MODEL_PATH)
@@ -59,24 +67,21 @@ for var, criteria in category_bins.items():
     if var.lower() in df.columns.str.lower().tolist():
         df[f"{var}_cat"] = df[var].apply(lambda x: categorize(x, criteria))
 
-print(df.columns)
-
-ordinal_cat_cols = [f"{var}_cat" for var in category_bins if f"{var}_cat" in df.columns]
-
-onehot = OneHotEncoder(drop="first", sparse_output=False)
-encoded = onehot.fit_transform(df[ordinal_cat_cols])
-encoded_df = pd.DataFrame(encoded, columns=onehot.get_feature_names_out(ordinal_cat_cols))
-df = pd.concat([df, encoded_df], axis=1)
-
-# Combine predictors for regression
-predictor_cols = list(encoded_df.columns)
-X = df[predictor_cols]
+ordinal_cat_cols = [f"{var}_cat" for var in category_bins if f"{var}_cat" in df.columns] # Avoids OneHotEncoding outcome variable
 
 df[OUTCOME_VAR.lower()] = df[OUTCOME_VAR.lower()].map({
     "Discharge": 0,
     "GMF": 0,  
     "ICU": 1
 })
+onehot = OneHotEncoder(drop="first", sparse_output=False)
+encoded = onehot.fit_transform(df[ordinal_cat_cols])
+encoded_df = pd.DataFrame(encoded, columns=onehot.get_feature_names_out(ordinal_cat_cols))
+df = pd.concat([df, encoded_df], axis=1)
+
+predictor_cols = list(encoded_df.columns)
+
+X = df[predictor_cols]
 y = df[OUTCOME_VAR.lower()]
 
 model = LogisticRegression(max_iter=1000)

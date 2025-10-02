@@ -1,4 +1,5 @@
 import os
+import yaml
 
 DATA_DIR = os.path.join('..','data')
 MODEL_DIR   = os.path.join(DATA_DIR, 'model')
@@ -52,7 +53,6 @@ def score_from_value(name, value):
     raise ValueError(f"Value `{value}` not found for `{name}`")
 
 def underage(raw_patient):
-    """Check if the patient is under 12 years old."""
     age = next((feat['value'] for feat in raw_patient.get('presentation', [])
                 if feat['name'] == 'age'), None)
     if age is None:
@@ -88,4 +88,5 @@ def flatten_patient(raw):
         'dysrhythmia':pres.get('dysrhythmia'),
         'score':      raw.get('risk') if 'risk' in raw else compute_score(raw)
 }
+
 
