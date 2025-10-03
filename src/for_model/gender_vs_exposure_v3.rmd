@@ -15,7 +15,6 @@ header-includes:
 ---
 
 ```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
-# ===== Libraries =====
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -30,7 +29,6 @@ library(gtExtras)
 library(gtsummary)
 library(gt)
 
-# ===== Configuration =====
 knitr::opts_chunk$set(
   dev = "pdf",
   dpi = 300,
@@ -40,10 +38,8 @@ knitr::opts_chunk$set(
   out.width = "90%"
 )
 
-# ===== Load & Clean Data =====
 data <- read_excel("~/Downloads/Tox Book.v2 (1).xlsx", sheet = "INTOXICATE")
 
-# Clean and filter to the 8 main categories (including Unknown)
 clean_data <- data %>%
   filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
   mutate(
@@ -56,21 +52,17 @@ clean_data <- data %>%
     "Street Drugs", "CO, As, CN", "Sedatives", "Alcohol", "Unknown"
   ))
 
-# Order categories by total count
 category_counts <- clean_data %>%
   count(`Exposure Category`) %>%
   arrange(desc(n))
 
 ordered_categories <- category_counts$`Exposure Category`
 
-# Create factor with proper ordering
 clean_data <- clean_data %>%
   mutate(`Exposure Category` = factor(`Exposure Category`, levels = ordered_categories))
 
-# ===== Statistical Tests =====
 cont_table <- table(clean_data$`Exposure Category`, clean_data$Gender)
 
-# Use simulation for Fisher's test due to large table size
 fisher_result <- fisher.test(cont_table, simulate.p.value = TRUE, B = 10000)
 fisher_p_value <- ifelse(fisher_result$p.value < 0.001, "< 0.001",
   format(round(fisher_result$p.value, 3), nsmall = 3)
@@ -86,10 +78,8 @@ significance_text <- ifelse(overall_significant, "significant", "no significant"
 ```
 
 ```{r table1, results='asis'}
-# ===== Table 1: Summary table with counts and percentages =====
 cat("\\textbf{Table 1. Distribution of Exposure Categories by Gender}\n\n")
 
-# Create summary statistics
 table1_data <- clean_data %>%
   count(`Exposure Category`, Gender) %>%
   group_by(`Exposure Category`) %>%
@@ -99,7 +89,6 @@ table1_data <- clean_data %>%
   ) %>%
   ungroup()
 
-# Reshape for display
 table1_wide <- table1_data %>%
   pivot_wider(
     id_cols = `Exposure Category`,
@@ -114,7 +103,6 @@ table1_wide <- table1_data %>%
   ) %>%
   select(`Exposure Category`, F = F_display, M = M_display, Total, `P-value`)
 
-# Add totals row
 totals <- clean_data %>%
   count(Gender) %>%
   pivot_wider(names_from = Gender, values_from = n) %>%
@@ -132,7 +120,6 @@ totals <- clean_data %>%
 
 table1_final <- bind_rows(table1_wide, totals)
 
-# Create kable table
 kable(table1_final,
   format = "latex",
   booktabs = TRUE,
@@ -156,7 +143,6 @@ cat("\n\n", tab_1_caption, "\n\n")
 ```
 
 ```{r focused_analyses, results='asis'}
-# ===== Focused Analyses =====
 create_binary_comparison <- function(data, target_category) {
   data %>%
     mutate(category_binary = ifelse(`Exposure Category` == target_category,
@@ -164,39 +150,46 @@ create_binary_comparison <- function(data, target_category) {
     ))
 }
 
-# Antidepressants comparison
 antidep_data <- create_binary_comparison(clean_data, "Antidepressants")
 antidep_table <- table(antidep_data$category_binary, antidep_data$Gender)
 antidep_chi <- chisq.test(antidep_table)
+antidep_fisher <- fisher.test(antidep_table)
 antidep_p <- ifelse(antidep_chi$p.value < 0.001, "< 0.001",
   format(round(antidep_chi$p.value, 3), nsmall = 3)
 )
+antidep_fisher_p <- ifelse(antidep_fisher$p.value < 0.001, "< 0.001",
+  format(round(antidep_fisher$p.value, 3), nsmall = 3)
+)
 antidep_significant <- antidep_chi$p.value < 0.05
 
-# Analgesic comparison
 analgesic_data <- create_binary_comparison(clean_data, "Analgesic")
 analgesic_table <- table(analgesic_data$category_binary, analgesic_data$Gender)
 analgesic_chi <- chisq.test(analgesic_table)
+analgesic_fisher <- fisher.test(analgesic_table)
 analgesic_p <- ifelse(analgesic_chi$p.value < 0.001, "< 0.001",
   format(round(analgesic_chi$p.value, 3), nsmall = 3)
 )
+analgesic_fisher_p <- ifelse(analgesic_fisher$p.value < 0.001, "< 0.001",
+  format(round(analgesic_fisher$p.value, 3), nsmall = 3)
+)
 analgesic_significant <- analgesic_chi$p.value < 0.05
 
-# Street Drugs comparison
 streetdrugs_data <- create_binary_comparison(clean_data, "Street Drugs")
 streetdrugs_table <- table(streetdrugs_data$category_binary, streetdrugs_data$Gender)
 streetdrugs_chi <- chisq.test(streetdrugs_table)
+streetdrugs_fisher <- fisher.test(streetdrugs_table)
 streetdrugs_p <- ifelse(streetdrugs_chi$p.value < 0.001, "< 0.001",
   format(round(streetdrugs_chi$p.value, 3), nsmall = 3)
 )
+streetdrugs_fisher_p <- ifelse(streetdrugs_fisher$p.value < 0.001, "< 0.001",
+  format(round(streetdrugs_fisher$p.value, 3), nsmall = 3)
+)
 streetdrugs_significant <- streetdrugs_chi$p.value < 0.05
 
-# Create focused tables in v2 style
 cat("\\pagebreak\n\n")
 cat("\\textbf{Table 2. Focused Comparisons: High-Frequency Categories vs All Others}\n\n")
 cat("\\textbf{Antidepressants vs All Others}\n\n")
 
-# Antidepressants table
 antidep_summary <- antidep_data %>%
   count(category_binary, Gender) %>%
   group_by(category_binary) %>%
@@ -214,15 +207,16 @@ antidep_summary <- antidep_data %>%
     F = paste0(n_F, " (", pct_F, "%)"),
     M = paste0(n_M, " (", pct_M, "%)"),
     Total = total_F,
-    `P-value` = c(antidep_p, "")
+    `P-value (Chi-sq)` = c(antidep_p, ""),
+    `P-value (Fisher)` = c(antidep_fisher_p, "")
   ) %>%
-  select(category_binary, F, M, Total, `P-value`) %>%
+  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
   rename(" " = category_binary)
 
 kable(antidep_summary,
   format = "latex",
   booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r")
+  align = c("l", "r", "r", "r", "r", "r")
 ) %>%
   kable_styling(latex_options = c("hold_position")) %>%
   row_spec(0, bold = TRUE) %>%
@@ -230,7 +224,6 @@ kable(antidep_summary,
 
 cat("\n\n\\textbf{Analgesic vs All Others}\n\n")
 
-# Analgesic table
 analgesic_summary <- analgesic_data %>%
   count(category_binary, Gender) %>%
   group_by(category_binary) %>%
@@ -248,15 +241,16 @@ analgesic_summary <- analgesic_data %>%
     F = paste0(n_F, " (", pct_F, "%)"),
     M = paste0(n_M, " (", pct_M, "%)"),
     Total = total_F,
-    `P-value` = c(analgesic_p, "")
+    `P-value (Chi-sq)` = c(analgesic_p, ""),
+    `P-value (Fisher)` = c(analgesic_fisher_p, "")
   ) %>%
-  select(category_binary, F, M, Total, `P-value`) %>%
+  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
   rename(" " = category_binary)
 
 kable(analgesic_summary,
   format = "latex",
   booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r")
+  align = c("l", "r", "r", "r", "r", "r")
 ) %>%
   kable_styling(latex_options = c("hold_position")) %>%
   row_spec(0, bold = TRUE) %>%
@@ -264,7 +258,6 @@ kable(analgesic_summary,
 
 cat("\n\n\\textbf{Street Drugs vs All Others}\n\n")
 
-# Street Drugs table
 streetdrugs_summary <- streetdrugs_data %>%
   count(category_binary, Gender) %>%
   group_by(category_binary) %>%
@@ -282,21 +275,22 @@ streetdrugs_summary <- streetdrugs_data %>%
     F = paste0(n_F, " (", pct_F, "%)"),
     M = paste0(n_M, " (", pct_M, "%)"),
     Total = total_F,
-    `P-value` = c(streetdrugs_p, "")
+    `P-value (Chi-sq)` = c(streetdrugs_p, ""),
+    `P-value (Fisher)` = c(streetdrugs_fisher_p, "")
   ) %>%
-  select(category_binary, F, M, Total, `P-value`) %>%
+  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
   rename(" " = category_binary)
 
 kable(streetdrugs_summary,
   format = "latex",
   booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r")
+  align = c("l", "r", "r", "r", "r", "r")
 ) %>%
   kable_styling(latex_options = c("hold_position")) %>%
   row_spec(0, bold = TRUE) %>%
   cat()
 
-cat("\n\n\\textbf{Table 2.} Binary comparisons examining whether high-frequency exposure categories show different gender distributions compared to all other categories combined. Antidepressants vs all others: chi-square test p = ", antidep_p, ifelse(antidep_significant, " (significant)", " (not significant)"), ". Analgesic vs all others: chi-square test p = ", analgesic_p, ifelse(analgesic_significant, " (significant)", " (not significant)"), ". Street Drugs vs all others: chi-square test p = ", streetdrugs_p, ifelse(streetdrugs_significant, " (significant)", " (not significant)"), ".\n\n", sep = "")
+cat("\n\nTable 2. Binary comparisons examining whether high-frequency exposure categories show different gender distributions compared to all other categories combined. Both chi-square and Fisher's exact tests are provided for each comparison. Antidepressants vs all others: chi-square p = ", antidep_p, ", Fisher's exact p = ", antidep_fisher_p, ifelse(antidep_significant, " (significant)", " (not significant)"), ". Analgesic vs all others: chi-square p = ", analgesic_p, ", Fisher's exact p = ", analgesic_fisher_p, ifelse(analgesic_significant, " (significant)", " (not significant)"), ". Street Drugs vs all others: chi-square p = ", streetdrugs_p, ", Fisher's exact p = ", streetdrugs_fisher_p, ifelse(streetdrugs_significant, " (significant)", " (not significant)"), ". Fisher's exact test was computationally feasible for these 2x2 comparisons, unlike the 8x2 table in Table 1 which required simulation.\n\n", sep = "")
 
 cat("\\pagebreak\n\n")
 cat("\\FloatBarrier\n")
@@ -307,10 +301,8 @@ cat("\\textbf{Figure S1. Raw Counts of Exposure Categories by Gender}\n\n")
 ```
 
 ```{r create_figures, include=FALSE}
-# ===== FIGURES =====
 base_sz <- 11
 
-# FIGURE 1: Raw counts - exact order as Table 1 (reversed for coord_flip)
 fig1_order <- rev(ordered_categories)
 
 fig1_data <- clean_data %>% count(`Exposure Category`, Gender)
@@ -334,7 +326,6 @@ fig1_caption <- paste0(
   ifelse(overall_significant, "a significant overall association.", "no significant overall association.")
 )
 
-# FIGURE 2: Proportions - ordered by DESCENDING FEMALE percentage
 fig2_order <- c("Alcohol", "CO, As, CN", "Street Drugs", "Combination", "Unknown", "Sedatives", "Analgesic", "Antidepressants")
 fig2_data <- clean_data %>%
   count(`Exposure Category`, Gender) %>%
@@ -366,7 +357,6 @@ fig2_caption <- paste0(
   )
 )
 
-# FIGURE 3: Proportions - ordered by DESCENDING MALE percentage
 fig3_order <- c("Antidepressants", "Analgesic", "Sedatives", "Unknown", "Combination", "Street Drugs", "CO, As, CN", "Alcohol")
 
 p3 <- ggplot(fig2_data, aes(x = factor(`Exposure Category`, levels = fig3_order), y = prop, fill = Gender)) +
@@ -421,11 +411,11 @@ This followup analysis examined gender as a potential confounding variable in to
 
 **Statistical Analysis Results:**
 
-Chi-square test found `r ifelse(overall_significant, "**a significant association**", "**no significant association**")` between gender and exposure category (*p* = `r chi_p_value`). Focused comparisons of high-frequency categories showed:
+Chi-square test found `r ifelse(overall_significant, "**a significant association**", "**no significant association**")` between gender and exposure category (*p* = `r chi_p_value`). Fisher's exact test with simulation (B = 10,000) yielded *p* = `r fisher_p_value`. Note that Fisher's exact test required Monte Carlo simulation for the 8x2 contingency table due to computational complexity, whereas the 2x2 tables in focused comparisons allowed for exact calculation without simulation. Focused comparisons of high-frequency categories showed:
 
-- Antidepressants vs all others: *p* = `r antidep_p` `r ifelse(antidep_significant, "(significant)", "(not significant)")`
-- Analgesic vs all others: *p* = `r analgesic_p` `r ifelse(analgesic_significant, "(significant)", "(not significant)")`
-- Street Drugs vs all others: *p* = `r streetdrugs_p` `r ifelse(streetdrugs_significant, "(significant)", "(not significant)")`
+- Antidepressants vs all others: chi-square *p* = `r antidep_p`, Fisher's exact *p* = `r antidep_fisher_p` `r ifelse(antidep_significant, "(significant)", "(not significant)")`
+- Analgesic vs all others: chi-square *p* = `r analgesic_p`, Fisher's exact *p* = `r analgesic_fisher_p` `r ifelse(analgesic_significant, "(significant)", "(not significant)")`
+- Street Drugs vs all others: chi-square *p* = `r streetdrugs_p`, Fisher's exact *p* = `r streetdrugs_fisher_p` `r ifelse(streetdrugs_significant, "(significant)", "(not significant)")`
 
 **Key Findings:**
 
@@ -433,7 +423,7 @@ Chi-square test found `r ifelse(overall_significant, "**a significant associatio
 
 - **Clinical Significance:** `r ifelse(overall_significant, "The significant statistical results indicate that the observed gender patterns reflect true population associations rather than sampling variation. This suggests gender-based differences in exposure patterns that warrant consideration in clinical decision-making.", "The non-significant statistical results suggest that observed gender patterns may reflect sampling variation rather than true population associations. However, category-specific patterns warrant cautious interpretation.")`
 
-- **Methodological Improvements:** Removing low-frequency categories improved statistical power, while Fisher's exact test provided more appropriate analysis for the observed cell sizes compared to chi-square methods.
+- **Methodological Improvements:** Removing low-frequency categories improved statistical power. For Table 1, Fisher's exact test required Monte Carlo simulation with 10,000 replicates due to the computational complexity of the 8x2 contingency table. In contrast, the 2x2 tables in Table 2's focused comparisons allowed for exact Fisher's test calculation without simulation, providing both chi-square and Fisher's exact p-values for comparison. The close agreement between chi-square and Fisher's exact results in the 2x2 comparisons validates the chi-square approach for these simpler tables.
 
 **Implications for Original Study:**
 
