@@ -2,10 +2,12 @@
 title: "Exposure Category by Gender: Followup Analysis"
 author: "Yash Jaggi"
 output: 
-  pdf_document:
-    latex_engine: xelatex
-    toc: false
-    keep_tex: true
+    bookdown::pdf_document2:
+      latex_engine: xelatex
+      toc: false
+      keep_tex: true
+      fig_caption: yes
+      table_caption: true
 header-includes:
   - \usepackage{booktabs}
   - \usepackage{caption}
@@ -38,7 +40,7 @@ knitr::opts_chunk$set(
   out.width = "90%"
 )
 
-data <- read_excel("~/Downloads/Tox Book.v2 (1).xlsx", sheet = "INTOXICATE")
+data <- read_excel(here("data","snapshots","snapshot.05062024.xlsx"), sheet = "INTOXICATE")
 
 clean_data <- data %>%
   filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
@@ -61,12 +63,12 @@ ordered_categories <- category_counts$`Exposure Category`
 clean_data <- clean_data %>%
   mutate(`Exposure Category` = factor(`Exposure Category`, levels = ordered_categories))
 
-cont_table <- table(clean_data$`Exposure Category`, clean_data$Gender)
-
-fisher_result <- fisher.test(cont_table, simulate.p.value = TRUE, B = 10000)
-fisher_p_value <- ifelse(fisher_result$p.value < 0.001, "< 0.001",
-  format(round(fisher_result$p.value, 3), nsmall = 3)
-)
+create_binary_comparison <- function(data, target_category) {
+  data %>%
+    mutate(category_binary = ifelse(`Exposure Category` == target_category,
+      target_category, "All Others"
+    ))
+}
 
 chi_result <- suppressWarnings(chisq.test(cont_table))
 chi_p_value <- ifelse(chi_result$p.value < 0.001, "< 0.001",
@@ -77,81 +79,34 @@ overall_significant <- fisher_result$p.value < 0.05
 significance_text <- ifelse(overall_significant, "significant", "no significant")
 ```
 
-```{r table1, results='asis'}
-cat("\\textbf{Table 1. Distribution of Exposure Categories by Gender}\n\n")
+# Methods {-}
+To determine the relationship between gender and the main substance ingested, we stratified exposure counts by gender (Table \ref{tab:gender_by_exposure}). There was no overall systematic difference in exposures between genders.  
 
-table1_data <- clean_data %>%
-  count(`Exposure Category`, Gender) %>%
-  group_by(`Exposure Category`) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup()
+```{r gender_by_exposure, tab.cap="\\textbf{Exposure Category by Gender}. Cells show count of cases, percentage of total by gender in parentheses. "}
+tbl  <-  data  %>%
+  filter(Gender != 'NB') %>%
+  tbl_cross(row=`Exposure Category`, col=Gender, percent="column") %>%
+  add_p() %>%  
+  as_gt()
 
-table1_wide <- table1_data %>%
-  pivot_wider(
-    id_cols = `Exposure Category`,
-    names_from = Gender,
-    values_from = c(n, pct, total)
-  ) %>%
-  mutate(
-    F_display = paste0(n_F, " (", pct_F, "%)"),
-    M_display = paste0(n_M, " (", pct_M, "%)"),
-    Total = total_F,
-    `P-value` = ifelse(row_number() == 1, chi_p_value, "")
-  ) %>%
-  select(`Exposure Category`, F = F_display, M = M_display, Total, `P-value`)
-
-totals <- clean_data %>%
-  count(Gender) %>%
-  pivot_wider(names_from = Gender, values_from = n) %>%
-  mutate(
-    total = F + M,
-    F_pct = round(100 * F / total),
-    M_pct = round(100 * M / total),
-    `Exposure Category` = "Total",
-    F_display = paste0(F, " (", F_pct, "%)"),
-    M_display = paste0(M, " (", M_pct, "%)"),
-    Total = total,
-    `P-value` = ""
-  ) %>%
-  select(`Exposure Category`, F = F_display, M = M_display, Total, `P-value`)
-
-table1_final <- bind_rows(table1_wide, totals)
-
-kable(table1_final,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r"),
-  caption = NULL
-) %>%
-  kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  row_spec(nrow(table1_final), bold = TRUE, hline_after = TRUE) %>%
-  cat()
-
-tab_1_caption <- paste0(
-  "Table 1. Counts and row-wise percentages for each exposure category by gender, including totals. ",
-  "Percentages in the F and M columns reflect the proportion within each row. ",
-  "Chi-square test found a ", significance_text, " association between gender and exposure category (p = ",
-  chi_p_value, "). Categories are ordered by decreasing total count. ",
-  "'Other' category was removed due to small sample size, but 'Unknown' was retained."
-)
-
-cat("\n\n", tab_1_caption, "\n\n")
+knitr::asis_output(paste0("\\begin{table}[H]\\centering\n",as.character(as_latex(tbl)),"\n","\\caption{Exposure Category by Gender\\label{tab:gender_by_exposure}}\n","\\end{table}\n"))
 ```
 
-```{r focused_analyses, results='asis'}
-create_binary_comparison <- function(data, target_category) {
-  data %>%
-    mutate(category_binary = ifelse(`Exposure Category` == target_category,
-      target_category, "All Others"
-    ))
-}
+```{r overall_vs_analgesic}
 
-antidep_data <- create_binary_comparison(clean_data, "Antidepressants")
-antidep_table <- table(antidep_data$category_binary, antidep_data$Gender)
+tbl  <-  clean_data %>%
+  select(c(`Exposure Category`,Gender)) %>%
+  create_binary_comparison("Antidepressants") %>%
+  tbl_cross() %>% 
+  add_p() %>%
+  as_gt()
+
+knitr::asis_output(paste0("\\begin{table}[H]\\centering\n",as.character(as_latex(tbl)),"\n","\\caption{Antidepressants vs TAll Others\\label{tab:antidepressants_vs_all}}\n","\\end{table}\n"))
+  
+```
+
+```{r focused_analyses}
+
 antidep_chi <- chisq.test(antidep_table)
 antidep_fisher <- fisher.test(antidep_table)
 antidep_p <- ifelse(antidep_chi$p.value < 0.001, "< 0.001",
