@@ -1,0 +1,169 @@
+---
+title: "Recalibration of INTOXICATE Model"
+output : 
+  html_document:
+    keep_md: true
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(yardstick)
+library(gt)
+library(ggrepel)
+library(ggplot2)
+library(ggpubr)
+library(gtsummary)
+library(psych)
+library(caret)
+
+# Make sure you're using rms, not a masked function
+detach("package:psych", unload=TRUE)
+library(rms)
+library(ggplotify)
+library(rmda)
+library(pROC)
+library(cowplot)
+knitr::opts_chunk$set(dev = "png",
+                      dpi = 300,
+                      echo = FALSE,
+                      cache = TRUE)
+df  <-  read_excel("../data/snapshots/snapshot.04192025.intoxicate.xlsx", sheet = "INTOXICATE", range = cell_cols("A:AC"))
+
+df <- df %>%
+  mutate(age_category = case_when(
+    Age < 12 ~ "Pediatric",
+    Age >= 12 & Age < 18 ~ "Adolescent",
+    Age >= 18 ~ "Adult"
+  ))
+
+xf <-  df %>%
+  mutate(`Actual Disposition`  = case_when(
+    `Actual Disposition` == "ICU" ~ "ICU",
+    `Actual Disposition` == "GMF" ~ "Not ICU",
+    `Actual Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"
+  ), 
+  `Predicted Disposition`  = case_when(
+    `Predicted Disposition` == "ICU" ~ "ICU",
+    `Predicted Disposition` == "GMF" ~ "Not ICU",
+    `Predicted Disposition` == "Discharge" ~ "Not ICU",
+    TRUE ~ "NA"))
+
+
+xf$icu_admit <- ifelse(xf$`Actual Disposition` == "ICU", 1, 0)
+dd <- rms::datadist(xf[ , sapply(xf, function(v) length(na.omit(unique(v))) > 1)])
+options(datadist = "dd")
+xf$pred_admit <- ifelse(xf$`Predicted Disposition` == "ICU", 1, 0)
+```
+
+```{r recalibration}
+
+cal_model <- lrm(`Actual Disposition` ~ `INTOXICATE SCORE`, data = xf, x = TRUE, y = TRUE)
+
+# Calibration plot
+cal <- calibrate(cal_model, method = "boot", B = 200)
+plot(cal, 
+     xlab = "Predicted Probability", 
+     ylab = "Observed Probability",
+     main = "Calibration Plot for INTOXICATE in ED Population")
+
+
+# Decision Curve Analysis
+dca_result <- decision_curve(
+  icu_admit ~ `INTOXICATE SCORE`,
+  data = xf,
+  family = binomial(link = "logit"),
+  thresholds = seq(0, 1, by = 0.01),
+  confidence.intervals = 0.95,
+  study.design = "cohort"
+)
+
+# Plot decision curves
+plot_decision_curve(
+  dca_result,
+  curve.names = "INTOXICATE Score",
+  xlab = "Threshold Probability for ICU Admission",
+  ylab = "Net Benefit",
+  legend.position = "topright"
+)
+
+# Recalibration model: refit outcome vs. original predicted log-odds
+recal_model <- glm(
+  icu_admit ~ `INTOXICATE SCORE`,
+  data = xf %>% filter(Age > 12),
+  family = binomial(link = "logit")
+)
+
+summary(recal_model)
+
+ggplot(xf, aes(x = `INTOXICATE SCORE`, y = icu_admit)) +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"),
+              se = TRUE, colour = "red", fill = "pink", alpha = 0.4) +
+  geom_line(aes(y = pred_admit), colour = "blue") +
+  labs(title = "Recalibration of INTOXICATE Score in ED Population",
+       x = "INTOXICATE Risk Score",
+       y = "Predicted Probability of ICU Admission") +
+  theme_classic()
+
+xf$ed_prob <- plogis(-2.96 + 0.138 * xf$`INTOXICATE SCORE`)
+xf$ed_pred_disp <- ifelse(xf$ed_prob > 0.16, "ICU", "Not ICU")
+xf %>% 
+  filter(Age > 12) %>%
+  tbl_cross(`Predicted Disposition`, `Actual Disposition`)
+
+xf %>% 
+  filter(Age > 12) %>%
+  tbl_cross(ed_pred_disp, `Actual Disposition`)
+
+# --- Compute confusion matrices safely ---
+cm_original <- xf %>%
+  filter(Age > 12) %>%
+  { caret::confusionMatrix(
+      as.factor(.$`Predicted Disposition`),
+      as.factor(.$`Actual Disposition`),
+      positive = "ICU"
+    )
+  }
+
+cm_recal <- xf %>%
+  filter(Age > 12) %>%
+  { caret::confusionMatrix(
+      as.factor(.$ed_pred_disp),
+      as.factor(.$`Actual Disposition`),
+      positive = "ICU"
+    )
+  }
+
+cm_adj <- xf %>%
+  filter(Age > 12) %>%
+  mutate(
+    adj_pred_disp = ifelse(`INTOXICATE SCORE` > 17, "ICU", "Not ICU")
+  ) %>%
+  { caret::confusionMatrix(
+      as.factor(.$adj_pred_disp),
+      as.factor(.$`Actual Disposition`),
+      positive = "ICU"
+    )
+  }
+
+# --- Convert to tidy data frames ---
+tidy_cm <- function(cm, label) {
+  as.data.frame(cm$byClass) |>
+    tibble::rownames_to_column("Metric") |>
+    dplyr::mutate(Model = label)
+}
+
+df_cm <- bind_rows(
+  tidy_cm(cm_original, "Original INTOXICATE"),
+  tidy_cm(cm_adj, "Adjusted Threshold (17)"),
+  tidy_cm(cm_recal, "Recalibrated (ED)")
+)
+
+df_cm %>%
+  pivot_wider(names_from = Metric, values_from = "cm$byClass") %>%
+  select(Model, Sensitivity, Specificity, `Balanced Accuracy`, `Pos Pred Value`, `Neg Pred Value`) %>%
+  gt() 
