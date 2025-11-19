@@ -1,5 +1,5 @@
 ---
-title: "INTOXICATE Gender and Dysrhythmia Analysis"
+title: "Linear Independence of Variables in INTOXICATE-ER"
 author: "Yash Jaggi"
 output: 
     bookdown::pdf_document2:
@@ -7,12 +7,15 @@ output:
       toc: false
       keep_tex: true
       fig_caption: yes
+      geometry: "left=0.5in,right=0.5in,top=0.5in,bottom=0.5in"
 header-includes:
   - \usepackage{booktabs}
   - \usepackage{caption}
   - \usepackage{float}
   - \renewcommand{\familydefault}{\sfdefault}
   - \usepackage{placeins}
+  - \usepackage{caption}
+  - \captionsetup[table]{position=bottom}
 ---
 
 ```{r load_and_prepare, echo=FALSE, warning=FALSE, message=FALSE}
@@ -28,6 +31,7 @@ library(stringr)
 library(ggthemes)
 library(gtExtras)
 library(gtsummary)
+library(purrr)
 library(gt)
 
 knitr::opts_chunk$set(
@@ -40,7 +44,7 @@ knitr::opts_chunk$set(
 )
 
 # Read data from Downloads folder
-data <- read_excel("~/Downloads/Tox Book.v2 (2).xlsx", sheet = "INTOXICATE")
+data <- read_excel(here("data", "snapshots", "snapshot.04192025.xlsx"), sheet = "INTOXICATE", range = cell_cols("A:AC"))
 
 # Clean exposure category data
 clean_data <- data %>%
@@ -130,167 +134,67 @@ analgesic_p <- format_p(analgesic_chi$p.value)
 analgesic_fisher_p <- format_p(analgesic_fisher$p.value)
 streetdrugs_p <- format_p(streetdrugs_chi$p.value)
 streetdrugs_fisher_p <- format_p(streetdrugs_fisher$p.value)
+
+
 ```
 
-# Table 1. Distribution of Exposure Categories by Gender
+# Realtionship Between Gender and Xenobiotic {-} 
 
 ```{r table1}
-table1_data <- clean_data %>%
-  count(`Exposure Category`, Gender) %>%
-  group_by(`Exposure Category`) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup() %>%
-  pivot_wider(
-    id_cols = `Exposure Category`,
-    names_from = Gender,
-    values_from = c(n, pct)
-  ) %>%
-  mutate(
-    F = paste0(n_F, " (", pct_F, "%)"),
-    M = paste0(n_M, " (", pct_M, "%)"),
-    Total = n_F + n_M
-  ) %>%
-  select(`Exposure Category`, F, M, Total)
+# Use GPT less
 
-totals <- data.frame(
-  `Exposure Category` = "Total",
-  F = paste0(sum(clean_data$Gender == "F"), " (", 
-             round(100 * sum(clean_data$Gender == "F") / nrow(clean_data)), "%)"),
-  M = paste0(sum(clean_data$Gender == "M"), " (", 
-             round(100 * sum(clean_data$Gender == "M") / nrow(clean_data)), "%)"),
-  Total = nrow(clean_data),
-  check.names = FALSE
-)
+tbl1 <- clean_data %>%
+  tbl_cross(`Exposure Category`, Gender, percent = 'column') %>%
+  add_overall() %>%
+  add_p() 
 
-table1_final <- rbind(table1_data, totals)
-table1_final$`Chi-square p` <- c(chi_p_value, rep("", nrow(table1_final) - 1))
-table1_final$`Fisher p` <- c(fisher_p_value, rep("", nrow(table1_final) - 1))
-
-kable(table1_final,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r", "r"),
-  col.names = c("Exposure Category", "F", "M", "Total", "Chi-square p", "Fisher p")
-) %>%
+tbl1 %>%
+  as_kable_extra(
+    format = "latex",
+    booktabs = TRUE,
+    caption = "\\textbf{No association between gender and type of xenobiotic.}. Cells denote case count (column percentage). F, biological female. M, male. See X for description of exposure categories."
+  ) %>%
   kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  row_spec(nrow(table1_final), hline_after = TRUE)
+  row_spec(0, bold = TRUE)
+
+p_value_g_by_x <- inline_text(tbl1, col_level = "p.value")
 ```
 
-**Table 1.** Counts and row-wise percentages for each exposure category by gender. The sample included `r sum(cont_table[,'F'])` females (`r round(100*sum(cont_table[,'F'])/sum(cont_table))`%) and `r sum(cont_table[,'M'])` males (`r round(100*sum(cont_table[,'M'])/sum(cont_table))`%). Chi-square test found `r ifelse(overall_significant, "a significant", "no significant")` association between gender and exposure category (*p* = `r chi_p_value`). Fisher's exact test with Monte Carlo simulation (10,000 replicates) yielded *p* = `r fisher_p_value`, which was necessary due to computational complexity of the 8×2 contingency table. Categories ordered by decreasing total count.
-
-\pagebreak
+We found no overall association between gender and exposure category (`r p_value_g_by_x`, Table \ref{tab:table1}). 
 
 # Table 2. Focused Comparisons: High-Frequency Categories vs All Others
 
-```{r table2_original, results='asis'}
-cat("\\textbf{Antidepressants vs All Others}\n\n")
+```{r table2, results='asis', tab.cap = FALSE}
 
-antidep_summary <- antidep_data %>%
-  count(category_binary, Gender) %>%
-  group_by(category_binary) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup() %>%
-  pivot_wider(
-    id_cols = category_binary,
-    names_from = Gender,
-    values_from = c(n, pct, total)
-  ) %>%
-  mutate(
-    F = paste0(n_F, " (", pct_F, "%)"),
-    M = paste0(n_M, " (", pct_M, "%)"),
-    Total = total_F,
-    `P-value (Chi-sq)` = c(antidep_p, ""),
-    `P-value (Fisher)` = c(antidep_fisher_p, "")
-  ) %>%
-  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
-  rename(" " = category_binary)
+xenobiotics <- c("Antidepressants", "Analgesic", "Street Drugs")
 
-kable(antidep_summary,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r", "r")
-) %>%
-  kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  cat()
+indiv_comparisons <- map_dfr(xenobiotics, function(category) {
+  binary_data <- create_binary_comparison(clean_data, category)
+  tbl <- binary_data %>% 
+    select(category_binary, Gender) %>%
+    tbl_cross(label = list(category_binary ~ "Class")) %>%
+    add_overall() %>%
+    add_p() %>%
+    modify_table_body(~.x |> dplyr::mutate(p.value = p.adjust(p.value, method = "bonferroni", n = length(xenobiotics)))) 
 
-cat("\n\n\\textbf{Analgesic vs All Others}\n\n")
+  tibble(name = category,
+         binary_data = list(binary_data),
+         contingency_tbl = list(tbl))
+})
 
-analgesic_summary <- analgesic_data %>%
-  count(category_binary, Gender) %>%
-  group_by(category_binary) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup() %>%
-  pivot_wider(
-    id_cols = category_binary,
-    names_from = Gender,
-    values_from = c(n, pct, total)
-  ) %>%
-  mutate(
-    F = paste0(n_F, " (", pct_F, "%)"),
-    M = paste0(n_M, " (", pct_M, "%)"),
-    Total = total_F,
-    `P-value (Chi-sq)` = c(analgesic_p, ""),
-    `P-value (Fisher)` = c(analgesic_fisher_p, "")
-  ) %>%
-  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
-  rename(" " = category_binary)
-
-kable(analgesic_summary,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r", "r")
-) %>%
-  kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  cat()
-
-cat("\n\n\\textbf{Street Drugs vs All Others}\n\n")
-
-streetdrugs_summary <- streetdrugs_data %>%
-  count(category_binary, Gender) %>%
-  group_by(category_binary) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup() %>%
-  pivot_wider(
-    id_cols = category_binary,
-    names_from = Gender,
-    values_from = c(n, pct, total)
-  ) %>%
-  mutate(
-    F = paste0(n_F, " (", pct_F, "%)"),
-    M = paste0(n_M, " (", pct_M, "%)"),
-    Total = total_F,
-    `P-value (Chi-sq)` = c(streetdrugs_p, ""),
-    `P-value (Fisher)` = c(streetdrugs_fisher_p, "")
-  ) %>%
-  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
-  rename(" " = category_binary)
-
-kable(streetdrugs_summary,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r", "r")
-) %>%
-  kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  cat()
+for (i in 1:nrow(indiv_comparisons)) {
+   cat("\n\n")
+   print(
+    indiv_comparisons$contingency_tbl[[i]] %>%
+      as_kable_extra(
+        format = "latex",
+        booktabs = TRUE,
+        caption = sprintf(
+  "%s vs overall counts. Cells denote case count (column percentage).",
+  indiv_comparisons$name[i]), 
+        label = sprintf("\\label{tab:%s-v-others}", tolower(gsub(" ", "-", indiv_comparisons$name[i])))))
+      }
 ```
-
-**Table 2.** Binary comparisons examining whether high-frequency exposure categories show different gender distributions compared to all other categories combined. Both chi-square and Fisher's exact tests are provided. Antidepressants vs all others: chi-square *p* = `r antidep_p`, Fisher's exact *p* = `r antidep_fisher_p` `r ifelse(antidep_chi$p.value < 0.05, "(significant)", "(not significant)")`. Analgesic vs all others: chi-square *p* = `r analgesic_p`, Fisher's exact *p* = `r analgesic_fisher_p` `r ifelse(analgesic_chi$p.value < 0.05, "(significant)", "(not significant)")`. Street Drugs vs all others: chi-square *p* = `r streetdrugs_p`, Fisher's exact *p* = `r streetdrugs_fisher_p` `r ifelse(streetdrugs_chi$p.value < 0.05, "(significant)", "(not significant)")`. Fisher's exact test was computationally feasible for these 2×2 comparisons, unlike the 8×2 table in Table 1 which required Monte Carlo simulation.
 
 \pagebreak
 
