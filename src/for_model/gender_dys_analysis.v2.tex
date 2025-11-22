@@ -102,145 +102,45 @@
 \centering
 \caption{\label{tab:table1}\textbf{No association between gender and type of xenobiotic.}. Cells denote case count (column percentage). F, biological female. M, male. See X for description of exposure categories.}
 \centering
-\begin{tabular}[t]{lcccc}
+\begin{tabular}[t]{lcccccc}
 \toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Gender} & \multicolumn{2}{c}{ } \\
+\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Biological Sex} & \multicolumn{4}{c}{ } \\
 \cmidrule(l{3pt}r{3pt}){2-3}
-\textbf{} & \textbf{F} & \textbf{M} & \textbf{Total} & \textbf{p-value}\\
+\textbf{} & \textbf{\textit{F}} & \textbf{\textit{M}} & \textbf{Total} & \textbf{p-value} & \textbf{\textbf{Row vs Rest p}} & \textbf{\textbf{Row vs Rest p (adj)}}\\
 \midrule
-Exposure Category &  &  &  & 0.2\\
-\hspace{1em}Analgesic & 11 (19\%) & 7 (13\%) & 18 (16\%) & \\
-\hspace{1em}Antidepressants & 12 (20\%) & 6 (12\%) & 18 (16\%) & \\
-\hspace{1em}Combination & 7 (12\%) & 10 (19\%) & 17 (15\%) & \\
-\hspace{1em}Street Drugs & 6 (10\%) & 11 (21\%) & 17 (15\%) & \\
+Exposure Category &  &  &  & 0.2 &  & \\
+\hspace{1em}\em{Analgesic} & 11 (61\%) & 7 (39\%) & 18 (100\%) &  & 0.630 & 0.841\\
+\hspace{1em}\em{Antidepressants} & 12 (67\%) & 6 (33\%) & 18 (100\%) &  & 0.319 & 0.668\\
+\hspace{1em}\em{Combination} & 7 (41\%) & 10 (59\%) & 17 (100\%) &  & 0.417 & 0.668\\
+\hspace{1em}\em{Street Drugs} & 6 (35\%) & 11 (65\%) & 17 (100\%) &  & 0.180 & 0.668\\
 \addlinespace
-\hspace{1em}Unknown & 12 (20\%) & 4 (7.7\%) & 16 (14\%) & \\
-\hspace{1em}CO, As, CN & 4 (6.8\%) & 7 (13\%) & 11 (9.9\%) & \\
-\hspace{1em}Alcohol & 3 (5.1\%) & 4 (7.7\%) & 7 (6.3\%) & \\
-\hspace{1em}Sedatives & 4 (6.8\%) & 3 (5.8\%) & 7 (6.3\%) & \\
-Total & 59 (100\%) & 52 (100\%) & 111 (100\%) & \\
+\hspace{1em}\em{Unknown} & 12 (75\%) & 4 (25\%) & 16 (100\%) &  & 0.105 & 0.668\\
+\hspace{1em}\em{CO, As, CN} & 4 (36\%) & 7 (64\%) & 11 (100\%) &  & 0.391 & 0.668\\
+\hspace{1em}\em{Alcohol} & 3 (43\%) & 4 (57\%) & 7 (100\%) &  & 0.863 & 0.986\\
+\hspace{1em}\em{Sedatives} & 4 (57\%) & 3 (43\%) & 7 (100\%) &  & 1.000 & 1.000\\
+Total & 59 (53\%) & 52 (47\%) & 111 (100\%) &  &  & \\
 \bottomrule
-\multicolumn{5}{l}{\rule{0pt}{1em}\textsuperscript{1} Fisher's exact test}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}\textsuperscript{1} Fisher's exact test}\\
 \end{tabular}
 \end{table}
 
-We found no overall association between gender and exposure category (p=0.2, Table \ref{tab:table1}).
+There was no overall association between gender and exposure category (p=0.2, Table \ref{tab:table1}) even though most exposures to antidepressant and analgesic exposures involved females, 12 (67\%) and 11 (61\%), respectively and most exposures to CO/As/CN and street drugs involved males, 7 (64\%) and 11 (65\%), respectively.
 
-\section{Table 2. Focused Comparisons: High-Frequency Categories vs All Others}\label{table-2.-focused-comparisons-high-frequency-categories-vs-all-others}
+Including gender in a regression model changed the Aikake Information Criteria (AIC) from 154 to 156, a minimal difference. Substituting gender for exposure category changed the AIC to 151.12, also a minimal difference. These results suggest thats gender and exposure category provide overlapping information. Omitting both variables changed the AIC 149.12, suggesting that neither variable adds predictive value in this data set.
 
-\begin{table}
+\section*{TODO}\label{todo}
+\addcontentsline{toc}{section}{TODO}
 
-\caption{(\#tab:\label{tab:antidepressants-v-others})Antidepressants vs overall counts. Cells denote case count (column percentage).}
-\centering
-\begin{tabular}[t]{lcccc}
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Gender} & \multicolumn{2}{c}{ } \\
-\cmidrule(l{3pt}r{3pt}){2-3}
- & F & M & Total & p-value\\
-\midrule
-Class &  &  &  & 0.6\\
-\hspace{1em}All Others & 47 & 46 & 93 & \\
-\hspace{1em}Antidepressants & 12 & 6 & 18 & \\
-Total & 59 & 52 & 111 & \\
-\bottomrule
-\multicolumn{5}{l}{\rule{0pt}{1em}\textsuperscript{1} Pearson's Chi-squared test}\\
-\end{tabular}
-\end{table}
-
-\begin{table}
-
-\caption{(\#tab:\label{tab:analgesic-v-others})Analgesic vs overall counts. Cells denote case count (column percentage).}
-\centering
-\begin{tabular}[t]{lcccc}
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Gender} & \multicolumn{2}{c}{ } \\
-\cmidrule(l{3pt}r{3pt}){2-3}
- & F & M & Total & p-value\\
-\midrule
-Class &  &  &  & >0.9\\
-\hspace{1em}All Others & 48 & 45 & 93 & \\
-\hspace{1em}Analgesic & 11 & 7 & 18 & \\
-Total & 59 & 52 & 111 & \\
-\bottomrule
-\multicolumn{5}{l}{\rule{0pt}{1em}\textsuperscript{1} Pearson's Chi-squared test}\\
-\end{tabular}
-\end{table}
-
-\begin{table}
-
-\caption{(\#tab:\label{tab:street-drugs-v-others})Street Drugs vs overall counts. Cells denote case count (column percentage).}
-\centering
-\begin{tabular}[t]{lcccc}
-\toprule
-\multicolumn{1}{c}{ } & \multicolumn{2}{c}{Gender} & \multicolumn{2}{c}{ } \\
-\cmidrule(l{3pt}r{3pt}){2-3}
- & F & M & Total & p-value\\
-\midrule
-Class &  &  &  & 0.3\\
-\hspace{1em}All Others & 53 & 41 & 94 & \\
-\hspace{1em}Street Drugs & 6 & 11 & 17 & \\
-Total & 59 & 52 & 111 & \\
-\bottomrule
-\multicolumn{5}{l}{\rule{0pt}{1em}\textsuperscript{1} Pearson's Chi-squared test}\\
-\end{tabular}
-\end{table}
-
-\pagebreak
-
-\section{Table 3. Bonferroni-Corrected Multiple Comparisons}\label{table-3.-bonferroni-corrected-multiple-comparisons}
-
-\begin{table}[!h]
-\centering
-\begin{tabular}{lrrc}
-\toprule
-\textbf{Comparison} & \textbf{Raw Fisher p} & \textbf{Bonferroni-adjusted p} & \textbf{Significant}\\
-\midrule
-Antidepressants vs All Others & 0.014 & 0.042 & Yes\\
-Analgesic vs All Others & 0.133 & 0.399 & No\\
-Street Drugs vs All Others & 0.377 & 1.000 & No\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Table 3.} Bonferroni correction for multiple testing across three focused comparisons. Adjusted p-values calculated as raw p-value × 3 comparisons, with significance threshold of 0.05 applied to adjusted values. This conservative correction accounts for the increased probability of Type I error when performing multiple hypothesis tests. The Bonferroni method maintains the familywise error rate (the probability of making at least one Type I error across all tests) at 0.05 by dividing the per-comparison significance level (equivalent to multiplying p-values by the number of comparisons). After correction, the antidepressants comparison remains statistically significant (adjusted p = 0.042), though its proximity to the significance threshold (0.05) suggests this finding should be interpreted cautiously and warrants replication in larger samples. The analgesic and street drugs comparisons do not reach significance after accounting for multiple comparisons, suggesting these patterns may reflect chance findings or require larger sample sizes for confirmation.
-
-\pagebreak
-\FloatBarrier
-\setcounter{figure}{0}
-\renewcommand{\thefigure}{S\arabic{figure}}
-
-\section{Visualizing the Data}\label{visualizing-the-data}
-
-\textbf{Figure S1. Raw Counts of Exposure Categories by Gender}
-
-\includegraphics[width=0.9\linewidth]{gender_dys_analysis_files/figure-latex/fig1-1}
-
-\textbf{Figure S1:} Raw counts of individuals in each exposure category by gender, ordered by decreasing total count. Females show higher counts in antidepressants and analgesics, whereas males are more represented in CO/As/CN and street drug exposures.
-
-\pagebreak
-
-\textbf{Figure S2. Gender Distribution Within Exposure Categories (Descending by Female Percentage)}
-
-\includegraphics[width=0.9\linewidth]{gender_dys_analysis_files/figure-latex/fig2-1}
-
-\textbf{Figure S2:} Gender distribution within each exposure category (bars sum to 100\%), ordered by descending female percentage. Antidepressants and analgesics show the highest female representation, while CO/As/CN and alcohol show male predominance.
-
-\textbf{Figure S3. Gender Distribution Within Exposure Categories (Descending by Male Percentage)}
-
-\includegraphics[width=0.9\linewidth]{gender_dys_analysis_files/figure-latex/fig3-1}
-
-\textbf{Figure S3:} Gender distribution within each exposure category (bars sum to 100\%), ordered by descending male percentage. This alternate ordering highlights categories with male predominance.
-
-\section{Interpretation}\label{interpretation}
-
-Chi-square test found \textbf{no significant association} between gender and exposure category (\emph{p} = 0.213). Fisher's exact test with Monte Carlo simulation (B = 10,000) yielded \emph{p} = 0.219. After Bonferroni correction for three focused comparisons, only the antidepressants comparison remained significant, demonstrating a robust gender difference that withstands conservative adjustment for multiple testing.
-
-Females comprised the majority of antidepressant and analgesic exposures, while males represented the majority of CO/As/CN and street drug exposures. These significant statistical results indicate that observed gender patterns reflect true population associations rather than sampling variation. The significant gender associations suggest that gender should be considered as a confounding variable in INTOXICATE model validation. Gender-based stratification could improve model performance and warrants investigation in larger validation studies.
+\begin{itemize}
+\tightlist
+\item
+  Compare Distribution of INTOXIICATE Scores with and without Exposure Category
+\item
+  kk
+\end{itemize}
 
 \section*{Heart Rate and Dysrhythmia}\label{heart-rate-and-dysrhythmia}
 \addcontentsline{toc}{section}{Heart Rate and Dysrhythmia}
-
-Analysis performed on n = 108 cases with complete data across all regression variables. This represents a reduction from the n = 111 cases used in the gender-exposure category analyses (Tables 1-3), with 3 cases excluded due to missing values in one or more regression or outcome variables.
 
 \begin{table}[t]
 \fontsize{12.0pt}{14.0pt}\selectfont
@@ -261,67 +161,9 @@ Analysis performed on n = 108 cases with complete data across all regression var
 \end{minipage}
 \end{table}
 
-\subsection{Analysis 1: Is Dysrhythmia Dependent on Heart Rate?}\label{analysis-1-is-dysrhythmia-dependent-on-heart-rate}
+Heart rate, a continuous variable, and the presence of a dysrhythmia, a dichotomous variable, may not be independent variables in the model in Brandenberg et al.~(2020). That model did not specify whether to classify sinus tachycardia as a dysrhythmia. It is considered a dysrhythmia and the most common dysrhthmia in in stimulant toxicity. We found a significant association between a heart rate faster than 100 bpm and the presence of dysrhythmia (p\textless0.001). Forty-five patients had a heart rate faster than 100 bpm, of whom 39 (87\%) were coded as having a dysrhythmia.
 
-\textbf{Model:} Dysrhythmia \textasciitilde{} Heart Rate (Pulse)
-
-\begin{table}[!h]
-\centering
-\begin{tabular}{llrrrr}
-\toprule
-  & Variable & Coefficient & SE & z-value & p-value\\
-\midrule
-(Intercept) & Intercept & -12.2544 & 2.4174 & -5.069 & < 0.001\\
-Pulse & Heart Rate (Pulse) & 0.1206 & 0.0241 & 5.012 & < 0.001\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Interpretation:} Heart rate is a significant predictor of dysrhythmia (\emph{beta} = 0.1206, \emph{p} = \textless{} 0.001). Higher heart rates are associated with increased probability of dysrhythmia, raising questions about potential redundancy in the INTOXICATE model.
-
-\textbf{Heart Rate Distribution by Dysrhythmia Status:}
-
-\begin{table}[!h]
-\centering
-\begin{tabular}{lrrrrr}
-\toprule
-Dysrhythmia & n & Mean & SD & Median & IQR\\
-\midrule
-No & 65 & 82.7 & 15.2 & 83 & 71-94\\
-Yes & 43 & 114.4 & 19.9 & 110 & 105.5-122\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\includegraphics[width=0.9\linewidth]{gender_dys_analysis_files/figure-latex/analysis1_plot-1}
-
-\textbf{Figure 1:} Logistic regression curve showing relationship between heart rate and dysrhythmia probability. Points represent individual observations with jitter for visibility; blue line shows predicted probability from logistic model. Patients without dysrhythmia (n=134) had a mean heart rate of 86.0 bpm (SD=17.9, median=84.5, IQR=73-97), while those with dysrhythmia (n=48) had a mean heart rate of 112.7 bpm (SD=22.1, median=110.0, IQR=103.5-124.8), demonstrating substantially higher heart rates in the dysrhythmia group.
-
-Heart rate, a continuous variable, and the presence of a dysrhythmia, a dichotomous variable, may not be independent variables in the model in Brandenberg et al.~(2020). That model did not specify whether to classify sinus tachycardia as a dysrhythmia. It is considered a dysrhythmia and the most common dysrhthmia in in stimulant toxicity. We found a significant association between a heart rate faster than 100 bpm and the presence of dysrhythmia (p\textless0.001). Forty-five patients had a heart rate over 100 bpm, of whom 39 (87\%) had dysrhythmia.
-
-\subsection{Analysis 2: INTOXICATE Model Without Dysrhythmia}\label{analysis-2-intoxicate-model-without-dysrhythmia}
-
-\textbf{Testing if Dysrhythmia Adds Independent Predictive Value}
-
-\begin{table}[!h]
-\centering
-\begin{tabular}{lllc}
-\toprule
-  & Test & Result & Significant\\
-\midrule
-Pr(>|z|) & Dysrhythmia coefficient (in full model) & beta = -1.6166, p = 0.035 & No\\
- & Likelihood ratio test (model comparison) & p = 0.874 & No\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Interpretation:} Despite the strong correlation with heart rate demonstrated in Analysis 1, dysrhythmia provides independent predictive value beyond heart rate alone (\emph{p} = 0.024), supporting its inclusion in the INTOXICATE model. This suggests that dysrhythmia captures additional clinical information not fully explained by heart rate alone---potentially reflecting rhythm abnormalities that occur at various heart rates or serving as a marker for specific poison types.
-
-\includegraphics[width=0.9\linewidth]{gender_dys_analysis_files/figure-latex/analysis2_plot-1}
-
-\textbf{Figure 2:} Comparison of predicted ICU disposition probabilities from models with and without dysrhythmia. Points below the diagonal line indicate cases where including dysrhythmia increases predicted probability; points above indicate decreased probability. Deviation from the diagonal demonstrates that dysrhythmia adds discriminative value to risk stratification.
-
-\pagebreak
+A model including heart rate and the indicator variable for dysrhythmia had an Aikaike Information Criterion (AIC) of 140, compared to 138 for a model without the indicator variable. These results suggests that the indicator variable has no additional predictive value for this model in this data set. In the model of Brandenburg et al.~(2020), the presence of dysrhythmia on its own raises the IRS by 6 points, the threshold for ICU admission. If the variable has no predictive value beyond heart rate, this could decrease the specificity of the model.
 
 \section{Summary and Conclusions}\label{summary-and-conclusions}
 

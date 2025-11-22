@@ -6,7 +6,7 @@ from scipy.stats import truncnorm
 
 from yaml import safe_load
 
-DATA_PATH = os.path.join('..','..', 'data', 'for_model')
+DATA_PATH = os.path.join('..','..', 'data', 'model')
 
 PATH_TO_PREDICTIVE_VARIABLES = os.path.join(DATA_PATH, 'predictive_variables.yml')
 predictive_variables = safe_load(open(PATH_TO_PREDICTIVE_VARIABLES, 'r'))

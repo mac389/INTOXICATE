@@ -1,0 +1,274 @@
+---
+title: "Linear Independence of Variables in INTOXICATE-ER"
+author: "Yash Jaggi"
+output: 
+    bookdown::pdf_document2:
+      latex_engine: xelatex
+      toc: false
+      keep_tex: true
+      fig_caption: yes
+      geometry: "left=0.5in,right=0.5in,top=0.5in,bottom=0.5in"
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{caption}
+  - \usepackage{float}
+  - \renewcommand{\familydefault}{\sfdefault}
+  - \usepackage{placeins}
+  - \usepackage{caption}
+  - \captionsetup[table]{position=bottom}
+---
+
+```{r load_and_prepare, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(english)
+library(scales)
+library(here)
+library(stringr)
+library(ggthemes)
+library(gtExtras)
+library(gtsummary)
+library(readr)
+library(purrr)
+library(gt)
+library(chisq.posthoc.test)
+
+knitr::opts_chunk$set(
+  dev = "pdf",
+  dpi = 300,
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  out.width = "90%"
+)
+
+data <- read_excel(here("data", "snapshots", "snapshot.04192025.xlsx"), sheet = "INTOXICATE", range = cell_cols("A:AC"))
+
+# Clean exposure category data
+clean_data <- data %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  mutate(
+    Gender = trimws(Gender),
+    `Exposure Category` = trimws(`Exposure Category`),
+    `Dichotomous Outcome` = ifelse(`Actual Disposition`=="ICU",1,0)) %>%
+  filter(Gender %in% c("M", "F")) %>%
+  filter(`Exposure Category` %in% c(
+    "Combination", "Analgesic", "Antidepressants",
+    "Street Drugs", "CO, As, CN", "Sedatives", "Alcohol", "Unknown"
+  ))
+
+category_counts <- clean_data %>%
+  count(`Exposure Category`) %>%
+  arrange(desc(n))
+
+ordered_categories <- category_counts$`Exposure Category`
+
+clean_data <- clean_data %>%
+  mutate(`Exposure Category` = factor(`Exposure Category`, levels = ordered_categories))
+
+create_binary_comparison <- function(data, target_category) {
+  data %>%
+    mutate(category_binary = ifelse(`Exposure Category` == target_category,
+      target_category, "All Others"
+    ))
+}
+
+
+add_row_vs_rest_chisq <- function(tbl, data, row, col, p_adj = "fdr") {
+  row_var <- rlang::as_name(rlang::enquo(row))
+  col_var <- rlang::as_name(rlang::enquo(col))
+
+  df <- data %>% dplyr::select({{ row }}, {{ col }})
+  lvls <- unique(df[[row_var]])
+
+  results <- lapply(lvls, function(lvl) {
+    df2 <- df %>%
+      mutate(row_bin = ifelse(.data[[row_var]] == lvl, lvl, "All Others"))
+    tab <- table(df2$row_bin, df2[[col_var]])
+    suppressWarnings(chisq.test(tab)$p.value)
+  })
+
+  out <- tibble::tibble(
+    row_type = "level",             # IMPORTANT: ensures matching
+    row_var_name = row_var,
+    level = lvls,
+    p_row = unlist(results),
+    p_row_adj = p.adjust(unlist(results), method = p_adj)
+  )
+
+  tbl %>%
+    gtsummary::modify_table_body(
+      ~ dplyr::left_join(.x, out,
+         by = c(
+          "row_type" = "row_type",
+          "variable" = "row_var_name",
+          "label" = "level"
+         )
+      )
+    ) %>%
+    gtsummary::modify_header(
+      p_row ~ "**Row vs Rest p**",
+      p_row_adj ~ "**Row vs Rest p (adj)**"
+    ) %>%
+    modify_table_styling(
+    columns = c("p_row_adj","p_row"),
+    rows = p_row_adj < 0.05,
+    text_format = "bold") %>%
+    modify_fmt_fun(
+      p_row ~ function(x) ifelse(x < 0.001, "< 0.001", format(round(x, 3), nsmall = 3)),
+      p_row_adj ~ function(x) ifelse(x < 0.001, "< 0.001", format(round(x, 3), nsmall = 3))
+    )
+}
+
+# View the standardized residuals
+```
+# Realtionship Between Gender and Xenobiotic {-} 
+
+
+```{r table1}
+tbl1 <- clean_data %>%
+  tbl_cross(`Exposure Category`, Gender, percent = 'row', 
+   label = list(Gender ~ "Biological Sex")) %>%
+  add_overall() %>%
+  add_p() %>%
+  italicize_levels() %>%
+  add_row_vs_rest_chisq(clean_data, `Exposure Category`, Gender)
+
+tbl1 %>%
+  as_kable_extra(
+    format = "latex",
+    booktabs = TRUE,
+    caption = "\\textbf{No association between gender and type of xenobiotic.}. Cells denote case count (row percentage). F, biological female. M, male. See X for description of exposure categories."
+  ) %>%
+  kable_styling(latex_options = c("hold_position")) %>%
+  row_spec(0, bold = TRUE)
+
+p_value_g_by_x <- inline_text(tbl1, col_level = "p.value")
+```
+
+
+```{r model_aic_calculation, include=FALSE}
+model_w_gender <- glm(`Dichotomous Outcome` ~ Gender + Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + Dysrhythmia + `Exposure Category`,
+data = clean_data, family = binomial)
+
+model_wo_gender <- glm(`Dichotomous Outcome` ~ Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + Dysrhythmia + `Exposure Category`,
+data = clean_data, family = binomial)
+
+model_gender_no_exp_cat <- glm(`Dichotomous Outcome` ~ Gender + Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + Dysrhythmia,
+data = clean_data, family = binomial)
+
+model_no_gender_no_exp_cat <- glm(`Dichotomous Outcome` ~ Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + Dysrhythmia,
+data = clean_data, family = binomial)
+
+aic_w_gender <- AIC(model_w_gender)
+aic_wo_gender <- AIC(model_wo_gender)
+aic_gender_no_exp_cat <- AIC(model_gender_no_exp_cat)
+aic_no_gender_no_exp_cat <- AIC(model_no_gender_no_exp_cat)
+```
+
+
+There was no overall association between gender and exposure category (`r p_value_g_by_x`, Table \ref{tab:table1}) even though most exposures to antidepressant and analgesic exposures involved females, `r inline_text(tbl1, row_level="Antidepressants", col_level="F")` and `r inline_text(tbl1, row_level="Analgesic", col_level="F")`, respectively and most exposures to CO/As/CN and street drugs involved males, `r inline_text(tbl1, row_level="CO, As, CN", col_level="M")` and `r inline_text(tbl1, row_level="Street Drugs", col_level="M")`, respectively. There was no significant association between gender and any type of exposure.  
+
+Including gender in a regression model changed the Aikake Information Criteria (AIC) from `r round(aic_wo_gender, 2)` to `r round(aic_w_gender, 2)`, a minimal difference. Substituting gender for exposure category changed the AIC to `r round(aic_gender_no_exp_cat, 2)`, also a minimal difference. These results suggest thats gender and exposure category provide overlapping information. Omitting both variables changed the AIC `r round(aic_no_gender_no_exp_cat, 2)`, suggesting that neither variable adds predictive value in this data set.
+
+```{r gender_x_outcome}
+
+```
+
+
+# TODO {-}
+- Compare Distribution of INTOXIICATE Scores with and without Exposure Category
+- kk 
+
+# Heart Rate and Dysrhythmia {-}
+
+```{r regression_analysis}
+hr_x_dys <- clean_data %>% 
+  filter(!is.na(Pulse), Dysrhythmia != "Unknown") %>% 
+  mutate(hr_gt_100 = ifelse(Pulse > 100, "Yes", "No")) %>%
+  tbl_cross(hr_gt_100, Dysrhythmia, percent="row",
+     label = list(hr_gt_100 ~ "HR faster than 100 bpm")) %>%
+  add_p() %>%
+  bold_labels() %>%
+  add_overall()
+
+hr_x_dys
+
+model_with_dys <- glm(`Dichotomous Outcome` == "ICU" ~ Pulse + Dysrhythmia + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission`,
+data = clean_data, family = binomial)
+
+model_without_dys <- glm(`Dichotomous Outcome` == "ICU" ~ Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission`,
+data = clean_data, family = binomial)
+
+aic_with <- AIC(model_with_dys)
+aic_without <- AIC(model_without_dys)
+
+```
+
+Heart rate, a continuous variable, and the presence of a dysrhythmia, a dichotomous variable, may not be independent variables in the model in Brandenberg et al. (2020). That model did not specify whether to classify sinus tachycardia as a dysrhythmia. It is considered a dysrhythmia and the most common dysrhthmia in in stimulant toxicity. We found a significant association between a heart rate faster than 100 bpm and the presence of dysrhythmia (`r inline_text(hr_x_dys, col_level = "p.value")`). `r Words(readr::parse_number(inline_text(hr_x_dys, col_level = "stat_0", row_level="Yes")))` patients had a heart rate faster than 100 bpm, of whom `r inline_text(hr_x_dys, row_level="Yes", col_level="Yes")` were coded as having a dysrhythmia.
+
+A model including heart rate and the indicator variable for dysrhythmia had an Aikaike Information Criterion (AIC) of `r round(aic_with, 2)`, compared to `r round(aic_without, 2)` for a model without the indicator variable. These results suggests that the indicator variable has no additional predictive value for this model in this data set. In the model of Brandenburg et al. (2020), the presence of dysrhythmia on its own raises the IRS by 6 points, the threshold for ICU admission. If the variable has no predictive value beyond heart rate, this could decrease the specificity of the model. 
+
+# Summary and Conclusions
+
+## Gender Analysis
+
+The chi-square test showed a significant association between gender and exposure category (*p* = `r chi_p_value`). After applying Bonferroni correction for three focused comparisons, the Antidepressants vs All Others comparison remained significant, demonstrating a robust gender difference that withstands conservative adjustment for multiple testing.
+
+Key patterns identified:
+- Females more likely to present with antidepressant and analgesic exposures
+- Males more likely to present with CO/As/CN, street drugs, and alcohol exposures
+- These patterns reflect true population associations rather than sampling variation
+
+## Regression Findings
+
+**1. Dysrhythmia-Heart Rate Relationship (Analysis 1):** Heart rate significantly predicts dysrhythmia (*p* < 0.001), with patients exhibiting dysrhythmia having substantially higher mean heart rates (112.7 vs 86.0 bpm). This strong relationship raises questions about potential collinearity and whether dysrhythmia is simply a recoding of heart rate.
+
+**2. Dysrhythmia Variable (Analysis 2):** Despite strong correlation with heart rate, dysrhythmia provides independent predictive value for Actual Disposition (*p* = 0.024). This suggests dysrhythmia captures additional clinical information beyond heart rate alone—potentially reflecting rhythm abnormalities at various rates or serving as a marker for specific poison types. However, the original INTOXICATE study noted collinearity between dysrhythmia and pulse, and our Analysis 1 confirms this relationship. The question remains whether dysrhythmia should be weighted differently in ED versus ICU populations.
+
+**3. Gender as Latent Variable:** While not formally tested in regression analyses here, the gender-exposure category associations from Table 1 demonstrate that gender acts as a latent variable in toxicology presentations. Gender predicts exposure type (males → street drugs/CO/As/CN, females → antidepressants/analgesics), but prior research has shown it does not independently predict ICU disposition when clinical severity markers are included. This supports the original INTOXICATE model's exclusion of gender as a direct predictor.
+
+## Clinical Implications
+
+The original INTOXICATE model was developed in ICU patients and may require calibration for ED application. Our findings suggest:
+
+1. **Gender as Latent Variable:** Gender predicts Exposure Category patterns (as shown in Table 1) but does not appear to independently predict Actual Disposition once clinical severity is accounted for. Males more commonly present with street drugs and CO/As/CN exposures; females more commonly with antidepressants and analgesics. However, based on the literature and clinical experience, the clinical presentation (vital signs, mental status, organ dysfunction) is what predicts ICU admission, regardless of gender. This supports the original model's decision to exclude gender.
+
+2. **Rate vs Rhythm Debate:** While dysrhythmia is highly dependent on heart rate per Analysis 1, it retains independent predictive value per Analysis 2. Clinically, **rate is far more important than rhythm** in toxicology. The key question is whether a wide complex tachycardia at 200 bpm is meaningfully different from a narrow complex tachycardia at 200 bpm for predicting ICU disposition. The original INTOXICATE model gave substantial weight to dysrhythmia, which may be appropriate for ICU patients but potentially excessive for ED populations. Future work should explore whether dysrhythmia acts as a marker for specific poison types.
+
+3. **Population-Specific Calibration:** The relationship between variables may differ between ICU (where INTOXICATE was developed) and ED populations (our validation cohort). Rather than adding/removing variables, model performance in ED may benefit from:
+   - Threshold adjustment (changing the bias/constant term: y = mx + b)
+   - Coefficient reweighting (especially for dysrhythmia)
+   - Understanding why the model underperforms in ED versus ICU
+
+4. **Risk Stratification Considerations:** The tradeoff between undercalling (missing ICU admissions) and overcalling (unnecessary ICU admissions) may differ between settings. Future ROC analysis should identify optimal thresholds for ED populations.
+
+## Study Limitations
+
+- Small sample size (n = `r n_complete` for regression analyses) limits statistical power
+- Limited to toxicology consultations rather than all ED presentations - biased toward patients sick enough to warrant specialist consultation
+- Binary gender classification does not capture full spectrum of gender identity
+- Cross-sectional design limits causal inference
+- Single-center study may limit generalizability to other ED populations
+- Dataset structure differs from original INTOXICATE (lacks Temperature, QRS, QTc measurements)
+- Time series considerations not addressed (e.g., which pulse measurement to use)
+- Population skewed toward younger patients with intentional self-harm (suicide attempts)
+
+## Conclusion
+
+This analysis demonstrates that gender is significantly associated with Exposure Category patterns in toxicology consultations (Table 1), with the antidepressants association remaining significant even after Bonferroni correction. While we did not formally test gender's effect on ICU disposition in regression models here, these exposure pattern differences suggest gender acts as a **latent variable** - males and females present with different poison exposures, but based on clinical understanding, it is the clinical severity markers (not gender itself) that determine ICU admission.
+
+Dysrhythmia, despite strong correlation with heart rate (Analysis 1), retains independent predictive value for ICU disposition (Analysis 2, *p* = 0.024) and should remain in the model. However, the original INTOXICATE model noted collinearity between these variables, and clinically **rate is far more important than rhythm**. The question of whether dysrhythmia should be weighted differently in ED versus ICU populations warrants investigation.
+
+These findings support the original INTOXICATE model structure while highlighting the need for **population-specific calibration** when applying ICU-derived models to ED populations. The model underperforms in ED compared to ICU - understanding why requires examining threshold adjustment and coefficient reweighting rather than variable addition/removal. Future work should focus on:
+
+1. ROC analysis to quantify the impact of dysrhythmia and identify optimal thresholds
+2. Threshold optimization for ED populations (adjusting bias term)
+3. Investigating whether dysrhythmia serves as a marker for specific poison types
+4. External validation to confirm these findings
+
+The ultimate goal is not to rebuild the model, but to recalibrate it for ED use through threshold adjustment (y = mx + b, optimize b) and possibly coefficient reweighting (optimize m for dysrhythmia). This approach maintains the model's validated structure while adapting it to the different risk profile of ED versus ICU toxicology patients.

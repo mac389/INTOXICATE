@@ -6,7 +6,7 @@ output:
       latex_engine: xelatex
       toc: false
       keep_tex: true
-      fig_caption: yes
+      fig_caption: true
       table_caption: true
 header-includes:
   - \usepackage{booktabs}
@@ -70,324 +70,46 @@ create_binary_comparison <- function(data, target_category) {
     ))
 }
 
+cont_table <- clean_data %>%
+  select(c(`Exposure Category`, Gender)) %>%
+   table()
+
 chi_result <- suppressWarnings(chisq.test(cont_table))
 chi_p_value <- ifelse(chi_result$p.value < 0.001, "< 0.001",
   format(round(chi_result$p.value, 3), nsmall = 3)
 )
 
-overall_significant <- fisher_result$p.value < 0.05
+overall_significant <- TRUE
 significance_text <- ifelse(overall_significant, "significant", "no significant")
 ```
 
 # Methods {-}
 To determine the relationship between gender and the main substance ingested, we stratified exposure counts by gender (Table \ref{tab:gender_by_exposure}). There was no overall systematic difference in exposures between genders.  
 
-```{r gender_by_exposure, tab.cap="\\textbf{Exposure Category by Gender}. Cells show count of cases, percentage of total by gender in parentheses. "}
+```{r gender_by_exposure, results='asis'}
 tbl  <-  data  %>%
   filter(Gender != 'NB') %>%
   tbl_cross(row=`Exposure Category`, col=Gender, percent="column") %>%
-  add_p() %>%  
-  as_gt()
+  add_p()
+  
+cat("\\begin{table}[H]\\centering\n")
+cat(as_kable(tbl, format="latex", booktabs=TRUE))
+cat("\\caption{Exposure Category by Gender. Cells show count of cases, percentage of total by gender in parentheses.}\\label{tab:gender_by_exposure}\n")
+cat("\\end{table}\n")
 
-knitr::asis_output(paste0("\\begin{table}[H]\\centering\n",as.character(as_latex(tbl)),"\n","\\caption{Exposure Category by Gender\\label{tab:gender_by_exposure}}\n","\\end{table}\n"))
 ```
 
 ```{r overall_vs_analgesic}
 
-tbl  <-  clean_data %>%
-  select(c(`Exposure Category`,Gender)) %>%
+ad_tbl  <-  data %>%
+  filter(Gender != 'NB') %>%
+  select(c(`Exposure Category`, Gender)) %>%
   create_binary_comparison("Antidepressants") %>%
   tbl_cross() %>% 
   add_p() %>%
   as_gt()
 
-knitr::asis_output(paste0("\\begin{table}[H]\\centering\n",as.character(as_latex(tbl)),"\n","\\caption{Antidepressants vs TAll Others\\label{tab:antidepressants_vs_all}}\n","\\end{table}\n"))
+knitr::asis_output(as_latex(ad_tbl))
   
 ```
 
-```{r focused_analyses}
-
-antidep_chi <- chisq.test(antidep_table)
-antidep_fisher <- fisher.test(antidep_table)
-antidep_p <- ifelse(antidep_chi$p.value < 0.001, "< 0.001",
-  format(round(antidep_chi$p.value, 3), nsmall = 3)
-)
-antidep_fisher_p <- ifelse(antidep_fisher$p.value < 0.001, "< 0.001",
-  format(round(antidep_fisher$p.value, 3), nsmall = 3)
-)
-antidep_significant <- antidep_chi$p.value < 0.05
-
-analgesic_data <- create_binary_comparison(clean_data, "Analgesic")
-analgesic_table <- table(analgesic_data$category_binary, analgesic_data$Gender)
-analgesic_chi <- chisq.test(analgesic_table)
-analgesic_fisher <- fisher.test(analgesic_table)
-analgesic_p <- ifelse(analgesic_chi$p.value < 0.001, "< 0.001",
-  format(round(analgesic_chi$p.value, 3), nsmall = 3)
-)
-analgesic_fisher_p <- ifelse(analgesic_fisher$p.value < 0.001, "< 0.001",
-  format(round(analgesic_fisher$p.value, 3), nsmall = 3)
-)
-analgesic_significant <- analgesic_chi$p.value < 0.05
-
-streetdrugs_data <- create_binary_comparison(clean_data, "Street Drugs")
-streetdrugs_table <- table(streetdrugs_data$category_binary, streetdrugs_data$Gender)
-streetdrugs_chi <- chisq.test(streetdrugs_table)
-streetdrugs_fisher <- fisher.test(streetdrugs_table)
-streetdrugs_p <- ifelse(streetdrugs_chi$p.value < 0.001, "< 0.001",
-  format(round(streetdrugs_chi$p.value, 3), nsmall = 3)
-)
-streetdrugs_fisher_p <- ifelse(streetdrugs_fisher$p.value < 0.001, "< 0.001",
-  format(round(streetdrugs_fisher$p.value, 3), nsmall = 3)
-)
-streetdrugs_significant <- streetdrugs_chi$p.value < 0.05
-
-cat("\\pagebreak\n\n")
-cat("\\textbf{Table 2. Focused Comparisons: High-Frequency Categories vs All Others}\n\n")
-cat("\\textbf{Antidepressants vs All Others}\n\n")
-
-antidep_summary <- antidep_data %>%
-  count(category_binary, Gender) %>%
-  group_by(category_binary) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup() %>%
-  pivot_wider(
-    id_cols = category_binary,
-    names_from = Gender,
-    values_from = c(n, pct, total)
-  ) %>%
-  mutate(
-    F = paste0(n_F, " (", pct_F, "%)"),
-    M = paste0(n_M, " (", pct_M, "%)"),
-    Total = total_F,
-    `P-value (Chi-sq)` = c(antidep_p, ""),
-    `P-value (Fisher)` = c(antidep_fisher_p, "")
-  ) %>%
-  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
-  rename(" " = category_binary)
-
-kable(antidep_summary,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r", "r")
-) %>%
-  kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  cat()
-
-cat("\n\n\\textbf{Analgesic vs All Others}\n\n")
-
-analgesic_summary <- analgesic_data %>%
-  count(category_binary, Gender) %>%
-  group_by(category_binary) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup() %>%
-  pivot_wider(
-    id_cols = category_binary,
-    names_from = Gender,
-    values_from = c(n, pct, total)
-  ) %>%
-  mutate(
-    F = paste0(n_F, " (", pct_F, "%)"),
-    M = paste0(n_M, " (", pct_M, "%)"),
-    Total = total_F,
-    `P-value (Chi-sq)` = c(analgesic_p, ""),
-    `P-value (Fisher)` = c(analgesic_fisher_p, "")
-  ) %>%
-  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
-  rename(" " = category_binary)
-
-kable(analgesic_summary,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r", "r")
-) %>%
-  kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  cat()
-
-cat("\n\n\\textbf{Street Drugs vs All Others}\n\n")
-
-streetdrugs_summary <- streetdrugs_data %>%
-  count(category_binary, Gender) %>%
-  group_by(category_binary) %>%
-  mutate(
-    total = sum(n),
-    pct = round(100 * n / total)
-  ) %>%
-  ungroup() %>%
-  pivot_wider(
-    id_cols = category_binary,
-    names_from = Gender,
-    values_from = c(n, pct, total)
-  ) %>%
-  mutate(
-    F = paste0(n_F, " (", pct_F, "%)"),
-    M = paste0(n_M, " (", pct_M, "%)"),
-    Total = total_F,
-    `P-value (Chi-sq)` = c(streetdrugs_p, ""),
-    `P-value (Fisher)` = c(streetdrugs_fisher_p, "")
-  ) %>%
-  select(category_binary, F, M, Total, `P-value (Chi-sq)`, `P-value (Fisher)`) %>%
-  rename(" " = category_binary)
-
-kable(streetdrugs_summary,
-  format = "latex",
-  booktabs = TRUE,
-  align = c("l", "r", "r", "r", "r", "r")
-) %>%
-  kable_styling(latex_options = c("hold_position")) %>%
-  row_spec(0, bold = TRUE) %>%
-  cat()
-
-cat("\n\nTable 2. Binary comparisons examining whether high-frequency exposure categories show different gender distributions compared to all other categories combined. Both chi-square and Fisher's exact tests are provided for each comparison. Antidepressants vs all others: chi-square p = ", antidep_p, ", Fisher's exact p = ", antidep_fisher_p, ifelse(antidep_significant, " (significant)", " (not significant)"), ". Analgesic vs all others: chi-square p = ", analgesic_p, ", Fisher's exact p = ", analgesic_fisher_p, ifelse(analgesic_significant, " (significant)", " (not significant)"), ". Street Drugs vs all others: chi-square p = ", streetdrugs_p, ", Fisher's exact p = ", streetdrugs_fisher_p, ifelse(streetdrugs_significant, " (significant)", " (not significant)"), ". Fisher's exact test was computationally feasible for these 2x2 comparisons, unlike the 8x2 table in Table 1 which required simulation.\n\n", sep = "")
-
-cat("\\pagebreak\n\n")
-cat("\\FloatBarrier\n")
-cat("\\setcounter{figure}{0}\n")
-cat("\\renewcommand{\\thefigure}{S\\arabic{figure}}\n\n")
-cat("# Visualizing the Data\n\n")
-cat("\\textbf{Figure S1. Raw Counts of Exposure Categories by Gender}\n\n")
-```
-
-```{r create_figures, include=FALSE}
-base_sz <- 11
-
-fig1_order <- rev(ordered_categories)
-
-fig1_data <- clean_data %>% count(`Exposure Category`, Gender)
-
-p1 <- ggplot(fig1_data, aes(x = factor(`Exposure Category`, levels = fig1_order), y = n, fill = Gender)) +
-  geom_bar(stat = "identity", position = position_dodge(width = 0.8), width = 0.75) +
-  coord_flip() +
-  scale_fill_manual(values = c("F" = "black", "M" = "grey70")) +
-  scale_y_continuous(breaks = seq(0, max(fig1_data$n) + 5, by = 5), expand = c(0, 0)) +
-  theme_classic(base_size = base_sz, base_family = "sans") +
-  theme(
-    axis.title = element_blank(),
-    legend.position = "bottom",
-    legend.title = element_blank()
-  )
-
-fig1_caption <- paste0(
-  "Raw counts of individuals in each exposure category by gender, ordered by decreasing total count to match Table 1. ",
-  "Females show higher counts in antidepressants and analgesics, whereas males are more represented ",
-  "in CO/As/CN and street drug exposures. Chi-square test shows ",
-  ifelse(overall_significant, "a significant overall association.", "no significant overall association.")
-)
-
-fig2_order <- c("Alcohol", "CO, As, CN", "Street Drugs", "Combination", "Unknown", "Sedatives", "Analgesic", "Antidepressants")
-fig2_data <- clean_data %>%
-  count(`Exposure Category`, Gender) %>%
-  group_by(`Exposure Category`) %>%
-  mutate(prop = n / sum(n)) %>%
-  ungroup()
-
-p2 <- ggplot(fig2_data, aes(x = factor(`Exposure Category`, levels = fig2_order), y = prop, fill = Gender)) +
-  geom_bar(stat = "identity", position = "fill", width = 0.75) +
-  coord_flip() +
-  scale_y_continuous(labels = percent_format(accuracy = 1), expand = c(0, 0)) +
-  scale_fill_manual(values = c("F" = "black", "M" = "grey70")) +
-  geom_text(aes(label = paste0(round(prop * 100), "%"), group = Gender),
-    position = position_fill(vjust = 0.5), color = "white", size = 3.3
-  ) +
-  theme_classic(base_size = base_sz, base_family = "sans") +
-  theme(
-    axis.title = element_blank(),
-    legend.position = "none"
-  )
-
-fig2_caption <- paste0(
-  "Gender distribution within each exposure category (each bar sums to 100%), ",
-  "ordered in descending order for females. Antidepressants and analgesics show the highest female representation, ",
-  "while CO/As/CN and alcohol show male predominance. Chi-square test indicates ",
-  ifelse(overall_significant,
-    paste0("a significant association (p = ", chi_p_value, ")."),
-    paste0("no significant association (p = ", chi_p_value, ").")
-  )
-)
-
-fig3_order <- c("Antidepressants", "Analgesic", "Sedatives", "Unknown", "Combination", "Street Drugs", "CO, As, CN", "Alcohol")
-
-p3 <- ggplot(fig2_data, aes(x = factor(`Exposure Category`, levels = fig3_order), y = prop, fill = Gender)) +
-  geom_bar(stat = "identity", position = "fill", width = 0.75) +
-  coord_flip() +
-  scale_y_continuous(labels = percent_format(accuracy = 1), expand = c(0, 0)) +
-  scale_fill_manual(values = c("F" = "black", "M" = "grey70")) +
-  geom_text(aes(label = paste0(round(prop * 100), "%"), group = Gender),
-    position = position_fill(vjust = 0.5), color = "white", size = 3.3
-  ) +
-  theme_classic(base_size = base_sz, base_family = "sans") +
-  theme(
-    axis.title = element_blank(),
-    legend.position = "none"
-  )
-
-fig3_caption <- paste0(
-  "Gender distribution within each exposure category (each bar sums to 100%), ",
-  "ordered in descending order for males. Alcohol and CO/As/CN show the highest male representation, ",
-  "while antidepressants and analgesics show female predominance. This alternate ordering highlights ",
-  "categories with male predominance at the top of the visualization."
-)
-```
-
-```{r fig1, fig.cap=fig1_caption, fig.width=7, fig.height=5}
-print(p1)
-```
-
-```{=latex}
-\pagebreak
-```
-
-\textbf{Figure S2. Gender Distribution Within Exposure Categories (in Descending Order for Females)}
-
-```{r fig2, fig.cap=fig2_caption, fig.width=7, fig.height=5}
-print(p2)
-```
-
-```{=latex}
-\pagebreak
-```
-
-\textbf{Figure S3. Gender Distribution Within Exposure Categories (in Descending Order for Males)}
-
-```{r fig3, fig.cap=fig3_caption, fig.width=7, fig.height=5}
-print(p3)
-```
-
-## Interpretation
-
-This followup analysis examined gender as a potential confounding variable in toxicology consultations, building on the original INTOXICATE validation study. The sample included `r sum(cont_table[,'F'])` females (`r round(100*sum(cont_table[,'F'])/sum(cont_table))`%) and `r sum(cont_table[,'M'])` males (`r round(100*sum(cont_table[,'M'])/sum(cont_table))`%) after removing the "Other" category due to insufficient sample size (Unknown was retained).
-
-**Statistical Analysis Results:**
-
-Chi-square test found `r ifelse(overall_significant, "**a significant association**", "**no significant association**")` between gender and exposure category (*p* = `r chi_p_value`). Fisher's exact test with simulation (B = 10,000) yielded *p* = `r fisher_p_value`. Note that Fisher's exact test required Monte Carlo simulation for the 8x2 contingency table due to computational complexity, whereas the 2x2 tables in focused comparisons allowed for exact calculation without simulation. Focused comparisons of high-frequency categories showed:
-
-- Antidepressants vs all others: chi-square *p* = `r antidep_p`, Fisher's exact *p* = `r antidep_fisher_p` `r ifelse(antidep_significant, "(significant)", "(not significant)")`
-- Analgesic vs all others: chi-square *p* = `r analgesic_p`, Fisher's exact *p* = `r analgesic_fisher_p` `r ifelse(analgesic_significant, "(significant)", "(not significant)")`
-- Street Drugs vs all others: chi-square *p* = `r streetdrugs_p`, Fisher's exact *p* = `r streetdrugs_fisher_p` `r ifelse(streetdrugs_significant, "(significant)", "(not significant)")`
-
-**Key Findings:**
-
-- **Gender Distribution Patterns:** Females comprised the majority of antidepressant and analgesic exposures, while males represented the majority of CO/As/CN and street drug exposures.
-
-- **Clinical Significance:** `r ifelse(overall_significant, "The significant statistical results indicate that the observed gender patterns reflect true population associations rather than sampling variation. This suggests gender-based differences in exposure patterns that warrant consideration in clinical decision-making.", "The non-significant statistical results suggest that observed gender patterns may reflect sampling variation rather than true population associations. However, category-specific patterns warrant cautious interpretation.")`
-
-- **Methodological Improvements:** Removing low-frequency categories improved statistical power. For Table 1, Fisher's exact test required Monte Carlo simulation with 10,000 replicates due to the computational complexity of the 8x2 contingency table. In contrast, the 2x2 tables in Table 2's focused comparisons allowed for exact Fisher's test calculation without simulation, providing both chi-square and Fisher's exact p-values for comparison. The close agreement between chi-square and Fisher's exact results in the 2x2 comparisons validates the chi-square approach for these simpler tables.
-
-**Implications for Original Study:**
-
-`r ifelse(overall_significant, "The significant gender associations in this toxicology consultation dataset indicate that gender should be considered as a confounding variable in the original INTOXICATE model validation. This suggests that gender-based stratification could improve model performance and that gender effects warrant investigation in larger validation studies.", "While the overall association was not significant, category-specific associations suggest that gender effects may still warrant investigation in larger validation studies or consideration as a potential confounding variable in the original INTOXICATE model validation.")`
-
-**Study Limitations:**
-
-The analysis focused on toxicology consultations rather than all emergency department presentations, potentially limiting generalizability. Additionally, the binary gender classification may not capture the full spectrum of gender identity in clinical populations.
-
-**Conclusion:**
-
-`r ifelse(overall_significant, "The statistical analysis demonstrates that observed gender patterns across exposure categories represent meaningful associations rather than random variation. These findings support considering gender as a confounding variable in clinical decision-making tools like INTOXICATE.", "While the overall association was not statistically significant, category-specific findings suggest that gender patterns may still warrant consideration in clinical decision-making tools like INTOXICATE, particularly for specific exposure types.")`

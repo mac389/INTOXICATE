@@ -1,10 +1,12 @@
 % Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
-%
 \documentclass[
 ]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -35,8 +37,6 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-\usepackage{xcolor}
-\usepackage[margin=1in]{geometry}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -49,29 +49,27 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{5}
 \usepackage{booktabs}
 \usepackage{caption}
 \usepackage{float}
 \renewcommand{\familydefault}{\sfdefault}
 \usepackage{placeins}
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
 \usepackage{bookmark}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
@@ -94,214 +92,49 @@
 To determine the relationship between gender and the main substance ingested, we stratified exposure counts by gender (Table \ref{tab:gender_by_exposure}). There was no overall systematic difference in exposures between genders.
 
 \begin{table}[H]\centering
-\setlength{\LTpost}{0mm}
-\begin{longtable}{lcccc}
-\toprule
- & \multicolumn{2}{c}{Gender} &  &  \\ 
-\cmidrule(lr){2-3}
- & F & M & Total & p-value\textsuperscript{\textit{1}} \\ 
-\midrule\addlinespace[2.5pt]
-Exposure Category &  &  &  & 0.2 \\ 
-    Alcohol & 3 (5.1\%) & 4 (7.7\%) & 7 (6.3\%) &  \\ 
-    Analgesic & 11 (19\%) & 7 (13\%) & 18 (16\%) &  \\ 
-    Antidepressants & 12 (20\%) & 5 (9.6\%) & 17 (15\%) &  \\ 
-    CO, As, CN & 4 (6.8\%) & 7 (13\%) & 11 (9.9\%) &  \\ 
-    Combination & 7 (12\%) & 10 (19\%) & 17 (15\%) &  \\ 
-    Sedatives & 4 (6.8\%) & 3 (5.8\%) & 7 (6.3\%) &  \\ 
-    Street Drugs & 6 (10\%) & 11 (21\%) & 17 (15\%) &  \\ 
-    Unknown & 12 (20\%) & 5 (9.6\%) & 17 (15\%) &  \\ 
-Total & 59 (100\%) & 52 (100\%) & 111 (100\%) &  \\ 
-\bottomrule
-\end{longtable}
-\begin{minipage}{\linewidth}
-\textsuperscript{\textit{1}}Fisher's exact test\\
-\end{minipage}
 
-\caption{Exposure Category by Gender\label{tab:gender_by_exposure}}
+\begin{tabular}{lcccc}
+\toprule
+ & F & M & Total & p-value\\
+\midrule
+Exposure Category &  &  &  & 0.2\\
+Alcohol & 3 (5.1\%) & 4 (7.7\%) & 7 (6.3\%) & \\
+Analgesic & 11 (19\%) & 7 (13\%) & 18 (16\%) & \\
+Antidepressants & 12 (20\%) & 5 (9.6\%) & 17 (15\%) & \\
+CO, As, CN & 4 (6.8\%) & 7 (13\%) & 11 (9.9\%) & \\
+\addlinespace
+Combination & 7 (12\%) & 10 (19\%) & 17 (15\%) & \\
+Sedatives & 4 (6.8\%) & 3 (5.8\%) & 7 (6.3\%) & \\
+Street Drugs & 6 (10\%) & 11 (21\%) & 17 (15\%) & \\
+Unknown & 12 (20\%) & 5 (9.6\%) & 17 (15\%) & \\
+Total & 59 (100\%) & 52 (100\%) & 111 (100\%) & \\
+\bottomrule
+\end{tabular}\caption{Exposure Category by Gender. Cells show count of cases, percentage of total by gender in parentheses.}\label{tab:gender_by_exposure}
 \end{table}
 
-\begin{table}[H]\centering
-\setlength{\LTpost}{0mm}
-\begin{longtable}{lcccc}
+\begin{table}[t]
+\fontsize{12.0pt}{14.4pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lcccc}
 \toprule
  & \multicolumn{2}{c}{Gender} &  &  \\ 
 \cmidrule(lr){2-3}
  & F & M & Total & p-value\textsuperscript{\textit{1}} \\ 
 \midrule\addlinespace[2.5pt]
 Exposure Category &  &  &  & 0.2 \\ 
+    Alcohol & 3 & 4 & 7 &  \\ 
     Analgesic & 11 & 7 & 18 &  \\ 
     Antidepressants & 12 & 5 & 17 &  \\ 
+    CO, As, CN & 4 & 7 & 11 &  \\ 
     Combination & 7 & 10 & 17 &  \\ 
+    Sedatives & 4 & 3 & 7 &  \\ 
     Street Drugs & 6 & 11 & 17 &  \\ 
     Unknown & 12 & 5 & 17 &  \\ 
-    CO, As, CN & 4 & 7 & 11 &  \\ 
-    Alcohol & 3 & 4 & 7 &  \\ 
-    Sedatives & 4 & 3 & 7 &  \\ 
 Total & 59 & 52 & 111 &  \\ 
 \bottomrule
-\end{longtable}
+\end{tabular*}
 \begin{minipage}{\linewidth}
 \textsuperscript{\textit{1}}Fisher's exact test\\
 \end{minipage}
-
-\caption{Antidepressants vs TAll Others\label{tab:antidepressants_vs_all}}
 \end{table}
-
-\begin{verbatim}
-## \pagebreak
-\end{verbatim}
-
-\begin{verbatim}
-## \textbf{Table 2. Focused Comparisons: High-Frequency Categories vs All Others}
-\end{verbatim}
-
-\begin{verbatim}
-## \textbf{Antidepressants vs All Others}
-\end{verbatim}
-
-\begin{verbatim}
-## \begin{table}[!h]
-## \centering
-## \begin{tabular}{lrrrrr}
-## \toprule
-## \textbf{ } & \textbf{F} & \textbf{M} & \textbf{Total} & \textbf{P-value (Chi-sq)} & \textbf{P-value (Fisher)}\\
-## \midrule
-## All Others & 47 (50\%) & 47 (50\%) & 94 & 0.193 & 0.186\\
-## Antidepressants & 12 (71\%) & 5 (29\%) & 17 &  & \\
-## \bottomrule
-## \end{tabular}
-## \end{table}
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## 
-## \textbf{Analgesic vs All Others}
-\end{verbatim}
-
-\begin{verbatim}
-## \begin{table}[!h]
-## \centering
-## \begin{tabular}{lrrrrr}
-## \toprule
-## \textbf{ } & \textbf{F} & \textbf{M} & \textbf{Total} & \textbf{P-value (Chi-sq)} & \textbf{P-value (Fisher)}\\
-## \midrule
-## All Others & 48 (52\%) & 45 (48\%) & 93 & 0.630 & 0.607\\
-## Analgesic & 11 (61\%) & 7 (39\%) & 18 &  & \\
-## \bottomrule
-## \end{tabular}
-## \end{table}
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## 
-## \textbf{Street Drugs vs All Others}
-\end{verbatim}
-
-\begin{verbatim}
-## \begin{table}[!h]
-## \centering
-## \begin{tabular}{lrrrrr}
-## \toprule
-## \textbf{ } & \textbf{F} & \textbf{M} & \textbf{Total} & \textbf{P-value (Chi-sq)} & \textbf{P-value (Fisher)}\\
-## \midrule
-## All Others & 53 (56\%) & 41 (44\%) & 94 & 0.180 & 0.122\\
-## Street Drugs & 6 (35\%) & 11 (65\%) & 17 &  & \\
-## \bottomrule
-## \end{tabular}
-## \end{table}
-\end{verbatim}
-
-\begin{verbatim}
-## 
-## 
-## Table 2. Binary comparisons examining whether high-frequency exposure categories show different gender distributions compared to all other categories combined. Both chi-square and Fisher's exact tests are provided for each comparison. Antidepressants vs all others: chi-square p = 0.193, Fisher's exact p = 0.186 (not significant). Analgesic vs all others: chi-square p = 0.630, Fisher's exact p = 0.607 (not significant). Street Drugs vs all others: chi-square p = 0.180, Fisher's exact p = 0.122 (not significant). Fisher's exact test was computationally feasible for these 2x2 comparisons, unlike the 8x2 table in Table 1 which required simulation.
-\end{verbatim}
-
-\begin{verbatim}
-## \pagebreak
-\end{verbatim}
-
-\begin{verbatim}
-## \FloatBarrier
-\end{verbatim}
-
-\begin{verbatim}
-## \setcounter{figure}{0}
-\end{verbatim}
-
-\begin{verbatim}
-## \renewcommand{\thefigure}{S\arabic{figure}}
-\end{verbatim}
-
-\begin{verbatim}
-## # Visualizing the Data
-\end{verbatim}
-
-\begin{verbatim}
-## \textbf{Figure S1. Raw Counts of Exposure Categories by Gender}
-\end{verbatim}
-
-\begin{figure}
-\includegraphics[width=0.9\linewidth]{gender_vs_exposure_v3_files/figure-latex/fig1-1} \caption{Raw counts of individuals in each exposure category by gender, ordered by decreasing total count to match Table 1. Females show higher counts in antidepressants and analgesics, whereas males are more represented in CO/As/CN and street drug exposures. Chi-square test shows no significant overall association.}\label{fig:fig1}
-\end{figure}
-
-\pagebreak
-
-\textbf{Figure S2. Gender Distribution Within Exposure Categories (in Descending Order for Females)}
-
-\begin{figure}
-\includegraphics[width=0.9\linewidth]{gender_vs_exposure_v3_files/figure-latex/fig2-1} \caption{Gender distribution within each exposure category (each bar sums to 100\%), ordered in descending order for females. Antidepressants and analgesics show the highest female representation, while CO/As/CN and alcohol show male predominance. Chi-square test indicates no significant association (p = 0.228).}\label{fig:fig2}
-\end{figure}
-
-\pagebreak
-
-\textbf{Figure S3. Gender Distribution Within Exposure Categories (in Descending Order for Males)}
-
-\begin{figure}
-\includegraphics[width=0.9\linewidth]{gender_vs_exposure_v3_files/figure-latex/fig3-1} \caption{Gender distribution within each exposure category (each bar sums to 100\%), ordered in descending order for males. Alcohol and CO/As/CN show the highest male representation, while antidepressants and analgesics show female predominance. This alternate ordering highlights categories with male predominance at the top of the visualization.}\label{fig:fig3}
-\end{figure}
-
-\subsection{Interpretation}\label{interpretation}
-
-This followup analysis examined gender as a potential confounding variable in toxicology consultations, building on the original INTOXICATE validation study. The sample included 59 females (53\%) and 52 males (47\%) after removing the ``Other'' category due to insufficient sample size (Unknown was retained).
-
-\textbf{Statistical Analysis Results:}
-
-Chi-square test found \textbf{no significant association} between gender and exposure category (\emph{p} = 0.228). Fisher's exact test with simulation (B = 10,000) yielded \emph{p} = 0.234. Note that Fisher's exact test required Monte Carlo simulation for the 8x2 contingency table due to computational complexity, whereas the 2x2 tables in focused comparisons allowed for exact calculation without simulation. Focused comparisons of high-frequency categories showed:
-
-\begin{itemize}
-\tightlist
-\item
-  Antidepressants vs all others: chi-square \emph{p} = 0.193, Fisher's exact \emph{p} = 0.186 (not significant)
-\item
-  Analgesic vs all others: chi-square \emph{p} = 0.630, Fisher's exact \emph{p} = 0.607 (not significant)
-\item
-  Street Drugs vs all others: chi-square \emph{p} = 0.180, Fisher's exact \emph{p} = 0.122 (not significant)
-\end{itemize}
-
-\textbf{Key Findings:}
-
-\begin{itemize}
-\item
-  \textbf{Gender Distribution Patterns:} Females comprised the majority of antidepressant and analgesic exposures, while males represented the majority of CO/As/CN and street drug exposures.
-\item
-  \textbf{Clinical Significance:} The non-significant statistical results suggest that observed gender patterns may reflect sampling variation rather than true population associations. However, category-specific patterns warrant cautious interpretation.
-\item
-  \textbf{Methodological Improvements:} Removing low-frequency categories improved statistical power. For Table 1, Fisher's exact test required Monte Carlo simulation with 10,000 replicates due to the computational complexity of the 8x2 contingency table. In contrast, the 2x2 tables in Table 2's focused comparisons allowed for exact Fisher's test calculation without simulation, providing both chi-square and Fisher's exact p-values for comparison. The close agreement between chi-square and Fisher's exact results in the 2x2 comparisons validates the chi-square approach for these simpler tables.
-\end{itemize}
-
-\textbf{Implications for Original Study:}
-
-While the overall association was not significant, category-specific associations suggest that gender effects may still warrant investigation in larger validation studies or consideration as a potential confounding variable in the original INTOXICATE model validation.
-
-\textbf{Study Limitations:}
-
-The analysis focused on toxicology consultations rather than all emergency department presentations, potentially limiting generalizability. Additionally, the binary gender classification may not capture the full spectrum of gender identity in clinical populations.
-
-\textbf{Conclusion:}
-
-While the overall association was not statistically significant, category-specific findings suggest that gender patterns may still warrant consideration in clinical decision-making tools like INTOXICATE, particularly for specific exposure types.
 
 \end{document}
