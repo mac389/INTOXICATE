@@ -1,0 +1,665 @@
+---
+title: "INTOXICATE Analysis: Sex Differences and Dysrhythmia Validation"
+author: "Yash Jaggi"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{float}
+  - \renewcommand{\familydefault}{\sfdefault}
+---
+
+```{r load_and_prepare, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(scales)
+library(stringr)
+library(gtsummary)
+library(pROC)
+
+knitr::opts_chunk$set(
+  dev = "pdf",
+  dpi = 300,
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  out.width = "90%"
+)
+
+# ============================================================================
+# DATA LOADING AND TRAIN/TEST SPLIT
+# ============================================================================
+
+data <- read_excel("~/Downloads/Tox Book.v2.xlsx", sheet = "INTOXICATE")
+
+# Add row identifier (1-indexed to match Excel)
+data <- data %>%
+  mutate(row_id = row_number())
+
+# Define valid exposure categories
+valid_categories <- c("Combination", "Analgesic", "Antidepressants",
+                      "Street Drugs", "CO, As, CN", "Sedatives", "Alcohol", "Unknown")
+
+# Clean and prepare data
+clean_data_all <- data %>%
+  filter(row_id != 82) %>%  # Exclude row 82 (withdrawal)
+  filter(!is.na(Gender), !is.na(`Exposure Category`), !is.na(Age)) %>%
+  mutate(
+    Gender = trimws(Gender),
+    `Exposure Category` = trimws(`Exposure Category`),
+    Age = as.numeric(Age),
+    `Respiratory Insufficiency` = case_when(
+      tolower(`Respiratory Insufficiency`) == "yes" ~ "Yes",
+      tolower(`Respiratory Insufficiency`) == "no" ~ "No",
+      TRUE ~ NA_character_
+    ),
+    Cirrhosis = case_when(
+      tolower(Cirrhosis) == "yes" ~ "Yes",
+      tolower(Cirrhosis) == "no" ~ "No",
+      TRUE ~ NA_character_
+    ),
+    Dysrhythmia = case_when(
+      tolower(Dysrhythmia) == "yes" ~ "Yes",
+      tolower(Dysrhythmia) == "no" ~ "No",
+      TRUE ~ NA_character_
+    ),
+    `Secondary Reason for ICU Admission` = case_when(
+      tolower(`Secondary Reason for ICU Admission`) == "yes" ~ "Yes",
+      tolower(`Secondary Reason for ICU Admission`) == "no" ~ "No",
+      TRUE ~ NA_character_
+    ),
+    `Actual Disposition` = case_when(
+      tolower(`Actual Disposition`) == "icu" ~ "ICU",
+      tolower(`Actual Disposition`) == "gmf" ~ "GMF",
+      grepl("discharge", tolower(`Actual Disposition`)) ~ "Discharge",
+      TRUE ~ `Actual Disposition`
+    )
+  ) %>%
+  filter(Age >= 12) %>%
+  filter(Gender %in% c("M", "F")) %>%
+  filter(`Exposure Category` %in% valid_categories)
+
+# Create train/test split
+clean_data_all <- clean_data_all %>%
+  mutate(dataset = ifelse(row_id <= 112, "train", "test"))
+
+# Split datasets
+train_data <- clean_data_all %>% filter(dataset == "train")
+test_data <- clean_data_all %>% filter(dataset == "test")
+
+n_train <- nrow(train_data)
+n_test <- nrow(test_data)
+n_total <- nrow(clean_data_all)
+
+# Prepare regression data
+prepare_reg_data <- function(df) {
+  df %>%
+    mutate(
+      Gender_binary = ifelse(Gender == "M", 1, 0),
+      Dysrhythmia_binary = ifelse(Dysrhythmia == "Yes", 1, 0),
+      GCS_numeric = as.numeric(GCS),
+      Outcome_binary = ifelse(`Actual Disposition` == "ICU", 1, 0),
+      Pulse = as.numeric(Pulse),
+      Age = as.numeric(Age),
+      SBP = as.numeric(SBP)
+    )
+}
+
+reg_train <- prepare_reg_data(train_data)
+reg_test <- prepare_reg_data(test_data)
+reg_all <- prepare_reg_data(clean_data_all)
+
+# Helper function
+format_p <- function(p) {
+  ifelse(p < 0.001, "< 0.001", format(round(p, 3), nsmall = 3))
+}
+
+cat("\n=== TRAIN/TEST SPLIT SUMMARY ===\n")
+cat(sprintf("Training set (OLD - published study): n = %d\n", n_train))
+cat(sprintf("Test set (NEW - validation): n = %d\n", n_test))
+cat(sprintf("Total: n = %d\n", n_total))
+cat("================================\n\n")
+```
+
+\pagebreak
+
+# PART 1: DEMOGRAPHICS
+
+```{r demographics}
+# Demographics with IQR - OVERALL
+demo_by_sex <- reg_all %>%
+  group_by(Gender) %>%
+  summarise(
+    n = n(),
+    pct = round(100 * n() / nrow(reg_all)),
+    median_age = median(Age, na.rm = TRUE),
+    q1_age = quantile(Age, 0.25, na.rm = TRUE),
+    q3_age = quantile(Age, 0.75, na.rm = TRUE),
+    mean_age = mean(Age, na.rm = TRUE),
+    sd_age = sd(Age, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+female_stats <- demo_by_sex %>% filter(Gender == "F")
+male_stats <- demo_by_sex %>% filter(Gender == "M")
+
+# Overall demographics
+overall_demo <- reg_all %>%
+  summarise(
+    median_age = median(Age, na.rm = TRUE),
+    q1_age = quantile(Age, 0.25, na.rm = TRUE),
+    q3_age = quantile(Age, 0.75, na.rm = TRUE)
+  )
+
+cat("\n=== DEMOGRAPHICS FOR ABSTRACT (OVERALL) ===\n")
+cat(sprintf("Total: n = %d\n", n_total))
+cat(sprintf("Females: %d (%d%%), median age %d [IQR %d-%d]\n", 
+            female_stats$n, female_stats$pct, 
+            round(female_stats$median_age), round(female_stats$q1_age), round(female_stats$q3_age)))
+cat(sprintf("Males: %d (%d%%), median age %d [IQR %d-%d]\n", 
+            male_stats$n, male_stats$pct,
+            round(male_stats$median_age), round(male_stats$q1_age), round(male_stats$q3_age)))
+cat("================================\n\n")
+
+# ============================================================================
+# DEMOGRAPHICS BY DATASET (Original vs New) - FOR MIKE'S ABSTRACT
+# ============================================================================
+
+demo_by_dataset_sex <- reg_all %>%
+  group_by(dataset, Gender) %>%
+  summarise(
+    n = n(),
+    median_age = median(Age, na.rm = TRUE),
+    q1_age = quantile(Age, 0.25, na.rm = TRUE),
+    q3_age = quantile(Age, 0.75, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+# Original dataset (train)
+orig_female <- demo_by_dataset_sex %>% filter(dataset == "train", Gender == "F")
+orig_male <- demo_by_dataset_sex %>% filter(dataset == "train", Gender == "M")
+
+# New dataset (test)
+new_female <- demo_by_dataset_sex %>% filter(dataset == "test", Gender == "F")
+new_male <- demo_by_dataset_sex %>% filter(dataset == "test", Gender == "M")
+
+cat("\n=== DEMOGRAPHICS BY DATASET (FOR ABSTRACT) ===\n")
+cat(sprintf("\nORIGINAL DATASET (n=%d):\n", n_train))
+cat(sprintf("  Females: %d (%d%%), median age %d [IQR %d-%d]\n", 
+            orig_female$n, round(100*orig_female$n/n_train), 
+            round(orig_female$median_age), round(orig_female$q1_age), round(orig_female$q3_age)))
+cat(sprintf("  Males: %d (%d%%), median age %d [IQR %d-%d]\n", 
+            orig_male$n, round(100*orig_male$n/n_train),
+            round(orig_male$median_age), round(orig_male$q1_age), round(orig_male$q3_age)))
+
+cat(sprintf("\nNEW DATASET (n=%d):\n", n_test))
+cat(sprintf("  Females: %d (%d%%), median age %d [IQR %d-%d]\n", 
+            new_female$n, round(100*new_female$n/n_test), 
+            round(new_female$median_age), round(new_female$q1_age), round(new_female$q3_age)))
+cat(sprintf("  Males: %d (%d%%), median age %d [IQR %d-%d]\n", 
+            new_male$n, round(100*new_male$n/n_test),
+            round(new_male$median_age), round(new_male$q1_age), round(new_male$q3_age)))
+cat("================================\n\n")
+```
+
+# PART 2: SEX DIFFERENCES IN EXPOSURE PATTERNS
+
+```{r sex_exposure_analysis}
+# Chi-square test
+cont_table <- table(clean_data_all$`Exposure Category`, clean_data_all$Gender)
+chi_result <- suppressWarnings(chisq.test(cont_table))
+chi_p_value <- format_p(chi_result$p.value)
+
+# Antidepressants comparison
+create_binary_comparison <- function(data, target_category) {
+  data %>%
+    mutate(category_binary = ifelse(`Exposure Category` == target_category,
+      target_category, "All Others"))
+}
+
+antidep_data <- create_binary_comparison(clean_data_all, "Antidepressants")
+antidep_table <- table(antidep_data$category_binary, antidep_data$Gender)
+antidep_fisher <- fisher.test(antidep_table)
+
+# Calculate odds ratio manually to verify
+n_antidep_f <- sum(clean_data_all$`Exposure Category` == "Antidepressants" & clean_data_all$Gender == "F")
+n_antidep_m <- sum(clean_data_all$`Exposure Category` == "Antidepressants" & clean_data_all$Gender == "M")
+n_other_f <- sum(clean_data_all$`Exposure Category` != "Antidepressants" & clean_data_all$Gender == "F")
+n_other_m <- sum(clean_data_all$`Exposure Category` != "Antidepressants" & clean_data_all$Gender == "M")
+
+# OR = (a/c) / (b/d) = (antidep_f/other_f) / (antidep_m/other_m)
+or_manual <- (n_antidep_f / n_other_f) / (n_antidep_m / n_other_m)
+
+# Bonferroni correction
+bonf_antidep <- min(1, antidep_fisher$p.value * 4)
+
+# CO/As/CN comparison for occupational exposures
+co_data <- create_binary_comparison(clean_data_all, "CO, As, CN")
+co_table <- table(co_data$category_binary, co_data$Gender)
+co_fisher <- fisher.test(co_table)
+
+n_co_f <- sum(clean_data_all$`Exposure Category` == "CO, As, CN" & clean_data_all$Gender == "F")
+n_co_m <- sum(clean_data_all$`Exposure Category` == "CO, As, CN" & clean_data_all$Gender == "M")
+n_co_other_f <- sum(clean_data_all$`Exposure Category` != "CO, As, CN" & clean_data_all$Gender == "F")
+n_co_other_m <- sum(clean_data_all$`Exposure Category` != "CO, As, CN" & clean_data_all$Gender == "M")
+
+or_co_manual <- (n_co_m / n_co_other_m) / (n_co_f / n_co_other_f)
+
+cat("\n=== SEX-EXPOSURE ANALYSIS ===\n")
+cat(sprintf("Chi-square p-value: %s\n", chi_p_value))
+cat(sprintf("Antidepressants: %d female (%d%%), %d male (%d%%)\n", 
+            n_antidep_f, round(100*n_antidep_f/(n_antidep_f+n_antidep_m)),
+            n_antidep_m, round(100*n_antidep_m/(n_antidep_f+n_antidep_m))))
+cat(sprintf("OR (manual calc): %.2f\n", or_manual))
+cat(sprintf("OR (Fisher): %.2f (95%% CI: %.2f - %.2f)\n", 
+            antidep_fisher$estimate, antidep_fisher$conf.int[1], antidep_fisher$conf.int[2]))
+cat(sprintf("Fisher p-value: %s\n", format_p(antidep_fisher$p.value)))
+cat(sprintf("Bonferroni adjusted p: %s\n", format_p(bonf_antidep)))
+cat(sprintf("\nCO/As/CN (occupational): %d female (%d%%), %d male (%d%%)\n",
+            n_co_f, round(100*n_co_f/(n_co_f+n_co_m)),
+            n_co_m, round(100*n_co_m/(n_co_f+n_co_m))))
+cat(sprintf("OR for males: %.2f\n", or_co_manual))
+cat("================================\n\n")
+```
+
+## Table 1. Distribution of Exposure Categories by Sex
+
+```{r table1_sex}
+table1_data <- clean_data_all %>%
+  mutate(Exposure = as.character(`Exposure Category`)) %>%
+  count(Exposure, Gender) %>%
+  group_by(Exposure) %>%
+  mutate(
+    total = sum(n),
+    pct = round(100 * n / total)
+  ) %>%
+  ungroup() %>%
+  pivot_wider(
+    id_cols = Exposure,
+    names_from = Gender,
+    values_from = c(n, pct)
+  ) %>%
+  mutate(
+    Female = paste0(n_F, " (", pct_F, ")"),
+    Male = paste0(n_M, " (", pct_M, ")"),
+    Total = n_F + n_M
+  ) %>%
+  select(Exposure, Female, Male, Total)
+
+totals <- data.frame(
+  Exposure = "Total",
+  Female = paste0(female_stats$n, " (", female_stats$pct, ")"),
+  Male = paste0(male_stats$n, " (", male_stats$pct, ")"),
+  Total = n_total,
+  stringsAsFactors = FALSE
+)
+
+table1_final <- rbind(table1_data, totals)
+table1_final$Pvalue <- c(chi_p_value, rep("", nrow(table1_final) - 1))
+
+kable(table1_final,
+  format = "latex",
+  booktabs = TRUE,
+  col.names = c("Exposure", "Female", "Male", "Total", "P-value")
+) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+\pagebreak
+
+# PART 2B: ADOLESCENT SUBGROUP ANALYSIS (Ages 12-19)
+
+```{r adolescent_subgroup}
+# Filter for adolescent age group (12-19 years)
+adolescent_data <- clean_data_all %>%
+  filter(Age >= 12 & Age <= 19)
+
+n_adolescent <- nrow(adolescent_data)
+
+# Demographics for adolescent subgroup
+adolescent_demo <- adolescent_data %>%
+  group_by(Gender) %>%
+  summarise(
+    n = n(),
+    pct = round(100 * n() / nrow(adolescent_data)),
+    median_age = median(Age, na.rm = TRUE),
+    q1_age = quantile(Age, 0.25, na.rm = TRUE),
+    q3_age = quantile(Age, 0.75, na.rm = TRUE),
+    .groups = "drop"
+  )
+
+adolescent_female <- adolescent_demo %>% filter(Gender == "F")
+adolescent_male <- adolescent_demo %>% filter(Gender == "M")
+
+# Chi-square test for adolescent subgroup
+adolescent_cont_table <- table(adolescent_data$`Exposure Category`, adolescent_data$Gender)
+adolescent_chi <- suppressWarnings(chisq.test(adolescent_cont_table))
+adolescent_chi_p <- format_p(adolescent_chi$p.value)
+
+# Antidepressants in adolescent subgroup
+adolescent_antidep_data <- create_binary_comparison(adolescent_data, "Antidepressants")
+adolescent_antidep_table <- table(adolescent_antidep_data$category_binary, adolescent_antidep_data$Gender)
+adolescent_antidep_fisher <- fisher.test(adolescent_antidep_table)
+
+n_adolescent_antidep_f <- sum(adolescent_data$`Exposure Category` == "Antidepressants" & adolescent_data$Gender == "F")
+n_adolescent_antidep_m <- sum(adolescent_data$`Exposure Category` == "Antidepressants" & adolescent_data$Gender == "M")
+n_adolescent_other_f <- sum(adolescent_data$`Exposure Category` != "Antidepressants" & adolescent_data$Gender == "F")
+n_adolescent_other_m <- sum(adolescent_data$`Exposure Category` != "Antidepressants" & adolescent_data$Gender == "M")
+
+adolescent_or_manual <- (n_adolescent_antidep_f / n_adolescent_other_f) / (n_adolescent_antidep_m / n_adolescent_other_m)
+adolescent_bonf_antidep <- min(1, adolescent_antidep_fisher$p.value * 4)
+
+# Analgesics in adolescent subgroup
+n_adolescent_analgesic_f <- sum(adolescent_data$`Exposure Category` == "Analgesic" & adolescent_data$Gender == "F")
+n_adolescent_analgesic_m <- sum(adolescent_data$`Exposure Category` == "Analgesic" & adolescent_data$Gender == "M")
+
+cat("\n=== ADOLESCENT SUBGROUP (Ages 12-19) ===\n")
+cat(sprintf("Total adolescents: n = %d\n", n_adolescent))
+cat(sprintf("Females: %d (%d%%), median age %d [IQR %d-%d]\n",
+            adolescent_female$n, adolescent_female$pct,
+            round(adolescent_female$median_age), 
+            round(adolescent_female$q1_age), 
+            round(adolescent_female$q3_age)))
+cat(sprintf("Males: %d (%d%%), median age %d [IQR %d-%d]\n",
+            adolescent_male$n, adolescent_male$pct,
+            round(adolescent_male$median_age),
+            round(adolescent_male$q1_age),
+            round(adolescent_male$q3_age)))
+cat(sprintf("\nChi-square p-value: %s\n", adolescent_chi_p))
+cat(sprintf("Antidepressants: %d female (%d%%), %d male (%d%%)\n",
+            n_adolescent_antidep_f,
+            round(100*n_adolescent_antidep_f/(n_adolescent_antidep_f+n_adolescent_antidep_m)),
+            n_adolescent_antidep_m,
+            round(100*n_adolescent_antidep_m/(n_adolescent_antidep_f+n_adolescent_antidep_m))))
+cat(sprintf("OR (manual calc): %.2f\n", adolescent_or_manual))
+cat(sprintf("OR (Fisher): %.2f (95%% CI: %.2f - %.2f)\n",
+            adolescent_antidep_fisher$estimate,
+            adolescent_antidep_fisher$conf.int[1],
+            adolescent_antidep_fisher$conf.int[2]))
+cat(sprintf("Fisher p-value: %s\n", format_p(adolescent_antidep_fisher$p.value)))
+cat(sprintf("Bonferroni adjusted p: %s\n", format_p(adolescent_bonf_antidep)))
+cat(sprintf("\nAnalgesics: %d female (%d%%), %d male (%d%%)\n",
+            n_adolescent_analgesic_f,
+            round(100*n_adolescent_analgesic_f/(n_adolescent_analgesic_f+n_adolescent_analgesic_m)),
+            n_adolescent_analgesic_m,
+            round(100*n_adolescent_analgesic_m/(n_adolescent_analgesic_f+n_adolescent_analgesic_m))))
+cat("================================\n\n")
+```
+
+## Table 2. Adolescent Subgroup: Distribution of Exposure Categories by Sex (Ages 12-19)
+
+```{r table2_adolescent}
+table2_data <- adolescent_data %>%
+  mutate(Exposure = as.character(`Exposure Category`)) %>%
+  count(Exposure, Gender) %>%
+  group_by(Exposure) %>%
+  mutate(
+    total = sum(n),
+    pct = round(100 * n / total)
+  ) %>%
+  ungroup() %>%
+  pivot_wider(
+    id_cols = Exposure,
+    names_from = Gender,
+    values_from = c(n, pct)
+  ) %>%
+  mutate(
+    Female = paste0(coalesce(n_F, 0), " (", coalesce(pct_F, 0), ")"),
+    Male = paste0(coalesce(n_M, 0), " (", coalesce(pct_M, 0), ")"),
+    Total = coalesce(n_F, 0) + coalesce(n_M, 0)
+  ) %>%
+  select(Exposure, Female, Male, Total)
+
+adolescent_totals <- data.frame(
+  Exposure = "Total",
+  Female = paste0(adolescent_female$n, " (", adolescent_female$pct, ")"),
+  Male = paste0(adolescent_male$n, " (", adolescent_male$pct, ")"),
+  Total = n_adolescent,
+  stringsAsFactors = FALSE
+)
+
+table2_final <- rbind(table2_data, adolescent_totals)
+table2_final$Pvalue <- c(adolescent_chi_p, rep("", nrow(table2_final) - 1))
+
+kable(table2_final,
+  format = "latex",
+  booktabs = TRUE,
+  col.names = c("Exposure", "Female", "Male", "Total", "P-value")
+) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+\pagebreak
+
+# PART 3: PREDICTION MODEL ANALYSIS (Train/Test Validation)
+
+```{r model_analysis}
+# ============================================================================
+# PREPARE OUTCOME DATA
+# ============================================================================
+
+outcome_train <- reg_train %>%
+  filter(!is.na(Outcome_binary), !is.na(Age), !is.na(GCS_numeric), 
+         !is.na(Pulse), !is.na(SBP), !is.na(`Respiratory Insufficiency`),
+         !is.na(Cirrhosis), !is.na(Dysrhythmia_binary),
+         !is.na(`Secondary Reason for ICU Admission`))
+
+outcome_test <- reg_test %>%
+  filter(!is.na(Outcome_binary), !is.na(Age), !is.na(GCS_numeric), 
+         !is.na(Pulse), !is.na(SBP), !is.na(`Respiratory Insufficiency`),
+         !is.na(Cirrhosis), !is.na(Dysrhythmia_binary),
+         !is.na(`Secondary Reason for ICU Admission`))
+
+n_train_outcome <- nrow(outcome_train)
+n_test_outcome <- nrow(outcome_test)
+n_icu_train <- sum(outcome_train$Outcome_binary == 1)
+n_icu_test <- sum(outcome_test$Outcome_binary == 1)
+
+cat("\n=== OUTCOME MODELING SAMPLE SIZES ===\n")
+cat(sprintf("Training: n=%d (ICU cases: %d, %.1f%%)\n", n_train_outcome, n_icu_train, 100*n_icu_train/n_train_outcome))
+cat(sprintf("Test: n=%d (ICU cases: %d, %.1f%%)\n", n_test_outcome, n_icu_test, 100*n_icu_test/n_test_outcome))
+cat("================================\n\n")
+
+# ============================================================================
+# FIT MODELS ON TRAINING DATA
+# ============================================================================
+
+# Model WITHOUT sex (base model)
+model_without_sex <- glm(
+  Outcome_binary ~ Age + GCS_numeric + Pulse + SBP + 
+    `Respiratory Insufficiency` + Cirrhosis + 
+    Dysrhythmia_binary + `Secondary Reason for ICU Admission`,
+  data = outcome_train, 
+  family = binomial
+)
+
+# Model WITH sex
+model_with_sex <- glm(
+  Outcome_binary ~ Gender_binary + Age + GCS_numeric + Pulse + SBP + 
+    `Respiratory Insufficiency` + Cirrhosis + 
+    Dysrhythmia_binary + `Secondary Reason for ICU Admission`,
+  data = outcome_train, 
+  family = binomial
+)
+
+# Sex coefficient
+sex_coef <- coef(summary(model_with_sex))["Gender_binary", ]
+
+# Likelihood ratio test
+lrt_sex <- anova(model_without_sex, model_with_sex, test = "Chisq")
+lrt_sex_p <- lrt_sex$`Pr(>Chi)`[2]
+
+cat("\n=== SEX COEFFICIENT (Training Data) ===\n")
+cat(sprintf("Beta: %.3f\n", sex_coef["Estimate"]))
+cat(sprintf("SE: %.3f\n", sex_coef["Std. Error"]))
+cat(sprintf("P-value: %s\n", format_p(sex_coef["Pr(>|z|)"])))
+cat(sprintf("LRT p-value: %s\n", format_p(lrt_sex_p)))
+cat("================================\n\n")
+
+# ============================================================================
+# TEST SET EVALUATION - USING FIXED THRESHOLD (0.5)
+# ============================================================================
+
+# Predict on test set
+pred_without_sex <- predict(model_without_sex, newdata = outcome_test, type = "response")
+pred_with_sex <- predict(model_with_sex, newdata = outcome_test, type = "response")
+
+# Use fixed threshold of 0.5
+threshold <- 0.5
+
+# Calculate sens/spec at fixed threshold
+calc_metrics <- function(pred, actual, thresh) {
+  pred_class <- ifelse(pred >= thresh, 1, 0)
+  TP <- sum(pred_class == 1 & actual == 1)
+  TN <- sum(pred_class == 0 & actual == 0)
+  FP <- sum(pred_class == 1 & actual == 0)
+  FN <- sum(pred_class == 0 & actual == 1)
+  
+  sens <- TP / (TP + FN)
+  spec <- TN / (TN + FP)
+  ppv <- TP / (TP + FP)
+  npv <- TN / (TN + FN)
+  
+  list(sens = sens, spec = spec, ppv = ppv, npv = npv, 
+       TP = TP, TN = TN, FP = FP, FN = FN)
+}
+
+metrics_without <- calc_metrics(pred_without_sex, outcome_test$Outcome_binary, threshold)
+metrics_with <- calc_metrics(pred_with_sex, outcome_test$Outcome_binary, threshold)
+
+# ROC and AUC
+roc_without <- roc(outcome_test$Outcome_binary, pred_without_sex, quiet = TRUE)
+roc_with <- roc(outcome_test$Outcome_binary, pred_with_sex, quiet = TRUE)
+
+auc_without <- auc(roc_without)
+auc_with <- auc(roc_with)
+
+# DeLong test for AUC comparison
+roc_test <- roc.test(roc_with, roc_without, method = "delong")
+
+cat("\n=== TEST SET PERFORMANCE (Threshold = 0.5) ===\n")
+cat("Model WITHOUT Sex:\n")
+cat(sprintf("  Sensitivity: %.1f%%\n", metrics_without$sens * 100))
+cat(sprintf("  Specificity: %.1f%%\n", metrics_without$spec * 100))
+cat(sprintf("  AUC: %.3f\n", auc_without))
+cat("\nModel WITH Sex:\n")
+cat(sprintf("  Sensitivity: %.1f%%\n", metrics_with$sens * 100))
+cat(sprintf("  Specificity: %.1f%%\n", metrics_with$spec * 100))
+cat(sprintf("  AUC: %.3f\n", auc_with))
+cat(sprintf("\nDeLong test p-value: %s\n", format_p(roc_test$p.value)))
+cat("================================\n\n")
+
+# ============================================================================
+# ALSO COMPUTE WITH YOUDEN-OPTIMAL THRESHOLD (for reference)
+# Find optimal threshold on TRAINING data, then apply to TEST
+# ============================================================================
+
+# Get predictions on training data
+pred_train_without <- predict(model_without_sex, type = "response")
+pred_train_with <- predict(model_with_sex, type = "response")
+
+# Find optimal thresholds on training data
+roc_train_without <- roc(outcome_train$Outcome_binary, pred_train_without, quiet = TRUE)
+roc_train_with <- roc(outcome_train$Outcome_binary, pred_train_with, quiet = TRUE)
+
+thresh_without <- coords(roc_train_without, "best", best.method = "youden")$threshold
+thresh_with <- coords(roc_train_with, "best", best.method = "youden")$threshold
+
+# Apply training-optimal thresholds to test data
+metrics_without_opt <- calc_metrics(pred_without_sex, outcome_test$Outcome_binary, thresh_without)
+metrics_with_opt <- calc_metrics(pred_with_sex, outcome_test$Outcome_binary, thresh_with)
+
+cat("\n=== TEST SET PERFORMANCE (Training-Optimal Thresholds) ===\n")
+cat(sprintf("Threshold WITHOUT sex (from training): %.3f\n", thresh_without))
+cat(sprintf("Threshold WITH sex (from training): %.3f\n", thresh_with))
+cat("\nModel WITHOUT Sex:\n")
+cat(sprintf("  Sensitivity: %.1f%%\n", metrics_without_opt$sens * 100))
+cat(sprintf("  Specificity: %.1f%%\n", metrics_without_opt$spec * 100))
+cat("\nModel WITH Sex:\n")
+cat(sprintf("  Sensitivity: %.1f%%\n", metrics_with_opt$sens * 100))
+cat(sprintf("  Specificity: %.1f%%\n", metrics_with_opt$spec * 100))
+cat("================================\n\n")
+
+# ============================================================================
+# USE SAME THRESHOLD FOR BOTH MODELS (fairer comparison)
+# ============================================================================
+
+# Use the threshold from the WITHOUT-sex model for both
+shared_thresh <- thresh_without
+
+metrics_without_shared <- calc_metrics(pred_without_sex, outcome_test$Outcome_binary, shared_thresh)
+metrics_with_shared <- calc_metrics(pred_with_sex, outcome_test$Outcome_binary, shared_thresh)
+
+cat("\n=== TEST SET PERFORMANCE (Same Threshold for Both) ===\n")
+cat(sprintf("Shared threshold (from model without sex): %.3f\n", shared_thresh))
+cat("\nModel WITHOUT Sex:\n")
+cat(sprintf("  Sensitivity: %.1f%%\n", metrics_without_shared$sens * 100))
+cat(sprintf("  Specificity: %.1f%%\n", metrics_without_shared$spec * 100))
+cat("\nModel WITH Sex:\n")
+cat(sprintf("  Sensitivity: %.1f%%\n", metrics_with_shared$sens * 100))
+cat(sprintf("  Specificity: %.1f%%\n", metrics_with_shared$spec * 100))
+cat("================================\n\n")
+```
+
+## Summary Table
+
+```{r summary_table}
+summary_df <- data.frame(
+  Metric = c("Threshold = 0.5", "Sensitivity", "Specificity", "AUC",
+             "", "Training-Optimal Threshold", "Sensitivity", "Specificity",
+             "", "Shared Threshold", "Sensitivity", "Specificity"),
+  Without_Sex = c("", 
+                  sprintf("%.1f%%", metrics_without$sens * 100),
+                  sprintf("%.1f%%", metrics_without$spec * 100),
+                  sprintf("%.3f", auc_without),
+                  "",
+                  sprintf("%.3f", thresh_without),
+                  sprintf("%.1f%%", metrics_without_opt$sens * 100),
+                  sprintf("%.1f%%", metrics_without_opt$spec * 100),
+                  "",
+                  sprintf("%.3f", shared_thresh),
+                  sprintf("%.1f%%", metrics_without_shared$sens * 100),
+                  sprintf("%.1f%%", metrics_without_shared$spec * 100)),
+  With_Sex = c("",
+               sprintf("%.1f%%", metrics_with$sens * 100),
+               sprintf("%.1f%%", metrics_with$spec * 100),
+               sprintf("%.3f", auc_with),
+               "",
+               sprintf("%.3f", thresh_with),
+               sprintf("%.1f%%", metrics_with_opt$sens * 100),
+               sprintf("%.1f%%", metrics_with_opt$spec * 100),
+               "",
+               sprintf("%.3f", shared_thresh),
+               sprintf("%.1f%%", metrics_with_shared$sens * 100),
+               sprintf("%.1f%%", metrics_with_shared$spec * 100))
+)
+
+kable(summary_df,
+  format = "latex",
+  booktabs = TRUE,
+  col.names = c("Metric", "Without Sex", "With Sex")
+) %>%
+  kable_styling(latex_options = c("hold_position"))
+```
+
+\pagebreak
+
+# CONCLUSION
+
+**Key findings:**
+
+1. **Sex-Exposure Association (Full Cohort):** Chi-square p = `r chi_p_value`. Antidepressants: `r round(100*n_antidep_f/(n_antidep_f+n_antidep_m))`% female (OR `r sprintf("%.1f", or_manual)`, Fisher p = `r format_p(antidep_fisher$p.value)`, Bonferroni adjusted p = `r format_p(bonf_antidep)`).
+
+2. **Adolescent Subgroup (Ages 12-19):** n = `r n_adolescent`. Chi-square p = `r adolescent_chi_p`. Antidepressants: `r round(100*n_adolescent_antidep_f/(n_adolescent_antidep_f+n_adolescent_antidep_m))`% female (OR `r sprintf("%.1f", adolescent_or_manual)`, Fisher p = `r format_p(adolescent_antidep_fisher$p.value)`, Bonferroni adjusted p = `r format_p(adolescent_bonf_antidep)`).
+
+3. **Sex in Prediction Model:** LRT p = `r format_p(lrt_sex_p)`. Sex coefficient β = `r sprintf("%.2f", sex_coef["Estimate"])` (p = `r format_p(sex_coef["Pr(>|z|)"])`).
+
+4. **Test Set Performance:** AUC without sex = `r sprintf("%.3f", auc_without)`, AUC with sex = `r sprintf("%.3f", auc_with)` (DeLong p = `r format_p(roc_test$p.value)`).
+
+**Recommendation for abstract:** Report sensitivity/specificity as primary metrics. Including biological sex in the model changed sensitivity from `r sprintf("%.0f", metrics_without$sens * 100)`% to `r sprintf("%.0f", metrics_with$sens * 100)`% and specificity from `r sprintf("%.0f", metrics_without$spec * 100)`% to `r sprintf("%.0f", metrics_with$spec * 100)`%. Adolescent subgroup findings can be added to Results section.
