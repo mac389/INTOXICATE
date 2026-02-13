@@ -1,0 +1,187 @@
+---
+title: "Linear Independence of Variables in INTOXICATE-ER"
+author: "Yash Jaggi"
+output: 
+    bookdown::pdf_document2:
+      latex_engine: xelatex
+      toc: false
+      keep_tex: true
+      fig_caption: yes
+      geometry: "left=0.5in,right=0.5in,top=0.5in,bottom=0.5in"
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{caption}
+  - \usepackage{float}
+  - \renewcommand{\familydefault}{\sfdefault}
+  - \usepackage{placeins}
+  - \usepackage{caption}
+  - \captionsetup[table]{position=bottom}
+---
+
+```{r load_and_prepare, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(english)
+library(scales)
+library(here)
+library(stringr)
+library(ggthemes)
+library(gtExtras)
+library(gtsummary)
+library(readr)
+library(purrr)
+library(gt)
+library(chisq.posthoc.test)
+
+knitr::opts_chunk$set(
+  dev = "pdf",
+  dpi = 300,
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  out.width = "90%"
+)
+
+# data <- read_excel(here("data", "snapshots", "snapshot.04192025.xlsx"), sheet = "INTOXICATE", range = cell_cols("A:AC"))
+
+data <- read_csv(here("data", "snapshots", "intoxicate.05012026.csv")) %>%
+  mutate(`INTOXICATE SCORE` = as.numeric(`INTOXICATE SCORE`))
+
+# Clean exposure category data
+clean_data <- data %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  mutate(
+    Gender = trimws(Gender),
+    `Exposure Category` = trimws(`Exposure Category`),
+    `Dichotomous Outcome` = ifelse(`Actual Disposition`=="ICU",1,0)) %>%
+  filter(Gender %in% c("M", "F")) %>%
+  filter(`Exposure Category` %in% c(
+    "Combination", "Analgesic", "Antidepressants",
+    "Street Drugs", "CO, As, CN", "Sedatives", "Alcohol", "Unknown"
+  ))
+
+category_counts <- clean_data %>%
+  count(`Exposure Category`) %>%
+  arrange(desc(n))
+
+ordered_categories <- category_counts$`Exposure Category`
+
+clean_data <- clean_data %>%
+  mutate(`Exposure Category` = factor(`Exposure Category`, levels = ordered_categories))
+
+create_binary_comparison <- function(data, target_category) {
+  data %>%
+    mutate(category_binary = ifelse(`Exposure Category` == target_category,
+      target_category, "All Others"
+    ))
+}
+
+
+add_row_vs_rest_chisq <- function(tbl, data, row, col, p_adj = "fdr") {
+  row_var <- rlang::as_name(rlang::enquo(row))
+  col_var <- rlang::as_name(rlang::enquo(col))
+
+  df <- data %>% dplyr::select({{ row }}, {{ col }})
+  lvls <- unique(df[[row_var]])
+
+  results <- lapply(lvls, function(lvl) {
+    df2 <- df %>%
+      mutate(row_bin = ifelse(.data[[row_var]] == lvl, lvl, "All Others"))
+    tab <- table(df2$row_bin, df2[[col_var]])
+    suppressWarnings(chisq.test(tab)$p.value)
+  })
+
+  out <- tibble::tibble(
+    row_type = "level",             # IMPORTANT: ensures matching
+    row_var_name = row_var,
+    level = lvls,
+    p_row = unlist(results),
+    p_row_adj = p.adjust(unlist(results), method = p_adj)
+  )
+
+  tbl %>%
+    gtsummary::modify_table_body(
+      ~ dplyr::left_join(.x, out,
+         by = c(
+          "row_type" = "row_type",
+          "variable" = "row_var_name",
+          "label" = "level"
+         )
+      )
+    ) %>%
+    gtsummary::modify_header(
+      p_row ~ "**Row vs Rest p**",
+      p_row_adj ~ "**Row vs Rest p (adj)**"
+    ) %>%
+    modify_table_styling(
+    columns = c("p_row_adj","p_row"),
+    rows = p_row_adj < 0.05,
+    text_format = "bold") %>%
+    modify_fmt_fun(
+      p_row ~ function(x) ifelse(x < 0.001, "< 0.001", format(round(x, 3), nsmall = 3)),
+      p_row_adj ~ function(x) ifelse(x < 0.001, "< 0.001", format(round(x, 3), nsmall = 3))
+    )
+}
+
+# View the standardized residuals
+```
+# Realtionship Between Gender and Xenobiotic {-} 
+
+
+```{r table1}
+tbl1 <- clean_data %>%
+  tbl_cross(`Exposure Category`, Gender, percent = 'row', 
+   label = list(Gender ~ "Biological Sex")) %>%
+  add_overall() %>%
+  add_p() %>%
+  italicize_levels() %>%
+  add_row_vs_rest_chisq(clean_data, `Exposure Category`, Gender)
+
+tbl1 %>%
+  as_kable_extra(
+    format = "latex",
+    booktabs = TRUE,
+    caption = "\\textbf{No association between gender and type of xenobiotic.}. Cells denote case count (row percentage). F, biological female. M, male. See X for description of exposure categories."
+  ) %>%
+  kable_styling(latex_options = c("hold_position")) %>%
+  row_spec(0, bold = TRUE)
+
+p_value_g_by_x <- inline_text(tbl1, col_level = "p.value")
+```
+
+```{r better_model_comparison}
+
+
+train_indices <- sample(seq_len(nrow(clean_data)), size = 101)
+
+train_data <- clean_data[train_indices, ]
+
+confus <- train_data %>%
+  mutate(`Predicted Disposition` = ifelse(`INTOXICATE SCORE` > 17, 1, 0)) %>%
+  select(`Dichotomous Outcome`, `Predicted Disposition`) %>%
+  table()
+
+sensitivity_train <- confus[2, 2] / sum(confus[2, ])
+specificity_train <- confus[1, 1] / sum(confus[1, ])
+
+test_data <- clean_data[-train_indices, ]
+
+model <- glm(`Dichotomous Outcome` ~ `INTOXICATE SCORE` + Gender, data = train_data, family = binomial)
+
+summary(model)
+confint(model)
+
+predicted_probs <- predict(model, newdata = test_data, type = "response")
+predicted_classes <- ifelse(predicted_probs > 0.5, 1, 0)
+
+confusion_matrix <- table(test_data$`Dichotomous Outcome`, predicted_classes)
+
+sensitivity <- confusion_matrix[2, 2] / sum(confusion_matrix[2, ])
+specificity <- confusion_matrix[1, 1] / sum(confusion_matrix[1, ])
+
+```
+The sensitivity and specificity of the model on the training data are `r round(sensitivity_train, 3)` and `r round(specificity_train, 3)`, respectively. On the test data, the sensitivity and specificity are `r round(sensitivity, 3)` and `r round(specificity, 3)`, respectively.
