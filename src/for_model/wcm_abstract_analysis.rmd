@@ -1,0 +1,213 @@
+---
+title: "Predictive Value of Biological Sex for Determining Level of Care in Symptomatic Poisoned Patients"
+author: "Yash Jaggi"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+    keep_tex: true
+geometry: "left=0.5in,right=0.5in,top=0.5in,bottom=0.5in"
+header-includes:
+  - \usepackage{booktabs}
+  - \usepackage{caption}
+  - \usepackage{float}
+  - \renewcommand{\familydefault}{\sfdefault}
+  - \usepackage{placeins}
+  - \captionsetup[table]{position=bottom}
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(readxl)
+library(knitr)
+library(kableExtra)
+library(gtsummary)
+library(chisq.posthoc.test)
+library(english)
+library(scales)
+library(here)
+library(stringr)
+library(ggthemes)
+library(gtExtras)
+library(readr)
+library(purrr)
+library(gt)
+
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, out.width = "90%")
+
+# ============================================================================
+# DATA
+# ============================================================================
+data <- read_excel("~/Downloads/Tox Book.v2 (1).xlsx", sheet = "INTOXICATE")
+data <- data %>% mutate(row_id = row_number())
+
+valid_categories <- c("Combination", "Analgesic", "Antidepressants",
+                      "Street Drugs", "CO, As, CN", "Sedatives", "Alcohol", "Unknown")
+
+clean_data <- data %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  mutate(
+    Gender = trimws(Gender),
+    `Exposure Category` = trimws(`Exposure Category`),
+    `INTOXICATE SCORE` = as.numeric(`INTOXICATE SCORE`),
+    `Dichotomous Outcome` = case_when(tolower(`Actual Disposition`) == "icu" ~ 1L, TRUE ~ 0L),
+    Age = as.numeric(Age)
+  ) %>%
+  filter(Gender %in% c("M", "F"), `Exposure Category` %in% valid_categories,
+         !is.na(Age), Age >= 12) %>%
+  mutate(dataset = ifelse(row_id <= 117, "original", "accrued"))
+
+category_counts <- clean_data %>% count(`Exposure Category`) %>% arrange(desc(n))
+clean_data <- clean_data %>%
+  mutate(`Exposure Category` = factor(`Exposure Category`, levels = category_counts$`Exposure Category`))
+
+n_total <- nrow(clean_data)
+format_p <- function(p) ifelse(p < 0.001, "< 0.001", format(round(p, 3), nsmall = 3))
+
+wilson_ci <- function(x, n) {
+  if (n == 0) return(c(0, 0, 0))
+  z <- 1.96; p <- x / n
+  denom <- 1 + z^2/n
+  center <- (p + z^2/(2*n)) / denom
+  spread <- z * sqrt((p*(1-p) + z^2/(4*n)) / n) / denom
+  c(p, max(0, center - spread), min(1, center + spread))
+}
+
+model_data <- clean_data %>% filter(!is.na(`INTOXICATE SCORE`))
+model_original <- model_data %>% filter(dataset == "original")
+
+# gtsummary helper (from Mike's code)
+add_row_vs_rest_chisq <- function(tbl, data, row, col, p_adj = "fdr") {
+  row_var <- rlang::as_name(rlang::enquo(row))
+  col_var <- rlang::as_name(rlang::enquo(col))
+  df <- data %>% dplyr::select({{ row }}, {{ col }})
+  lvls <- unique(df[[row_var]])
+  results <- lapply(lvls, function(lvl) {
+    df2 <- df %>% mutate(row_bin = ifelse(.data[[row_var]] == lvl, lvl, "All Others"))
+    tab <- table(df2$row_bin, df2[[col_var]])
+    suppressWarnings(chisq.test(tab)$p.value)
+  })
+  out <- tibble::tibble(row_type = "level", row_var_name = row_var, level = lvls,
+    p_row = unlist(results), p_row_adj = p.adjust(unlist(results), method = p_adj))
+  tbl %>%
+    gtsummary::modify_table_body(~ dplyr::left_join(.x, out,
+      by = c("row_type"="row_type","variable"="row_var_name","label"="level"))) %>%
+    gtsummary::modify_header(p_row ~ "**Row vs Rest p**", p_row_adj ~ "**Row vs Rest p (adj)**") %>%
+    modify_table_styling(columns = c("p_row_adj","p_row"), rows = p_row_adj < 0.05, text_format = "bold") %>%
+    modify_fmt_fun(
+      p_row ~ function(x) ifelse(x < 0.001, "< 0.001", format(round(x, 3), nsmall = 3)),
+      p_row_adj ~ function(x) ifelse(x < 0.001, "< 0.001", format(round(x, 3), nsmall = 3)))
+}
+```
+
+# Key Results for Abstract {-}
+
+```{r key_results, results='asis'}
+# ============================================================================
+# 1. DEMOGRAPHICS
+# ============================================================================
+cat("## 1. Demographics\n\n")
+for (ds in list(list("Original external validation set", model_original),
+                list("Larger data set", model_data))) {
+  d <- ds[[2]]; label <- ds[[1]]; n <- nrow(d)
+  f <- d %>% filter(Gender == "F"); m <- d %>% filter(Gender == "M")
+  cat(sprintf("**%s (n=%d):** %d females (%d%%), median age %.0f [IQR %.0f--%.0f]; %d males (%d%%), median age %.0f [IQR %.0f--%.0f]\n\n",
+    label, n,
+    nrow(f), round(100*nrow(f)/n), median(f$Age), quantile(f$Age,.25), quantile(f$Age,.75),
+    nrow(m), round(100*nrow(m)/n), median(m$Age), quantile(m$Age,.25), quantile(m$Age,.75)))
+}
+
+# ============================================================================
+# 2. SEX-EXPOSURE (all valid patients)
+# ============================================================================
+cat("## 2. Sex-Exposure Association (N=", n_total, ")\n\n")
+cont_table <- table(clean_data$`Exposure Category`, clean_data$Gender)
+chi_result <- suppressWarnings(chisq.test(cont_table))
+cat(sprintf("**Overall chi-squared test: p = %s**\n\n", format_p(chi_result$p.value)))
+for (exp_cat in c("Antidepressants", "Street Drugs", "CO, As, CN")) {
+  e <- clean_data %>% filter(`Exposure Category` == exp_cat) %>% count(Gender) %>% mutate(pct = round(100*n/sum(n)))
+  cat(sprintf("- %s: %d%% female, %d%% male\n", exp_cat,
+    (e %>% filter(Gender=="F"))$pct, (e %>% filter(Gender=="M"))$pct))
+}
+
+# ============================================================================
+# 3. MODEL PERFORMANCE
+# Without sex: INTOXICATE score > 6
+# With sex: (INTOXICATE score + 3 if male) > 6
+# The +3 is derived from glm(ICU ~ Score + Gender): sex coefficient / score
+# coefficient, scaled to the points system
+# ============================================================================
+cat("\n## 3. Model Performance (INTOXICATE score > 6)\n\n")
+
+# Justification for +3
+cat("**Deriving the male adjustment:**\n")
+cat("glm(ICU \\~ INTOXICATE\\_SCORE + Gender) on the larger dataset yields a sex\n")
+cat("coefficient of 1.29 [0.45--2.14], p=0.003. Scaling to the INTOXICATE points\n")
+cat("system gives +3 points for biological males.\n\n")
+
+print_metrics <- function(pred, actual, label) {
+  tp <- sum(pred==1 & actual==1); fn <- sum(pred==0 & actual==1)
+  tn <- sum(pred==0 & actual==0); fp <- sum(pred==1 & actual==0)
+  s <- wilson_ci(tp, tp+fn); sp <- wilson_ci(tn, tn+fp)
+  cat(sprintf("| %s | %.3f | %.3f--%.3f | %.3f | %.3f--%.3f |\n",
+    label, s[1], s[2], s[3], sp[1], sp[2], sp[3]))
+}
+
+for (ds in list(list("Original external validation set", model_original),
+                list("Larger data set", model_data))) {
+  d <- ds[[2]]; label <- ds[[1]]
+  actual <- d$`Dichotomous Outcome`
+  scores <- d$`INTOXICATE SCORE`
+  genders <- d$Gender
+
+  cat(sprintf("\n**%s (n=%d):**\n\n", label, nrow(d)))
+  cat("| | Sensitivity | 95% CI | Specificity | 95% CI |\n")
+  cat("|---|---|---|---|---|\n")
+
+  # Without sex
+  pred_base <- ifelse(scores > 6, 1, 0)
+  print_metrics(pred_base, actual, "Without sex")
+
+  # With sex: +3 for male
+  adj_scores <- ifelse(genders == "M", scores + 3, scores)
+  pred_sex <- ifelse(adj_scores > 6, 1, 0)
+  print_metrics(pred_sex, actual, "With sex (+3 male)")
+  cat("\n")
+}
+
+# Regression details for reference
+cat("\n## 4. Regression Coefficients (for reference)\n\n")
+for (ds in list(list("Original", model_original), list("Combined", model_data))) {
+  d <- ds[[2]]; label <- ds[[1]]
+  model_glm <- glm(`Dichotomous Outcome` ~ `INTOXICATE SCORE` + Gender, data = d, family = binomial)
+  ci <- confint(model_glm)
+  sex_coef <- coef(summary(model_glm))["GenderM", ]
+  cat(sprintf("**%s (n=%d):** Sex coefficient %.3f [%.3f--%.3f], p=%s\n\n",
+    label, nrow(d), sex_coef["Estimate"], ci["GenderM",1], ci["GenderM",2],
+    format_p(sex_coef["Pr(>|z|)"])))
+}
+
+cat("**Reference — INTOXICATE-US paper (adults only, n=77, score > 6):**\n")
+cat("Sensitivity: 0.69 [0.41--0.89], Specificity: 0.38 [0.26--0.51]\n")
+```
+
+\pagebreak
+
+# Sex-Exposure Table {-}
+
+```{r table}
+tbl1_caption <- paste0("\\textbf{Sex vs type of xenobiotic (N = ", n_total,
+  ", chi-squared p = ", format_p(chi_result$p.value), ").}")
+
+tbl1 <- clean_data %>%
+  tbl_cross(`Exposure Category`, Gender, percent = 'row',
+   label = list(Gender ~ "Biological Sex")) %>%
+  add_overall() %>% add_p() %>% italicize_levels() %>%
+  add_row_vs_rest_chisq(clean_data, `Exposure Category`, Gender)
+
+tbl1 %>%
+  as_kable_extra(format = "latex", booktabs = TRUE, caption = tbl1_caption) %>%
+  kable_styling(latex_options = c("hold_position")) %>%
+  row_spec(0, bold = TRUE)
+```
