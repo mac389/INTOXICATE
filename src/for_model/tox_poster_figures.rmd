@@ -1,0 +1,439 @@
+---
+title: "INTOXICATE Poster Figures"
+author: "Yash Jaggi"
+date: "WCM EM Research Symposium · May 7, 2026"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+geometry: "left=0.7in,right=0.7in,top=0.7in,bottom=0.7in"
+header-includes:
+  - \usepackage{float}
+  - \usepackage{caption}
+  - \captionsetup[figure]{labelformat=empty,font=normalsize,skip=4pt}
+  - \renewcommand{\familydefault}{\sfdefault}
+  - \pagestyle{empty}
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+# ============================================================================
+# INTOXICATE POSTER FIGURES
+# WCM Emergency Medicine Research Symposium · May 7, 2026
+#
+# Two figures, computed live from the toxicology registry. Each is saved
+# as a 300 DPI PNG to ./poster_figures/ for direct insertion into the
+# PowerPoint poster template.
+# ============================================================================
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readxl)
+library(scales)
+library(stringr)
+library(knitr)
+
+knitr::opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE,
+  fig.align = "center", dpi = 300
+)
+
+# ---- WCM PALETTE ----------------------------------------------------------
+WCM_MAROON <- "#A8132B"
+WCM_NAVY   <- "#1B365D"
+INK        <- "#1A1A1A"
+SLATE      <- "#4A4A4A"
+MIST       <- "#C9C9C9"
+PAPER      <- "#FFFFFF"
+GRID       <- "#E8E8E8"
+
+# ---- OUTPUT ---------------------------------------------------------------
+fig_dir <- "poster_figures"
+if (!dir.exists(fig_dir)) dir.create(fig_dir)
+
+save_png <- function(plot, filename, width, height) {
+  ggsave(
+    file.path(fig_dir, filename),
+    plot = plot, width = width, height = height,
+    units = "in", dpi = 300, bg = PAPER
+  )
+}
+
+# ---- THEME ----------------------------------------------------------------
+# Sans-serif throughout. Minimal in-plot chrome — no titles, no subtitles,
+# no captions inside the figure. Identification and explanation live in the
+# LaTeX caption beneath each figure, in the same family.
+theme_clean <- function(base_size = 12) {
+  theme_minimal(base_size = base_size, base_family = "Helvetica") +
+    theme(
+      text = element_text(family = "Helvetica"),
+      plot.title    = element_blank(),
+      plot.subtitle = element_blank(),
+      plot.caption  = element_blank(),
+      plot.title.position = "plot",
+      axis.title.x = element_text(size = base_size + 1, color = INK,
+                                  margin = margin(t = 10)),
+      axis.title.y = element_text(size = base_size + 1, color = INK,
+                                  margin = margin(r = 10)),
+      axis.text    = element_text(size = base_size, color = SLATE),
+      axis.ticks   = element_line(color = SLATE, linewidth = 0.3),
+      axis.ticks.length = unit(3, "pt"),
+      panel.grid.minor   = element_blank(),
+      panel.grid.major.x = element_line(color = GRID, linewidth = 0.3),
+      panel.grid.major.y = element_blank(),
+      panel.background = element_rect(fill = PAPER, color = NA),
+      plot.background  = element_rect(fill = PAPER, color = NA),
+      legend.position    = "bottom",
+      legend.justification = "center",
+      legend.title       = element_text(size = base_size, color = INK),
+      legend.text        = element_text(size = base_size, color = INK),
+      legend.key.height  = unit(12, "pt"),
+      legend.key.width   = unit(16, "pt"),
+      legend.margin      = margin(t = 12),
+      legend.box.margin  = margin(t = 4),
+      plot.margin = margin(t = 6, r = 16, b = 6, l = 6)
+    )
+}
+
+# ---- HELPERS --------------------------------------------------------------
+fmt_p_inline <- function(p) {
+  if (p < 0.001) return("p < 0.001")
+  paste0("p = ", format(round(p, 3), nsmall = 3))
+}
+```
+
+```{r load_data}
+# ============================================================================
+# DATA — same cleaning as wcm_abstract_analysis_v4.Rmd
+# >>> EDIT THIS PATH IF YOUR FILE LIVES SOMEWHERE ELSE <<<
+# ============================================================================
+data_path <- "~/Downloads/Tox Book.v2 (1).xlsx"
+
+data <- read_excel(data_path, sheet = "INTOXICATE")
+data <- data %>% mutate(row_id = row_number())
+
+valid_categories <- c("Combination", "Analgesic", "Antidepressants",
+                      "Street Drugs", "CO, As, CN", "Sedatives",
+                      "Alcohol", "Unknown")
+
+# Count "enrolled" as all rows in the registry that have any patient data
+# (a row that is entirely NA is not really an enrolled patient — it's just
+# an empty Excel row).  An enrolled patient has at minimum some identifying
+# row content. This mirrors the abstract's "of 252 enrolled, 232 included"
+# framing where the 20-patient drop was attributable to exclusion criteria.
+n_enrolled <- data %>%
+  filter(if_any(everything(), ~ !is.na(.))) %>%
+  nrow()
+
+clean_data <- data %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  mutate(
+    Gender = trimws(Gender),
+    `Exposure Category` = trimws(`Exposure Category`),
+    `INTOXICATE SCORE`  = as.numeric(`INTOXICATE SCORE`),
+    `Dichotomous Outcome` = case_when(
+      tolower(`Actual Disposition`) == "icu" ~ 1L,
+      TRUE ~ 0L
+    ),
+    Age = as.numeric(Age)
+  ) %>%
+  filter(Gender %in% c("M", "F"),
+         `Exposure Category` %in% valid_categories,
+         !is.na(Age), Age >= 12)
+
+n_total    <- nrow(clean_data)
+n_female   <- sum(clean_data$Gender == "F")
+n_male     <- sum(clean_data$Gender == "M")
+model_data <- clean_data %>% filter(!is.na(`INTOXICATE SCORE`))
+n_model    <- nrow(model_data)
+
+# Chi-squared on the 8x2 table for Figure 1 caption
+cont_table <- table(clean_data$`Exposure Category`, clean_data$Gender)
+chi_p <- suppressWarnings(chisq.test(cont_table))$p.value
+
+# Sub-threshold male ICU rate for Figure 2 caption
+male_icu_total <- model_data %>%
+  filter(Gender == "M", `Dichotomous Outcome` == 1) %>%
+  nrow()
+male_icu_subthreshold <- model_data %>%
+  filter(Gender == "M", `Dichotomous Outcome` == 1,
+         `INTOXICATE SCORE` <= 6) %>%
+  nrow()
+```
+
+\vspace{6pt}
+
+\noindent\textbf{\large Figure 1. Exposure Category Counts by Biological Sex}
+
+```{r fig1_paired_bars, fig.width=8.5, fig.height=5.2}
+# ============================================================================
+# FIGURE 1 — Paired horizontal bars (one row per sex per category)
+# Structure mirrors the screenshot Yash referenced: each category gets two
+# bars stacked vertically (F then M), categories ordered by total count.
+# WCM palette substituted for the original black/gray.
+# ============================================================================
+
+fig1_data <- clean_data %>%
+  count(`Exposure Category`, Gender) %>%
+  group_by(`Exposure Category`) %>%
+  mutate(total = sum(n),
+         pct_female = sum(n[Gender == "F"]) / total * 100) %>%
+  ungroup() %>%
+  mutate(
+    Sex = factor(Gender, levels = c("M", "F"),
+                 labels = c("Male", "Female"))
+  )
+
+# Order categories by descending female percentage
+cat_order <- fig1_data %>%
+  distinct(`Exposure Category`, pct_female) %>%
+  arrange(desc(pct_female)) %>%
+  pull(`Exposure Category`)
+
+fig1_data <- fig1_data %>%
+  mutate(`Exposure Category` = factor(`Exposure Category`,
+                                       levels = rev(cat_order)))
+
+x_max <- max(fig1_data$n) * 1.10
+
+fig1 <- ggplot(fig1_data,
+               aes(x = n, y = `Exposure Category`, fill = Sex)) +
+  geom_col(position = position_dodge(width = 0.78),
+           width = 0.7, color = NA) +
+  geom_text(aes(label = n),
+            position = position_dodge(width = 0.78),
+            hjust = -0.35, size = 3.6, color = INK,
+            family = "Helvetica") +
+  scale_fill_manual(values = c("Female" = WCM_MAROON,
+                                "Male"   = WCM_NAVY),
+                    breaks = c("Female", "Male"),
+                    name = NULL) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.02)),
+                     limits = c(0, x_max),
+                     breaks = pretty(c(0, x_max))) +
+  labs(x = "Number of patients", y = "Poisoning exposure category") +
+  theme_clean(base_size = 12) +
+  theme(
+    axis.text.y = element_text(size = 12, color = INK,
+                                margin = margin(r = 4))
+  )
+
+print(fig1)
+save_png(fig1, "fig1_exposure_by_sex.png", width = 8.5, height = 5.2)
+```
+
+\begin{figure}[H]
+\caption*{\textbf{Figure 1.} Number of female (maroon) and male (navy) patients in each poisoning exposure category. Categories ordered by descending female share. N = `r n_total` patients (`r n_female` female, `r n_male` male). Antidepressant exposures were predominantly female; street drug, CO/As/CN, and alcohol exposures were predominantly male. Chi-squared test of independence on the 8 \(\times\) 2 table: `r fmt_p_inline(chi_p)`.}
+\end{figure}
+
+\pagebreak
+
+\noindent\textbf{\large Figure 2. INTOXICATE Score Distribution by Sex and ICU Outcome}
+
+```{r fig2_score_distribution, fig.width=8.5, fig.height=4.8}
+# ============================================================================
+# FIGURE 2 — Jittered scatter, sex on y, INTOXICATE score on x, points
+# colored by toxicologist disposition. Single dashed reference line at the
+# original threshold (score > 6). No medians, no second threshold line, no
+# in-plot title or annotations — keep it spare.
+# ============================================================================
+
+fig2_data <- model_data %>%
+  mutate(
+    Sex = factor(Gender, levels = c("F", "M"),
+                 labels = c("Female", "Male")),
+    Outcome = factor(`Dichotomous Outcome`, levels = c(1, 0),
+                     labels = c("ICU", "Non-ICU"))
+  )
+
+# Group medians, computed per sex × outcome
+group_medians <- fig2_data %>%
+  group_by(Sex, Outcome) %>%
+  summarise(med = median(`INTOXICATE SCORE`, na.rm = TRUE),
+            .groups = "drop")
+
+ICU_COLOR    <- "#E36C0A"   # orange
+NONICU_COLOR <- "#7FB3D5"   # light steel blue
+
+fig2 <- ggplot() +
+  geom_vline(xintercept = 6, color = INK,
+             linetype = "dashed", linewidth = 0.4) +
+  # Patient points — circles
+  geom_jitter(data = fig2_data,
+              aes(x = `INTOXICATE SCORE`, y = Sex, color = Outcome,
+                  shape = "Patient"),
+              height = 0.22, alpha = 0.75, size = 2.4, stroke = 0) +
+  # Group median triangles — nudged above/below the jitter band
+  geom_point(data = group_medians,
+             aes(x = med, y = Sex, color = Outcome,
+                 shape = "Group median"),
+             size = 5.5,
+             position = position_nudge(
+               y = ifelse(group_medians$Outcome == "ICU", 0.36, -0.36)
+             )) +
+  scale_color_manual(values = c("ICU" = ICU_COLOR,
+                                "Non-ICU" = NONICU_COLOR),
+                     name = "Toxicologist disposition") +
+  scale_shape_manual(values = c("Patient" = 16, "Group median" = 17),
+                     guide = "none") +
+  scale_x_continuous(
+    breaks = seq(0, max(fig2_data$`INTOXICATE SCORE`, na.rm = TRUE), 4),
+    expand = expansion(add = c(0.5, 0.5))
+  ) +
+  scale_y_discrete(expand = expansion(add = c(0.7, 0.7))) +
+  labs(x = "INTOXICATE score", y = NULL) +
+  theme_clean(base_size = 12) +
+  theme(
+    axis.text.y = element_text(face = "bold", size = 13, color = INK)
+  ) +
+  guides(
+    color = guide_legend(
+      override.aes = list(shape = 16, size = 3.5, alpha = 1)
+    )
+  )
+
+print(fig2)
+save_png(fig2, "fig2_score_distribution.png", width = 8.5, height = 4.8)
+```
+
+\begin{figure}[H]
+\caption*{\textbf{Figure 2.} INTOXICATE score for each patient with complete data (n = `r n_model`), stratified by biological sex and colored by toxicologist disposition. Triangles mark group medians for ICU and non-ICU dispositions within each sex. The dashed line marks the original threshold of IRS \(>\) 6. `r male_icu_subthreshold` of `r male_icu_total` male patients (`r round(100*male_icu_subthreshold/male_icu_total)`\%) with raw scores at or below the threshold ultimately required ICU-level care, motivating a sex-specific adjustment to the score.}
+\end{figure}
+
+\pagebreak
+
+\noindent\textbf{\large Cohort statistics for poster Results section}
+
+```{r results_stats, results='asis'}
+# ============================================================================
+# COHORT STATS — every number needed to populate the Results section
+# of the poster, formatted to mirror the abstract's prose style.
+# ============================================================================
+
+library(stats)
+
+# --- Sensitivity & specificity, with and without sex (+3 male adjustment) ---
+wilson_ci <- function(x, n) {
+  if (n == 0) return(c(0, 0, 0))
+  z <- 1.96; p <- x / n
+  denom  <- 1 + z^2 / n
+  center <- (p + z^2 / (2 * n)) / denom
+  spread <- z * sqrt((p * (1 - p) + z^2 / (4 * n)) / n) / denom
+  c(p, max(0, center - spread), min(1, center + spread))
+}
+
+scores  <- model_data$`INTOXICATE SCORE`
+genders <- model_data$Gender
+actual  <- model_data$`Dichotomous Outcome`
+
+pred_base <- ifelse(scores > 6, 1, 0)
+sens_base <- wilson_ci(sum(pred_base == 1 & actual == 1), sum(actual == 1))
+spec_base <- wilson_ci(sum(pred_base == 0 & actual == 0), sum(actual == 0))
+
+adj_scores <- ifelse(genders == "M", scores + 3, scores)
+pred_sex   <- ifelse(adj_scores > 6, 1, 0)
+sens_sex   <- wilson_ci(sum(pred_sex == 1 & actual == 1), sum(actual == 1))
+spec_sex   <- wilson_ci(sum(pred_sex == 0 & actual == 0), sum(actual == 0))
+
+# --- OR for male sex ---
+glm_fit <- glm(`Dichotomous Outcome` ~ `INTOXICATE SCORE` + Gender,
+               data = model_data, family = binomial)
+glm_ci   <- suppressMessages(confint(glm_fit))
+or_male  <- exp(coef(glm_fit)["GenderM"])
+or_lo    <- exp(glm_ci["GenderM", 1])
+or_hi    <- exp(glm_ci["GenderM", 2])
+
+# --- Median age + IQR by sex ---
+age_by_sex <- clean_data %>%
+  group_by(Gender) %>%
+  summarise(
+    n   = n(),
+    med = median(Age, na.rm = TRUE),
+    q1  = quantile(Age, 0.25, na.rm = TRUE),
+    q3  = quantile(Age, 0.75, na.rm = TRUE),
+    .groups = "drop"
+  )
+m_row <- age_by_sex %>% filter(Gender == "M")
+f_row <- age_by_sex %>% filter(Gender == "F")
+
+# --- Variance inflation factors for collinearity check ---
+# Build a design matrix matching the full IRS regression (sex + IRS score
+# is the minimal model; we extend to a richer set if those columns exist).
+vif_max <- NA_real_
+tryCatch({
+  if (requireNamespace("car", quietly = TRUE)) {
+    vif_fit <- glm(`Dichotomous Outcome` ~ `INTOXICATE SCORE` + Gender,
+                   data = model_data, family = binomial)
+    vif_vals <- car::vif(vif_fit)
+    vif_max <- max(vif_vals)
+  }
+}, error = function(e) NULL)
+
+# --- Exposure-by-sex percentages for the three categories the abstract
+#     highlights (so we can drop them straight into the prose) ---
+exp_pcts <- clean_data %>%
+  count(`Exposure Category`, Gender) %>%
+  group_by(`Exposure Category`) %>%
+  mutate(pct = round(100 * n / sum(n))) %>%
+  ungroup()
+
+get_pct <- function(cat, sex) {
+  v <- exp_pcts %>% filter(`Exposure Category` == cat, Gender == sex) %>%
+    pull(pct)
+  if (length(v) == 0) NA_integer_ else v
+}
+
+ad_f   <- get_pct("Antidepressants", "F")
+ad_m   <- get_pct("Antidepressants", "M")
+sd_m   <- get_pct("Street Drugs",    "M")
+co_m   <- get_pct("CO, As, CN",      "M")
+
+# --- Print everything ---
+cat("\\textbf{Drop-in numbers for Results section:}\\\\\n\n")
+
+cat(sprintf(
+  "Of %d enrolled patients, %d were included (%d male, median age %.0f [IQR %.0f--%.0f]; %d female, median age %.0f [IQR %.0f--%.0f]).\\\\\n\n",
+  n_enrolled, n_total,
+  m_row$n, m_row$med, m_row$q1, m_row$q3,
+  f_row$n, f_row$med, f_row$q1, f_row$q3
+))
+
+cat(sprintf(
+  "Including biological sex increased sensitivity from %.0f\\%% (95\\%% CI %.0f--%.0f\\%%) to %.0f\\%% (%.0f--%.0f\\%%) and decreased specificity from %.0f\\%% (%.0f--%.0f\\%%) to %.0f\\%% (%.0f--%.0f\\%%).\\\\\n\n",
+  100 * sens_base[1], 100 * sens_base[2], 100 * sens_base[3],
+  100 * sens_sex[1],  100 * sens_sex[2],  100 * sens_sex[3],
+  100 * spec_base[1], 100 * spec_base[2], 100 * spec_base[3],
+  100 * spec_sex[1],  100 * spec_sex[2],  100 * spec_sex[3]
+))
+
+cat(sprintf(
+  "Male sex was associated with increased odds of ICU-level care (OR %.2f, 95\\%% CI %.2f--%.2f); biological sex was associated with exposure category (chi-squared %s)",
+  or_male, or_lo, or_hi, fmt_p_inline(chi_p)
+))
+if (!is.na(vif_max)) {
+  cat(sprintf(
+    " but not strongly collinear with model predictors (VIF $<$ %.0f).\\\\\n\n",
+    ceiling(vif_max)
+  ))
+} else {
+  cat(". (Note: install the \\texttt{car} package to compute VIF.)\\\\\n\n")
+}
+
+if (!is.na(ad_f) && !is.na(sd_m) && !is.na(co_m)) {
+  cat(sprintf(
+    "Antidepressant exposures were more common in females (%d\\%% vs %d\\%%). Street drugs (%d\\%%) and CO/As/CN exposures (%d\\%%) were more common in males.\\\\\n\n",
+    ad_f, ad_m, sd_m, co_m
+  ))
+}
+
+cat("\\vspace{8pt}\n\n")
+cat("\\textbf{Sanity-check counts:}\\\\\n")
+cat(sprintf("Enrolled (non-empty rows): %d\\\\\n", n_enrolled))
+cat(sprintf("Included after exclusions: %d\\\\\n", n_total))
+cat(sprintf("Excluded: %d\\\\\n", n_enrolled - n_total))
+cat(sprintf("With complete IRS data (used for model): %d\\\\\n", n_model))
+```
+
+\begin{quote}
+\noindent\textit{Note: \texttt{n\_enrolled} is computed as the number of non-empty rows in the INTOXICATE sheet. If your registry's true enrollment count (before any data entry) lives elsewhere, override the printed sentence with the correct figure.}
+\end{quote}
