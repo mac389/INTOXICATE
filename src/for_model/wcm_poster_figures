@@ -1,0 +1,618 @@
+---
+title: "INTOXICATE Poster Figures"
+author: "Yash Jaggi"
+date: "WCM EM Research Symposium · May 7, 2026"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+geometry: "left=0.4in,right=0.4in,top=0.6in,bottom=0.6in"
+header-includes:
+  - \usepackage{float}
+  - \usepackage{caption}
+  - \captionsetup[figure]{labelformat=empty,font=normalsize,skip=4pt}
+  - \renewcommand{\familydefault}{\sfdefault}
+  - \pagestyle{empty}
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readxl)
+library(scales)
+library(stringr)
+library(knitr)
+library(kableExtra)
+
+knitr::opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE,
+  fig.align = "center", dpi = 300
+)
+
+# ---- PALETTE ---------------------------------------------------------------
+WCM_MAROON   <- "#A8132B"
+FEMALE_COLOR <- "#E36C0A"
+MALE_COLOR   <- "#7FB3D5"
+INK          <- "#1A1A1A"
+SLATE        <- "#4A4A4A"
+PAPER        <- "#FFFFFF"
+GRID         <- "#E8E8E8"
+
+fig_dir <- "poster_figures"
+if (!dir.exists(fig_dir)) dir.create(fig_dir)
+
+save_png <- function(plot, filename, width, height) {
+  ggsave(file.path(fig_dir, filename), plot = plot,
+         width = width, height = height, units = "in", dpi = 300, bg = PAPER)
+}
+
+theme_clean <- function(base_size = 12) {
+  theme_minimal(base_size = base_size, base_family = "Helvetica") +
+    theme(
+      plot.title    = element_blank(),
+      plot.subtitle = element_blank(),
+      plot.caption  = element_blank(),
+      axis.title.x  = element_text(size = base_size + 1, color = INK,
+                                   margin = margin(t = 10)),
+      axis.title.y  = element_text(size = base_size + 1, color = INK,
+                                   margin = margin(r = 10)),
+      axis.text     = element_text(size = base_size, color = SLATE),
+      axis.ticks    = element_line(color = SLATE, linewidth = 0.3),
+      panel.grid.minor   = element_blank(),
+      panel.grid.major.x = element_line(color = GRID, linewidth = 0.3),
+      panel.grid.major.y = element_blank(),
+      panel.background   = element_rect(fill = PAPER, color = NA),
+      plot.background    = element_rect(fill = PAPER, color = NA),
+      legend.position    = "bottom",
+      legend.title       = element_text(size = base_size, color = INK),
+      legend.text        = element_text(size = base_size, color = INK),
+      plot.margin = margin(t = 6, r = 16, b = 6, l = 6)
+    )
+}
+
+fmt_p_inline <- function(p) {
+  if (is.na(p)) return("NA")
+  if (p < 0.001) return("p < 0.001")
+  paste0("p = ", format(round(p, 3), nsmall = 3))
+}
+
+# Wilson score CI — returns named vector c(est, lo, hi)
+wilson_ci <- function(x, n, conf = 0.95) {
+  if (n == 0) return(c(est = 0, lo = 0, hi = 0))
+  z <- qnorm(1 - (1 - conf) / 2)
+  p <- x / n
+  denom  <- 1 + z^2 / n
+  center <- (p + z^2 / (2 * n)) / denom
+  spread <- z * sqrt((p * (1 - p) + z^2 / (4 * n)) / n) / denom
+  c(est = p,
+    lo  = max(0, center - spread),
+    hi  = min(1, center + spread))
+}
+
+# Cohen's kappa — always returns a plain list, never errors
+compute_kappa <- function(pred, actual) {
+  # Point estimate via contingency table (no external package needed)
+  tab <- table(factor(pred, levels = c(0, 1)),
+               factor(actual, levels = c(0, 1)))
+  n  <- sum(tab)
+  po <- sum(diag(tab)) / n
+  pe <- sum(rowSums(tab) * colSums(tab)) / n^2
+  k  <- if (pe == 1) NA_real_ else (po - pe) / (1 - pe)
+
+  # CI via psych if installed, otherwise NA
+  lo <- NA_real_; hi <- NA_real_
+  if (requireNamespace("psych", quietly = TRUE) && !is.na(k)) {
+    tryCatch({
+      kk <- psych::cohen.kappa(cbind(pred, actual))
+      lo <- kk$confid["unweighted kappa", "lower"]
+      hi <- kk$confid["unweighted kappa", "upper"]
+    }, error = function(e) NULL)
+  }
+  list(kappa = k, lo = lo, hi = hi)
+}
+
+# Format a metric with optional CI
+fmt_metric <- function(est, lo, hi, pct = FALSE) {
+  scale <- if (pct) 100 else 1
+  fmt   <- if (pct) "%.0f%%" else "%.2f"
+  if (is.na(lo) || is.na(hi)) {
+    sprintf(fmt, est * scale)
+  } else {
+    sprintf(paste0(fmt, " (", fmt, "\u2013", fmt, ")"),
+            est * scale, lo * scale, hi * scale)
+  }
+}
+```
+
+```{r load_data}
+# >>> EDIT PATH IF NEEDED <<<
+data_path <- "~/Downloads/Tox Book.v2 (1).xlsx"
+
+data <- read_excel(data_path, sheet = "INTOXICATE")
+data <- data %>% mutate(row_id = row_number())
+
+valid_categories <- c("Combination", "Analgesic", "Antidepressants",
+                      "Street Drugs", "CO, As, CN", "Sedatives",
+                      "Alcohol", "Unknown")
+
+n_enrolled <- data %>%
+  filter(if_any(everything(), ~ !is.na(.))) %>%
+  nrow()
+
+clean_data <- data %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  mutate(
+    Gender                = trimws(Gender),
+    `Exposure Category`   = trimws(`Exposure Category`),
+    `INTOXICATE SCORE`    = as.numeric(`INTOXICATE SCORE`),
+    `Dichotomous Outcome` = case_when(
+      tolower(`Actual Disposition`) == "icu" ~ 1L, TRUE ~ 0L),
+    Age = as.numeric(Age),
+    SBP = as.numeric(SBP)          # fix: force SBP to numeric
+  ) %>%
+  filter(Gender %in% c("M", "F"),
+         `Exposure Category` %in% valid_categories,
+         !is.na(Age), Age >= 12)
+
+n_total  <- nrow(clean_data)
+n_female <- sum(clean_data$Gender == "F")
+n_male   <- sum(clean_data$Gender == "M")
+
+# Model data: complete cases across all regression variables
+model_data <- clean_data %>%
+  mutate(
+    Pulse               = as.numeric(Pulse),
+    GCS                 = as.numeric(GCS),
+    `Exposure Category` = factor(`Exposure Category`),
+    Gender              = factor(Gender, levels = c("F", "M"))
+  ) %>%
+  filter(
+    !is.na(`INTOXICATE SCORE`),
+    !is.na(Pulse), !is.na(SBP), !is.na(GCS),
+    !is.na(`Respiratory Insufficiency`),
+    !is.na(Cirrhosis),
+    !is.na(`Secondary Reason for ICU Admission`),
+    !is.na(Dysrhythmia),
+    !is.na(`Exposure Category`)
+  )
+
+n_model <- nrow(model_data)
+
+cont_table <- table(clean_data$`Exposure Category`, clean_data$Gender)
+chi_p <- suppressWarnings(chisq.test(cont_table))$p.value
+```
+
+\pagebreak
+
+\noindent\textbf{\large Model Comparison: IRS With vs. Without Biological Sex}
+
+\noindent\textit{Two logistic regression models fit on the same complete-case data. All predictors match the supervisor-specified model. Biological sex is added directly as a covariate in the second model.}
+
+\vspace{6pt}
+
+```{r model_fit, results='asis'}
+model_wo_sex <- glm(
+  `Dichotomous Outcome` ~ Pulse + SBP + GCS + Age +
+    `Respiratory Insufficiency` + Cirrhosis +
+    `Secondary Reason for ICU Admission` + Dysrhythmia +
+    `Exposure Category`,
+  data = model_data, family = binomial
+)
+
+model_w_sex <- glm(
+  `Dichotomous Outcome` ~ Gender + Pulse + SBP + GCS + Age +
+    `Respiratory Insufficiency` + Cirrhosis +
+    `Secondary Reason for ICU Admission` + Dysrhythmia +
+    `Exposure Category`,
+  data = model_data, family = binomial
+)
+
+# Helper: clean coefficient table from a glm object
+coef_table <- function(fit) {
+  s <- summary(fit)$coefficients
+  df <- data.frame(
+    Variable    = rownames(s),
+    Coefficient = round(s[, "Estimate"], 4),
+    SE          = round(s[, "Std. Error"], 4),
+    `z-value`   = round(s[, "z value"], 4),
+    `p-value`   = ifelse(s[, "Pr(>|z|)"] < 0.001, "< 0.001",
+                          sprintf("%.4f", s[, "Pr(>|z|)"])),
+    check.names = FALSE
+  )
+  rownames(df) <- NULL
+  df
+}
+
+cat("\\textbf{Model without sex:}\\vspace{4pt}\n\n")
+kbl(coef_table(model_wo_sex), booktabs = TRUE,
+    align = c("l","r","r","r","r")) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+cat("\\textbf{Model with sex:}\\vspace{4pt}\n\n")
+kbl(coef_table(model_w_sex), booktabs = TRUE,
+    align = c("l","r","r","r","r")) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+# Likelihood ratio test
+lrt    <- anova(model_wo_sex, model_w_sex, test = "LRT")
+lrt_p  <- lrt[2, "Pr(>Chi)"]
+lrt_x2 <- lrt[2, "Deviance"]
+lrt_df <- lrt[2, "Df"]
+
+lrt_df_out <- data.frame(
+  `Chi-squared` = round(lrt_x2, 3),
+  df            = lrt_df,
+  `p-value`     = ifelse(lrt_p < 0.001, "< 0.001",
+                          sprintf("%.3f", lrt_p)),
+  Significant   = ifelse(lrt_p < 0.05, "Yes", "No"),
+  check.names   = FALSE
+)
+
+cat("\\textbf{Likelihood ratio test (with sex vs. without):}\\vspace{4pt}\n\n")
+kbl(lrt_df_out, booktabs = TRUE, align = c("r","r","r","c")) %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+```
+
+\pagebreak
+
+\noindent\textbf{\large Performance Metrics: Sensitivity, Specificity, and Cohen's Kappa}
+
+\vspace{6pt}
+
+```{r performance_metrics, results='asis'}
+actual <- model_data$`Dichotomous Outcome`
+n_pos  <- sum(actual == 1)
+n_neg  <- sum(actual == 0)
+
+pred_wo_prob <- predict(model_wo_sex, type = "response")
+pred_w_prob  <- predict(model_w_sex,  type = "response")
+pred_wo      <- ifelse(pred_wo_prob >= 0.5, 1L, 0L)
+pred_w       <- ifelse(pred_w_prob  >= 0.5, 1L, 0L)
+
+# Confusion matrix counts
+tp_wo <- sum(pred_wo == 1 & actual == 1)
+fp_wo <- sum(pred_wo == 1 & actual == 0)
+tn_wo <- sum(pred_wo == 0 & actual == 0)
+fn_wo <- sum(pred_wo == 0 & actual == 1)
+
+tp_w  <- sum(pred_w  == 1 & actual == 1)
+fp_w  <- sum(pred_w  == 1 & actual == 0)
+tn_w  <- sum(pred_w  == 0 & actual == 0)
+fn_w  <- sum(pred_w  == 0 & actual == 1)
+
+# Metrics with CIs
+sens_wo <- wilson_ci(tp_wo, tp_wo + fn_wo)
+spec_wo <- wilson_ci(tn_wo, tn_wo + fp_wo)
+kap_wo  <- compute_kappa(pred_wo, actual)
+
+sens_w  <- wilson_ci(tp_w,  tp_w  + fn_w)
+spec_w  <- wilson_ci(tn_w,  tn_w  + fp_w)
+kap_w   <- compute_kappa(pred_w, actual)
+
+# --- Performance summary table (poster table) --------------------------------
+perf <- data.frame(
+  Metric = c("Sensitivity", "Specificity", "Cohen's Kappa"),
+  `Excluding Biological Sex` = c(
+    fmt_metric(sens_wo["est"], sens_wo["lo"], sens_wo["hi"]),
+    fmt_metric(spec_wo["est"], spec_wo["lo"], spec_wo["hi"]),
+    fmt_metric(kap_wo$kappa,  kap_wo$lo,     kap_wo$hi)
+  ),
+  `Including Biological Sex` = c(
+    fmt_metric(sens_w["est"], sens_w["lo"], sens_w["hi"]),
+    fmt_metric(spec_w["est"], spec_w["lo"], spec_w["hi"]),
+    fmt_metric(kap_w$kappa,  kap_w$lo,     kap_w$hi)
+  ),
+  check.names = FALSE
+)
+
+cat("\\textbf{Performance summary (threshold = 0.5, 95\\% CI):}\\vspace{4pt}\n\n")
+kbl(perf, booktabs = TRUE, align = c("l","c","c")) %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+# --- Confusion matrices (two separate clean tables) -------------------------
+cat("\\textbf{Confusion matrix — excluding biological sex:}\\vspace{4pt}\n\n")
+conf_wo <- data.frame(
+  ` `              = c("Predicted non-ICU", "Predicted ICU"),
+  `Actual non-ICU` = c(tn_wo, fp_wo),
+  `Actual ICU`     = c(fn_wo, tp_wo),
+  check.names = FALSE
+)
+kbl(conf_wo, booktabs = TRUE, align = c("l","r","r")) %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+cat("\\textbf{Confusion matrix — including biological sex:}\\vspace{4pt}\n\n")
+conf_w <- data.frame(
+  ` `              = c("Predicted non-ICU", "Predicted ICU"),
+  `Actual non-ICU` = c(tn_w, fp_w),
+  `Actual ICU`     = c(fn_w, tp_w),
+  check.names = FALSE
+)
+kbl(conf_w, booktabs = TRUE, align = c("l","r","r")) %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+# --- Per-sex breakdown -------------------------------------------------------
+cat("\\textbf{Per-sex breakdown (both models):}\\vspace{4pt}\n\n")
+
+sex_perf <- model_data %>%
+  mutate(
+    pred_wo = ifelse(pred_wo_prob >= 0.5, 1L, 0L),
+    pred_w  = ifelse(pred_w_prob  >= 0.5, 1L, 0L)
+  ) %>%
+  group_by(Gender) %>%
+  summarise(
+    n          = n(),
+    actual_icu = sum(`Dichotomous Outcome` == 1),
+    tp_wo = sum(pred_wo == 1 & `Dichotomous Outcome` == 1),
+    fp_wo = sum(pred_wo == 1 & `Dichotomous Outcome` == 0),
+    tn_wo = sum(pred_wo == 0 & `Dichotomous Outcome` == 0),
+    fn_wo = sum(pred_wo == 0 & `Dichotomous Outcome` == 1),
+    tp_w  = sum(pred_w  == 1 & `Dichotomous Outcome` == 1),
+    fp_w  = sum(pred_w  == 1 & `Dichotomous Outcome` == 0),
+    tn_w  = sum(pred_w  == 0 & `Dichotomous Outcome` == 0),
+    fn_w  = sum(pred_w  == 0 & `Dichotomous Outcome` == 1),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    Sex              = ifelse(Gender == "F", "Female", "Male"),
+    `Sens w/o sex`   = sprintf("%.0f%% (%d/%d)",
+                                100 * tp_wo / (tp_wo + fn_wo),
+                                tp_wo, tp_wo + fn_wo),
+    `Spec w/o sex`   = sprintf("%.0f%% (%d/%d)",
+                                100 * tn_wo / (tn_wo + fp_wo),
+                                tn_wo, tn_wo + fp_wo),
+    `Over-triage w/o`= sprintf("%d (%.0f%%)", fp_wo, 100 * fp_wo / n),
+    `Sens w/ sex`    = sprintf("%.0f%% (%d/%d)",
+                                100 * tp_w / (tp_w + fn_w),
+                                tp_w, tp_w + fn_w),
+    `Spec w/ sex`    = sprintf("%.0f%% (%d/%d)",
+                                100 * tn_w / (tn_w + fp_w),
+                                tn_w, tn_w + fp_w),
+    `Over-triage w/`  = sprintf("%d (%.0f%%)", fp_w, 100 * fp_w / n)
+  ) %>%
+  select(Sex, n, `Actual ICU` = actual_icu,
+         `Sens w/o sex`, `Spec w/o sex`, `Over-triage w/o`,
+         `Sens w/ sex`,  `Spec w/ sex`,  `Over-triage w/`)
+
+kbl(sex_perf, booktabs = TRUE,
+    align = c("l","r","r","r","r","r","r","r","r")) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  add_header_above(c(" " = 3,
+                     "Excl. Biological Sex" = 3,
+                     "Incl. Biological Sex" = 3)) %>%
+  print()
+cat("\n\n")
+
+# Headline delta
+delta_k <- kap_w$kappa - kap_wo$kappa
+cat(sprintf(
+  "\\textbf{Key result:} Cohen's kappa changed from %.2f to %.2f (delta = %+.2f). LRT: $\\chi^2$ = %.2f, df = %d, %s.\n\n",
+  kap_wo$kappa, kap_w$kappa, delta_k, lrt_x2, lrt_df, fmt_p_inline(lrt_p)
+))
+```
+
+\pagebreak
+
+\noindent\textbf{\large Cohort Statistics for Poster Results Section}
+
+```{r results_stats, results='asis'}
+# Use model_data (n=187 complete cases) for all reported medians
+age_by_sex <- model_data %>%
+  group_by(Gender) %>%
+  summarise(n   = n(),
+            med = median(Age, na.rm = TRUE),
+            q1  = quantile(Age, 0.25, na.rm = TRUE),
+            q3  = quantile(Age, 0.75, na.rm = TRUE),
+            .groups = "drop")
+m_row <- age_by_sex %>% filter(Gender == "M")
+f_row <- age_by_sex %>% filter(Gender == "F")
+n_model_m <- m_row$n
+n_model_f <- f_row$n
+
+# OR for male sex from model with sex
+sex_coef <- coef(summary(model_w_sex))["GenderM", ]
+or_male  <- exp(sex_coef["Estimate"])
+or_ci    <- suppressMessages(confint(model_w_sex))["GenderM", ]
+or_lo    <- exp(or_ci[1]); or_hi <- exp(or_ci[2])
+sex_p    <- sex_coef["Pr(>|z|)"]
+
+# Exposure percentages from model_data cohort
+exp_pcts <- model_data %>%
+  count(`Exposure Category`, Gender) %>%
+  group_by(`Exposure Category`) %>%
+  mutate(pct = round(100 * n / sum(n))) %>%
+  ungroup()
+
+get_pct <- function(cat, sex) {
+  v <- exp_pcts %>%
+    filter(`Exposure Category` == cat, Gender == sex) %>%
+    pull(pct)
+  if (length(v) == 0) NA_integer_ else v
+}
+
+ad_f <- get_pct("Antidepressants", "F"); ad_m <- get_pct("Antidepressants", "M")
+sd_m <- get_pct("Street Drugs", "M");    co_m <- get_pct("CO, As, CN", "M")
+
+# Male sensitivity values for bullet point
+male_sens_wo <- sex_perf %>% filter(Sex == "Male") %>% pull(`Sens w/o sex`)
+male_sens_w  <- sex_perf %>% filter(Sex == "Male") %>% pull(`Sens w/ sex`)
+
+cat("\\textbf{Cohort and drop-in bullets for Results:}\\vspace{4pt}\n\n")
+
+# Cohort line
+cat(sprintf(
+  "\\textbf{Cohort line:} %d patients with complete model data (%d male, median age %.0f [IQR %.0f--%.0f]; %d female, median age %.0f [IQR %.0f--%.0f]).\n\n",
+  n_model,
+  m_row$n, m_row$med, m_row$q1, m_row$q3,
+  f_row$n, f_row$med, f_row$q1, f_row$q3
+))
+
+# Bullet points
+cat("\\textbf{Bullet points:}\n\n")
+cat(sprintf(
+  "\\textbullet\\ Including biological sex significantly improved overall model agreement with toxicologist-recommended disposition (Cohen's kappa %.2f to %.2f, LRT %s).\n\n",
+  kap_wo$kappa, kap_w$kappa, fmt_p_inline(lrt_p)
+))
+cat(sprintf(
+  "\\textbullet\\ Sensitivity for identifying ICU-level patients increased from %.0f\\%% to %.0f\\%%, driven by improved detection in the male cohort (%s to %s).\n\n",
+  100 * sens_wo["est"], 100 * sens_w["est"],
+  male_sens_wo, male_sens_w
+))
+cat(sprintf(
+  "\\textbullet\\ Male sex was independently associated with %.1f-fold increased odds of ICU-level care (OR %.2f, 95\\%% CI %.2f--%.2f, %s).\n\n",
+  or_male, or_male, or_lo, or_hi, fmt_p_inline(sex_p)
+))
+cat(sprintf(
+  "\\textbullet\\ Biological sex was significantly associated with exposure category (%s): antidepressant exposures were more common in females (%d\\%%), while street drug and CO/As/CN exposures were more common in males (%d\\%% and %d\\%% respectively).\n\n",
+  fmt_p_inline(chi_p), ad_f, sd_m, co_m
+))
+
+cat("\\vspace{6pt}\n\n")
+cat("\\textbf{Sanity-check counts:}\n\n")
+cat(sprintf("Enrolled (non-empty rows): %d\\\\\n", n_enrolled))
+cat(sprintf("Included after exclusions: %d\\\\\n", n_total))
+cat(sprintf("Complete model data (used for regression): %d\\\\\n", n_model))
+```
+
+\pagebreak
+
+\noindent\textbf{\large Figure 1. IRS Performance With vs. Without Biological Sex}
+
+```{r fig1_metrics, fig.width=7.0, fig.height=4.5}
+metrics_df <- data.frame(
+  Metric = factor(
+    rep(c("Sensitivity", "Specificity", "Cohen's Kappa"), 2),
+    levels = c("Sensitivity", "Specificity", "Cohen's Kappa")
+  ),
+  Model = factor(
+    rep(c("Excluding Biological Sex", "Including Biological Sex"), each = 3),
+    levels = c("Excluding Biological Sex", "Including Biological Sex")
+  ),
+  est = c(sens_wo["est"], spec_wo["est"], kap_wo$kappa,
+          sens_w["est"],  spec_w["est"],  kap_w$kappa),
+  lo  = c(sens_wo["lo"],  spec_wo["lo"],
+          ifelse(is.na(kap_wo$lo), kap_wo$kappa - 0.05, kap_wo$lo),
+          sens_w["lo"],   spec_w["lo"],
+          ifelse(is.na(kap_w$lo),  kap_w$kappa  - 0.05, kap_w$lo)),
+  hi  = c(sens_wo["hi"],  spec_wo["hi"],
+          ifelse(is.na(kap_wo$hi), kap_wo$kappa + 0.05, kap_wo$hi),
+          sens_w["hi"],   spec_w["hi"],
+          ifelse(is.na(kap_w$hi),  kap_w$kappa  + 0.05, kap_w$hi))
+)
+
+fig1 <- ggplot(metrics_df, aes(x = Metric, y = est, fill = Model)) +
+  geom_col(position = position_dodge(width = 0.65), width = 0.60,
+           color = NA) +
+  geom_errorbar(aes(ymin = lo, ymax = hi),
+                position = position_dodge(width = 0.65),
+                width = 0.18, linewidth = 0.7, color = INK) +
+  geom_text(aes(label = sprintf("%.2f", est), y = hi + 0.03),
+            position = position_dodge(width = 0.65),
+            size = 3.5, color = INK) +
+  scale_fill_manual(
+    values = c("Excluding Biological Sex" = MALE_COLOR,
+               "Including Biological Sex" = FEMALE_COLOR),
+    name = NULL
+  ) +
+  scale_y_continuous(limits = c(0, 1.08),
+                     breaks = seq(0, 1, 0.2),
+                     labels = scales::number_format(accuracy = 0.1),
+                     expand = expansion(mult = c(0, 0))) +
+  labs(title = "Figure 1. Biological Sex Improves IRS Prediction of ICU Disposition",
+       x = NULL, y = NULL) +
+  theme_clean(base_size = 12) +
+  theme(
+    plot.title         = element_text(face = "bold", size = 13, color = INK,
+                                      margin = margin(b = 10)),
+    panel.grid.major.x = element_blank(),
+    panel.grid.major.y = element_line(color = GRID, linewidth = 0.4),
+    legend.position    = "bottom"
+  )
+
+print(fig1)
+save_png(fig1, "fig1_model_comparison.png", width = 7.0, height = 4.5)
+```
+
+\begin{figure}[H]
+\caption*{\textbf{Figure 1.} Sensitivity, specificity, and Cohen's kappa for IRS logistic regression models excluding (blue) and including (orange) biological sex as a direct covariate, compared against toxicologist-recommended disposition. Error bars show 95\% confidence intervals (Wilson score for sensitivity/specificity; psych package for kappa). Threshold = 0.5 on predicted probability. N = `r n_model` patients with complete model data.}
+\end{figure}
+
+\pagebreak
+
+\noindent\textbf{\large Figure 2. Exposure Category Counts by Biological Sex}
+
+```{r fig2_exposure, fig.width=7.5, fig.height=5.5}
+fig2_data <- clean_data %>%
+  count(`Exposure Category`, Gender) %>%
+  group_by(`Exposure Category`) %>%
+  mutate(total = sum(n)) %>%
+  ungroup() %>%
+  mutate(Sex = factor(Gender, levels = c("F", "M"),
+                      labels = c("Female", "Male")))
+
+cat_order <- fig2_data %>%
+  distinct(`Exposure Category`, total) %>%
+  arrange(desc(total)) %>%
+  pull(`Exposure Category`)
+
+fig2_data <- fig2_data %>%
+  mutate(`Exposure Category` = factor(`Exposure Category`,
+                                       levels = rev(cat_order)))
+
+x_max <- max(fig2_data$n) * 1.10
+chi_label <- sprintf("Sex \u00d7 Exposure Category: %s", fmt_p_inline(chi_p))
+
+fig2 <- ggplot(fig2_data,
+               aes(x = n, y = `Exposure Category`, fill = Sex)) +
+  geom_col(position = position_dodge(width = 0.78), width = 0.7, color = NA) +
+  geom_text(aes(label = n),
+            position = position_dodge(width = 0.78),
+            hjust = -0.35, size = 3.6, color = INK) +
+  annotate("label",
+           x = x_max * 0.98, y = length(cat_order) / 2 + 0.5,
+           label = chi_label,
+           hjust = 1, size = 3.8, color = INK,
+           label.size = 0.3, label.r = unit(2, "pt"), fill = "#F5F5F5") +
+  scale_fill_manual(values = c("Female" = FEMALE_COLOR, "Male" = MALE_COLOR),
+                    name = NULL) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.02)),
+                     limits = c(0, x_max),
+                     breaks = pretty(c(0, x_max))) +
+  scale_y_discrete(expand = expansion(add = c(0.6, 2.2))) +
+  labs(title = "Figure 2. Exposure Category Counts by Biological Sex",
+       x = "Number of Patients", y = NULL) +
+  theme_clean(base_size = 12) +
+  theme(
+    plot.title      = element_text(face = "bold", size = 13, color = INK,
+                                   margin = margin(b = 10)),
+    legend.position = c(0.82, 0.92),
+    legend.background = element_rect(fill = "white", color = NA),
+    axis.text.y     = element_text(size = 12, color = INK)
+  )
+
+print(fig2)
+save_png(fig2, "fig2_exposure_by_sex.png", width = 8.5, height = 5.5)
+```
+
+\begin{figure}[H]
+\caption*{\textbf{Figure 2.} Number of female (orange) and male (blue) patients in each poisoning exposure category, ordered by descending total count. N = `r n_total` patients (`r n_female` female, `r n_male` male). Chi-squared test: `r fmt_p_inline(chi_p)`.}
+\end{figure}
