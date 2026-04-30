@@ -1,0 +1,2027 @@
+---
+title: "INTOXICATE Poster Figures"
+author: "Yash Jaggi"
+date: "WCM EM Research Symposium · May 7, 2026"
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: false
+geometry: "left=0.4in,right=0.4in,top=0.6in,bottom=0.6in"
+header-includes:
+  - \usepackage{float}
+  - \usepackage{caption}
+  - \captionsetup[figure]{labelformat=empty,font=normalsize,skip=4pt}
+  - \renewcommand{\familydefault}{\sfdefault}
+  - \pagestyle{empty}
+---
+
+```{r setup, echo=FALSE, warning=FALSE, message=FALSE}
+# ============================================================================
+# INTOXICATE POSTER FIGURES
+# WCM Emergency Medicine Research Symposium · May 7, 2026
+#
+# Two figures, computed live from the toxicology registry. Each is saved
+# as a 300 DPI PNG to ./poster_figures/ for direct insertion into the
+# PowerPoint poster template.
+# ============================================================================
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(readxl)
+library(scales)
+library(stringr)
+library(knitr)
+
+knitr::opts_chunk$set(
+  echo = FALSE, warning = FALSE, message = FALSE,
+  fig.align = "center", dpi = 300
+)
+
+# ---- PALETTE --------------------------------------------------------------
+# Shared encoding across both figures: orange = Female, light blue = Male.
+# This lets a single legend at the bottom of the figure block apply to both.
+WCM_MAROON     <- "#A8132B"   # used in poster body, kept for reference
+WCM_NAVY       <- "#1B365D"
+FEMALE_COLOR   <- "#E36C0A"   # orange
+MALE_COLOR     <- "#7FB3D5"   # light steel blue
+INK            <- "#1A1A1A"
+SLATE          <- "#4A4A4A"
+MIST           <- "#C9C9C9"
+PAPER          <- "#FFFFFF"
+GRID           <- "#E8E8E8"
+
+# ---- OUTPUT ---------------------------------------------------------------
+fig_dir <- "poster_figures"
+if (!dir.exists(fig_dir)) dir.create(fig_dir)
+
+save_png <- function(plot, filename, width, height) {
+  ggsave(
+    file.path(fig_dir, filename),
+    plot = plot, width = width, height = height,
+    units = "in", dpi = 300, bg = PAPER
+  )
+}
+
+# ---- THEME ----------------------------------------------------------------
+# Sans-serif throughout. Minimal in-plot chrome — no titles, no subtitles,
+# no captions inside the figure. Identification and explanation live in the
+# LaTeX caption beneath each figure, in the same family.
+theme_clean <- function(base_size = 12) {
+  theme_minimal(base_size = base_size, base_family = "Helvetica") +
+    theme(
+      text = element_text(family = "Helvetica"),
+      plot.title    = element_blank(),
+      plot.subtitle = element_blank(),
+      plot.caption  = element_blank(),
+      plot.title.position = "plot",
+      axis.title.x = element_text(size = base_size + 1, color = INK,
+                                  margin = margin(t = 10)),
+      axis.title.y = element_text(size = base_size + 1, color = INK,
+                                  margin = margin(r = 10)),
+      axis.text    = element_text(size = base_size, color = SLATE),
+      axis.ticks   = element_line(color = SLATE, linewidth = 0.3),
+      axis.ticks.length = unit(3, "pt"),
+      panel.grid.minor   = element_blank(),
+      panel.grid.major.x = element_line(color = GRID, linewidth = 0.3),
+      panel.grid.major.y = element_blank(),
+      panel.background = element_rect(fill = PAPER, color = NA),
+      plot.background  = element_rect(fill = PAPER, color = NA),
+      legend.position    = "bottom",
+      legend.justification = "center",
+      legend.title       = element_text(size = base_size, color = INK),
+      legend.text        = element_text(size = base_size, color = INK),
+      legend.key.height  = unit(12, "pt"),
+      legend.key.width   = unit(16, "pt"),
+      legend.margin      = margin(t = 12),
+      legend.box.margin  = margin(t = 4),
+      plot.margin = margin(t = 6, r = 16, b = 6, l = 6)
+    )
+}
+
+# ---- HELPERS --------------------------------------------------------------
+fmt_p_inline <- function(p) {
+  if (p < 0.001) return("p < 0.001")
+  paste0("p = ", format(round(p, 3), nsmall = 3))
+}
+```
+
+```{r load_data}
+# ============================================================================
+# DATA — same cleaning as wcm_abstract_analysis_v4.Rmd
+# >>> EDIT THIS PATH IF YOUR FILE LIVES SOMEWHERE ELSE <<<
+# ============================================================================
+data_path <- "~/Downloads/Tox Book.v2 (1).xlsx"
+
+data <- read_excel(data_path, sheet = "INTOXICATE")
+data <- data %>% mutate(row_id = row_number())
+
+valid_categories <- c("Combination", "Analgesic", "Antidepressants",
+                      "Street Drugs", "CO, As, CN", "Sedatives",
+                      "Alcohol", "Unknown")
+
+# Count "enrolled" as all rows in the registry that have any patient data
+# (a row that is entirely NA is not really an enrolled patient — it's just
+# an empty Excel row).  An enrolled patient has at minimum some identifying
+# row content. This mirrors the abstract's "of 252 enrolled, 232 included"
+# framing where the 20-patient drop was attributable to exclusion criteria.
+n_enrolled <- data %>%
+  filter(if_any(everything(), ~ !is.na(.))) %>%
+  nrow()
+
+clean_data <- data %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  mutate(
+    Gender = trimws(Gender),
+    `Exposure Category` = trimws(`Exposure Category`),
+    `INTOXICATE SCORE`  = as.numeric(`INTOXICATE SCORE`),
+    `Dichotomous Outcome` = case_when(
+      tolower(`Actual Disposition`) == "icu" ~ 1L,
+      TRUE ~ 0L
+    ),
+    Age = as.numeric(Age)
+  ) %>%
+  filter(Gender %in% c("M", "F"),
+         `Exposure Category` %in% valid_categories,
+         !is.na(Age), Age >= 12)
+
+n_total    <- nrow(clean_data)
+n_female   <- sum(clean_data$Gender == "F")
+n_male     <- sum(clean_data$Gender == "M")
+model_data <- clean_data %>% filter(!is.na(`INTOXICATE SCORE`))
+n_model    <- nrow(model_data)
+
+# Chi-squared on the 8x2 table for Figure 1 caption
+cont_table <- table(clean_data$`Exposure Category`, clean_data$Gender)
+chi_p <- suppressWarnings(chisq.test(cont_table))$p.value
+
+# Sub-threshold male ICU rate for Figure 2 caption
+male_icu_total <- model_data %>%
+  filter(Gender == "M", `Dichotomous Outcome` == 1) %>%
+  nrow()
+male_icu_subthreshold <- model_data %>%
+  filter(Gender == "M", `Dichotomous Outcome` == 1,
+         `INTOXICATE SCORE` <= 6) %>%
+  nrow()
+```
+
+\vspace{6pt}
+
+\noindent\textbf{\large Baseline IRS Accuracy by Sex (No Adjustment)}
+
+\noindent\textit{Before any sex adjustment, how does the unmodified IRS perform separately for male and female patients? If accuracy is symmetric, sex doesn't add information. If accuracy differs, that's the direct evidence for sex-specific recalibration.}
+
+\vspace{6pt}
+
+```{r baseline_by_sex, results='asis'}
+# ============================================================================
+# BASELINE IRS PERFORMANCE BY SEX
+# Compute sensitivity, specificity, accuracy, and confusion matrix for the
+# unmodified IRS (threshold > 6) separately for male and female patients.
+# ============================================================================
+
+library(knitr)
+library(kableExtra)
+
+baseline_by_sex <- model_data %>%
+  mutate(
+    pred_baseline = ifelse(`INTOXICATE SCORE` > 6, 1, 0),
+    correct = pred_baseline == `Dichotomous Outcome`
+  ) %>%
+  group_by(Gender) %>%
+  summarise(
+    n_total       = n(),
+    n_icu_actual  = sum(`Dichotomous Outcome` == 1),
+    n_non_actual  = sum(`Dichotomous Outcome` == 0),
+    tp = sum(pred_baseline == 1 & `Dichotomous Outcome` == 1),
+    fp = sum(pred_baseline == 1 & `Dichotomous Outcome` == 0),
+    tn = sum(pred_baseline == 0 & `Dichotomous Outcome` == 0),
+    fn = sum(pred_baseline == 0 & `Dichotomous Outcome` == 1),
+    .groups = "drop"
+  ) %>%
+  mutate(
+    sensitivity = tp / (tp + fn),
+    specificity = tn / (tn + fp),
+    accuracy    = (tp + tn) / n_total,
+    over_triage_rate = fp / n_total,    # share over-triaged to ICU
+    under_triage_rate = fn / n_total    # share under-triaged
+  )
+
+cat("\\textbf{Per-sex confusion matrix and rates (unmodified IRS, threshold $>$ 6):}\\\\\n\n")
+
+display_baseline <- baseline_by_sex %>%
+  mutate(
+    Sex = ifelse(Gender == "F", "Female", "Male"),
+    `n total`    = n_total,
+    `Actual ICU` = n_icu_actual,
+    `Actual non-ICU` = n_non_actual,
+    Sensitivity = sprintf("%.0f%% (%d/%d)", 100*sensitivity, tp, tp+fn),
+    Specificity = sprintf("%.0f%% (%d/%d)", 100*specificity, tn, tn+fp),
+    Accuracy    = sprintf("%.0f%%", 100*accuracy),
+    `Over-triaged` = sprintf("%d (%.0f%%)", fp, 100*over_triage_rate),
+    `Under-triaged` = sprintf("%d (%.0f%%)", fn, 100*under_triage_rate)
+  ) %>%
+  select(Sex, `n total`, `Actual ICU`, `Actual non-ICU`,
+         Sensitivity, Specificity, Accuracy,
+         `Over-triaged`, `Under-triaged`)
+
+kbl(display_baseline, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\\vspace{8pt}\n\n")
+
+# Headline interpretation
+female_row <- baseline_by_sex %>% filter(Gender == "F")
+male_row   <- baseline_by_sex %>% filter(Gender == "M")
+
+cat("\\textbf{Key observations:}\\\\\n")
+cat(sprintf(
+  "\\quad Female accuracy: %.0f\\%% \u2014 over-triaged %d patients (%.0f\\%%), under-triaged %d (%.0f\\%%)\\\\\n",
+  100 * female_row$accuracy,
+  female_row$fp, 100 * female_row$over_triage_rate,
+  female_row$fn, 100 * female_row$under_triage_rate
+))
+cat(sprintf(
+  "\\quad Male accuracy: %.0f\\%% \u2014 over-triaged %d patients (%.0f\\%%), under-triaged %d (%.0f\\%%)\\\\\n",
+  100 * male_row$accuracy,
+  male_row$fp, 100 * male_row$over_triage_rate,
+  male_row$fn, 100 * male_row$under_triage_rate
+))
+cat("\n")
+
+# Chi-squared test for whether the error pattern differs by sex
+err_table <- model_data %>%
+  mutate(
+    pred = ifelse(`INTOXICATE SCORE` > 6, 1, 0),
+    error_type = case_when(
+      pred == 1 & `Dichotomous Outcome` == 0 ~ "FP (over-triage)",
+      pred == 0 & `Dichotomous Outcome` == 1 ~ "FN (under-triage)",
+      TRUE ~ "Correct"
+    )
+  ) %>%
+  count(Gender, error_type) %>%
+  pivot_wider(names_from = error_type, values_from = n, values_fill = 0)
+
+cat("\\textbf{Error breakdown:}\\\\\n\n")
+kbl(err_table, booktabs = TRUE) %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+```
+
+\pagebreak
+
+\noindent\textbf{\large Per-Patient Prediction Comparison (Old vs. New Model)}
+
+\noindent\textit{This is the data Mike asked for: for each patient, compare predictions from the IRS-only model vs. the IRS + biological sex model. Patients whose predictions change are the answer — they're the ones the new model captures.}
+
+\vspace{6pt}
+
+```{r prediction_comparison, results='asis'}
+# ============================================================================
+# PREDICTION COMPARISON — for each patient with complete IRS data, compute:
+#   - prediction from old model: IRS > 6 → ICU
+#   - prediction from new model: (IRS + 3 if male) > 6 → ICU
+#   - prediction_changed: TRUE if the two predictions differ
+#   - direction of change: "Newly flagged ICU" or "Newly cleared"
+#   - was the toxicologist's actual decision ICU or not?
+# Then identify the subgroup whose predictions changed and characterize it.
+# ============================================================================
+
+library(knitr)
+library(kableExtra)
+
+pred_compare <- model_data %>%
+  mutate(
+    pred_old = ifelse(`INTOXICATE SCORE` > 6, 1, 0),
+    pred_new = ifelse(
+      ifelse(Gender == "M", `INTOXICATE SCORE` + 3, `INTOXICATE SCORE`) > 6,
+      1, 0
+    ),
+    pred_changed = pred_old != pred_new,
+    change_direction = case_when(
+      pred_old == 0 & pred_new == 1 ~ "Newly flagged ICU",
+      pred_old == 1 & pred_new == 0 ~ "Newly cleared",
+      TRUE ~ "No change"
+    ),
+    actual_icu = `Dichotomous Outcome` == 1,
+    # Was the change "correct" in the sense that it agreed with the
+    # toxicologist's actual recommendation?
+    change_correct = case_when(
+      pred_changed & pred_new == `Dichotomous Outcome` ~ "Correct change",
+      pred_changed & pred_new != `Dichotomous Outcome` ~ "Incorrect change",
+      TRUE ~ "No change"
+    )
+  )
+
+n_changed <- sum(pred_compare$pred_changed)
+n_changed_correct <- sum(pred_compare$change_correct == "Correct change")
+n_changed_incorrect <- sum(pred_compare$change_correct == "Incorrect change")
+n_newly_flagged <- sum(pred_compare$change_direction == "Newly flagged ICU")
+n_newly_cleared <- sum(pred_compare$change_direction == "Newly cleared")
+
+# --- Headline counts ---
+cat("\\textbf{Headline counts:}\\\\\n")
+cat(sprintf("Total patients in model: %d\\\\\n", n_model))
+cat(sprintf("Predictions that changed (old vs new): %d (%.0f\\%%)\\\\\n",
+            n_changed, 100 * n_changed / n_model))
+cat(sprintf("\\quad Newly flagged for ICU (raised by sex adjustment): %d\\\\\n",
+            n_newly_flagged))
+cat(sprintf("\\quad Newly cleared (lowered by sex adjustment): %d\\\\\n",
+            n_newly_cleared))
+cat(sprintf("Of changes that occurred, agreement with toxicologist:\\\\\n"))
+cat(sprintf("\\quad Correct changes (agree with actual disposition): %d\\\\\n",
+            n_changed_correct))
+cat(sprintf("\\quad Incorrect changes (disagree with actual disposition): %d\\\\\n",
+            n_changed_incorrect))
+cat("\n\\vspace{8pt}\n\n")
+
+# --- 2x2 confusion: old prediction vs new prediction ---
+cat("\\textbf{Old vs. new model agreement (2 \\(\\times\\) 2):}\\\\\n\n")
+confusion_old_new <- pred_compare %>%
+  count(pred_old, pred_new) %>%
+  mutate(pred_old = factor(pred_old, levels = c(0, 1),
+                            labels = c("Old: Non-ICU", "Old: ICU")),
+         pred_new = factor(pred_new, levels = c(0, 1),
+                            labels = c("New: Non-ICU", "New: ICU"))) %>%
+  pivot_wider(names_from = pred_new, values_from = n, values_fill = 0)
+
+kbl(confusion_old_new, booktabs = TRUE, align = c("l", "r", "r")) %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+
+cat("\n\\vspace{8pt}\n\n")
+
+# --- Characterize the changed-prediction subgroup ---
+changed_subgroup <- pred_compare %>%
+  filter(pred_changed)
+
+if (nrow(changed_subgroup) > 0) {
+  cat("\\textbf{Characteristics of patients whose prediction changed:}\\\\\n\n")
+
+  # By sex
+  by_sex <- changed_subgroup %>% count(Gender, change_direction)
+  cat("\\textit{By biological sex:}\\\\\n")
+  for (i in seq_len(nrow(by_sex))) {
+    cat(sprintf("\\quad %s: %d (%s)\\\\\n",
+                by_sex$Gender[i], by_sex$n[i], by_sex$change_direction[i]))
+  }
+  cat("\n")
+
+  # By exposure category
+  by_exposure <- changed_subgroup %>%
+    count(`Exposure Category`, change_direction) %>%
+    arrange(desc(n))
+  cat("\\textit{By exposure category:}\\\\\n")
+  for (i in seq_len(nrow(by_exposure))) {
+    cat(sprintf("\\quad %s: %d (%s)\\\\\n",
+                by_exposure$`Exposure Category`[i],
+                by_exposure$n[i],
+                by_exposure$change_direction[i]))
+  }
+  cat("\n")
+
+  # By actual disposition (was the change correct?)
+  by_outcome <- changed_subgroup %>%
+    count(change_correct, change_direction)
+  cat("\\textit{By correctness of change:}\\\\\n")
+  for (i in seq_len(nrow(by_outcome))) {
+    cat(sprintf("\\quad %s, %s: %d\\\\\n",
+                by_outcome$change_correct[i],
+                by_outcome$change_direction[i],
+                by_outcome$n[i]))
+  }
+  cat("\n\\vspace{8pt}\n\n")
+
+  # --- Patient-level table for the changed subgroup ---
+  cat("\\textbf{Patient-level detail for changed predictions:}\\\\\n\n")
+  patient_table <- changed_subgroup %>%
+    select(Gender, `Exposure Category`, `INTOXICATE SCORE`,
+           pred_old, pred_new, `Dichotomous Outcome`, change_correct) %>%
+    mutate(
+      `Old pred` = ifelse(pred_old == 1, "ICU", "Non-ICU"),
+      `New pred` = ifelse(pred_new == 1, "ICU", "Non-ICU"),
+      `Tox actual` = ifelse(`Dichotomous Outcome` == 1, "ICU", "Non-ICU"),
+      Correct = ifelse(change_correct == "Correct change", "Yes", "No")
+    ) %>%
+    select(Sex = Gender,
+           Exposure = `Exposure Category`,
+           IRS = `INTOXICATE SCORE`,
+           `Old pred`, `New pred`, `Tox actual`, Correct) %>%
+    arrange(desc(Correct), Exposure, IRS)
+
+  kbl(patient_table, booktabs = TRUE,
+      align = c("l", "l", "r", "l", "l", "l", "l")) %>%
+    kable_styling(latex_options = c("hold_position", "scale_down"),
+                  full_width = FALSE, position = "left") %>%
+    print()
+}
+
+# --- Cohen's kappa ---
+cat("\n\\vspace{8pt}\n\n")
+cat("\\textbf{Inter-rater agreement (toxicologist vs. model) -- Cohen's kappa:}\\\\\n\n")
+
+if (requireNamespace("psych", quietly = TRUE)) {
+  kappa_old <- psych::cohen.kappa(
+    cbind(pred_compare$pred_old, pred_compare$`Dichotomous Outcome`)
+  )
+  kappa_new <- psych::cohen.kappa(
+    cbind(pred_compare$pred_new, pred_compare$`Dichotomous Outcome`)
+  )
+
+  cat(sprintf("Old model (IRS only): kappa = %.3f (95%% CI %.3f-%.3f)\\\\\n",
+              kappa_old$kappa,
+              kappa_old$confid["unweighted kappa", "lower"],
+              kappa_old$confid["unweighted kappa", "upper"]))
+  cat(sprintf("New model (IRS + sex): kappa = %.3f (95%% CI %.3f-%.3f)\\\\\n",
+              kappa_new$kappa,
+              kappa_new$confid["unweighted kappa", "lower"],
+              kappa_new$confid["unweighted kappa", "upper"]))
+  cat(sprintf("Delta: %+.3f\\\\\n",
+              kappa_new$kappa - kappa_old$kappa))
+} else {
+  cat("\\textit{Install the \\texttt{psych} package to compute Cohen's kappa: \\texttt{install.packages(\"psych\")}}\\\\\n")
+}
+```
+
+\pagebreak
+
+\noindent\textbf{\large Clinical Characterization of Changed-Prediction Patients}
+
+\noindent\textit{For the 24 patients whose prediction changed when biological sex was added: pull the clinical features to see if the 6 ``correct'' changes look different from the 18 ``incorrect'' ones. If they do, that's the figure. If they don't, the +3 adjustment is too blunt and we have a different conversation to have with Mike.}
+
+\vspace{6pt}
+
+```{r clinical_characterization, results='asis'}
+# ============================================================================
+# CLINICAL FEATURES of the changed-prediction subgroup
+#
+# Pull every clinical variable that's plausibly in the registry and join it
+# to the changed-prediction patients. Compare the "correct" changes to the
+# "incorrect" changes to see if there's a clinical signature that
+# distinguishes them.
+# ============================================================================
+
+# Detect which clinical columns actually exist in the data so this works
+# even if column names have drifted slightly. We try a generous set of
+# candidates and keep whichever the registry has.
+candidate_cols <- c("Age", "Pulse", "SBP", "GCS",
+                    "Respiratory Insufficiency", "Cirrhosis",
+                    "Dysrhythmia", "Temperature", "RR",
+                    "Respiratory Rate", "Heart Rate",
+                    "Systolic BP", "Mental Status")
+
+available_cols <- intersect(candidate_cols, names(data))
+
+cat("\\textbf{Clinical columns found in registry:}\\\\\n")
+cat(paste(available_cols, collapse = ", "))
+cat("\n\n\\vspace{6pt}\n\n")
+
+# Pull the clinical features for the changed-prediction patients
+clinical_data <- pred_compare %>%
+  filter(pred_changed) %>%
+  left_join(
+    data %>% select(row_id, any_of(available_cols)),
+    by = "row_id",
+    suffix = c("", ".raw")
+  ) %>%
+  arrange(desc(change_correct), `Exposure Category`, `INTOXICATE SCORE`)
+
+# Note: pred_compare already has Age (it inherits from model_data → clean_data).
+# The join may have created Age.raw if Age was in available_cols. Use the
+# pred_compare Age (already numeric).
+
+# --- Patient-level table with clinical features ---
+cat("\\textbf{Patient-level detail with clinical features:}\\\\\n\n")
+
+# Build display: Sex, Exp, IRS, then Age (if present), then other clinical
+# columns, then Old/New, Tox, Match
+extra_clinical_cols <- setdiff(available_cols, "Age")
+
+display_clinical <- clinical_data %>%
+  mutate(
+    `Old/New` = sprintf("%s -> %s",
+                        ifelse(pred_old == 1, "ICU", "Non"),
+                        ifelse(pred_new == 1, "ICU", "Non")),
+    `Tox` = ifelse(`Dichotomous Outcome` == 1, "ICU", "Non"),
+    Match = ifelse(change_correct == "Correct change", "YES", "no")
+  )
+
+if ("Age" %in% available_cols) {
+  display_clinical <- display_clinical %>%
+    select(Sex = Gender,
+           Exp = `Exposure Category`,
+           IRS = `INTOXICATE SCORE`,
+           Age,
+           any_of(extra_clinical_cols),
+           `Old/New`, Tox, Match)
+} else {
+  display_clinical <- display_clinical %>%
+    select(Sex = Gender,
+           Exp = `Exposure Category`,
+           IRS = `INTOXICATE SCORE`,
+           any_of(extra_clinical_cols),
+           `Old/New`, Tox, Match)
+}
+
+# Shorten long column names for readability in the printed table
+names(display_clinical) <- gsub("Respiratory Insufficiency", "RespIns",
+                                names(display_clinical))
+names(display_clinical) <- gsub("Dysrhythmia", "Dysrhy",
+                                names(display_clinical))
+names(display_clinical) <- gsub("Cirrhosis", "Cirr",
+                                names(display_clinical))
+names(display_clinical) <- gsub("Temperature", "Temp",
+                                names(display_clinical))
+names(display_clinical) <- gsub("Mental Status", "MS",
+                                names(display_clinical))
+
+kbl(display_clinical, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  print()
+
+cat("\n\\vspace{12pt}\n\n")
+
+# --- Summary statistics: correct vs. incorrect changes ---
+cat("\\textbf{Summary: do the 6 ``correct'' changes look different from the 18 ``incorrect'' ones?}\\\\\n\n")
+
+# Continuous variables — compare medians and IQRs
+continuous_cols <- intersect(c("Age", "Pulse", "SBP", "GCS",
+                                "Temperature", "RR", "Respiratory Rate",
+                                "Heart Rate", "Systolic BP"),
+                              available_cols)
+
+if (length(continuous_cols) > 0) {
+  summary_continuous <- clinical_data %>%
+    select(change_correct, all_of(continuous_cols)) %>%
+    # Coerce all continuous columns to numeric BEFORE pivoting, so they
+    # share a type. Excel often stores numbers as character.
+    mutate(across(all_of(continuous_cols),
+                  ~ suppressWarnings(as.numeric(as.character(.))))) %>%
+    pivot_longer(cols = -change_correct,
+                 names_to = "variable",
+                 values_to = "value") %>%
+    filter(!is.na(value)) %>%
+    group_by(variable, change_correct) %>%
+    summarise(
+      n      = n(),
+      med    = median(value),
+      q1     = quantile(value, 0.25),
+      q3     = quantile(value, 0.75),
+      .groups = "drop"
+    ) %>%
+    mutate(summary = sprintf("%.0f [%.0f-%.0f] (n=%d)",
+                              med, q1, q3, n)) %>%
+    select(variable, change_correct, summary) %>%
+    pivot_wider(names_from = change_correct, values_from = summary)
+
+  cat("\\textit{Continuous variables (median [IQR] (n)):}\\\\\n\n")
+  kbl(summary_continuous, booktabs = TRUE) %>%
+    kable_styling(latex_options = "hold_position",
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n\n")
+}
+
+# Binary variables — compare proportions
+binary_cols <- intersect(c("Respiratory Insufficiency", "Cirrhosis",
+                           "Dysrhythmia"),
+                         available_cols)
+
+if (length(binary_cols) > 0) {
+  binary_summary <- clinical_data %>%
+    select(change_correct, all_of(binary_cols)) %>%
+    # Coerce all binary columns to character so pivot_longer doesn't
+    # complain about mixed numeric/character types.
+    mutate(across(all_of(binary_cols), as.character)) %>%
+    pivot_longer(cols = -change_correct,
+                 names_to = "variable",
+                 values_to = "value") %>%
+    mutate(present = case_when(
+      is.na(value) | value == "NA" ~ NA_real_,
+      value %in% c("1", "Yes", "yes", "Y", "y", "TRUE", "True") ~ 1,
+      TRUE ~ 0
+    )) %>%
+    filter(!is.na(present)) %>%
+    group_by(variable, change_correct) %>%
+    summarise(
+      n_total   = n(),
+      n_present = sum(present),
+      pct       = round(100 * n_present / n_total),
+      .groups   = "drop"
+    ) %>%
+    mutate(summary = sprintf("%d/%d (%d%%)", n_present, n_total, pct)) %>%
+    select(variable, change_correct, summary) %>%
+    pivot_wider(names_from = change_correct, values_from = summary)
+
+  cat("\\textit{Binary clinical features (present / total):}\\\\\n\n")
+  kbl(binary_summary, booktabs = TRUE) %>%
+    kable_styling(latex_options = "hold_position",
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n\n")
+}
+
+# --- Sanity check: do the 6 correct catches look meaningfully different? ---
+cat("\\vspace{8pt}\n\n")
+cat("\\textbf{Read this section first:} If the medians and IQRs in the two columns above look similar across all variables, the +3 male adjustment is too blunt to be a meaningful clinical tool -- it's just nudging some borderline males above threshold without any clinical pattern. If the ``correct change'' column looks systematically different (lower GCS, higher pulse, presence of dysrhythmia, etc.), there's a real signature worth presenting.\\\\\n")
+```
+
+\pagebreak
+
+\noindent\textbf{\large Stress Test: Sweeping Male and Female Adjustments}
+
+\noindent\textit{The current +3 male adjustment was scaled heuristically from the regression coefficient \u2014 not optimized. This sweeps adjustments from 0 to +5 for males and \u22125 to 0 for females (in 0.5 increments) and evaluates each combination against four metrics: Cohen's kappa, sensitivity, specificity, and net correct changes (correct minus incorrect prediction changes). Threshold remains IRS > 6.}
+
+\vspace{6pt}
+
+```{r adjustment_sweep, results='asis'}
+# ============================================================================
+# STRESS TEST — sweep male and female adjustments and score each combination
+# against multiple metrics. Goal: find the adjustment(s) that maximize
+# agreement with toxicologist disposition.
+# ============================================================================
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(knitr)
+library(kableExtra)
+
+# Search grid: males 0 to +5, females -20 to 0, both in 0.5 increments.
+# Female range extended to -20 to test whether kappa keeps climbing
+# (suggesting the adjustment is just removing females from the model)
+# or peaks and drops (suggesting a real biological optimum).
+male_adj_grid   <- seq(0, 5, by = 0.5)
+female_adj_grid <- seq(-20, 0, by = 0.5)
+
+# Store toxicologist actuals once
+actual <- model_data$`Dichotomous Outcome`
+scores <- model_data$`INTOXICATE SCORE`
+gender <- model_data$Gender
+n_pos  <- sum(actual == 1)  # actual ICU patients
+n_neg  <- sum(actual == 0)  # actual non-ICU patients
+
+# Baseline (no adjustment) for delta computations
+pred_baseline <- ifelse(scores > 6, 1, 0)
+sens_baseline <- sum(pred_baseline == 1 & actual == 1) / n_pos
+spec_baseline <- sum(pred_baseline == 0 & actual == 0) / n_neg
+
+# Cohen's kappa as a function of two binary vectors (no external dep needed)
+cohen_kappa <- function(pred, truth) {
+  tab <- table(factor(pred,  levels = c(0, 1)),
+               factor(truth, levels = c(0, 1)))
+  n   <- sum(tab)
+  po  <- sum(diag(tab)) / n
+  pe  <- sum(rowSums(tab) * colSums(tab)) / n^2
+  if (pe == 1) return(NA_real_)
+  (po - pe) / (1 - pe)
+}
+
+# Score every (male_adj, female_adj) pair using an explicit loop.
+# We avoid rowwise() because it changes the scope so that vectors from the
+# outer environment (like `actual` and `gender`) get treated as length-1
+# within each row's scope, breaking table() in cohen_kappa().
+sweep_grid <- expand.grid(
+  male_adj   = male_adj_grid,
+  female_adj = female_adj_grid
+)
+
+sweep_results <- sweep_grid
+sweep_results$n_changed       <- NA_integer_
+sweep_results$n_correct_chg   <- NA_integer_
+sweep_results$n_incorrect_chg <- NA_integer_
+sweep_results$net_correct     <- NA_integer_
+sweep_results$sensitivity     <- NA_real_
+sweep_results$specificity     <- NA_real_
+sweep_results$kappa           <- NA_real_
+
+for (i in seq_len(nrow(sweep_grid))) {
+  m_adj <- sweep_grid$male_adj[i]
+  f_adj <- sweep_grid$female_adj[i]
+  adj_score <- ifelse(gender == "M",
+                       scores + m_adj,
+                       scores + f_adj)
+  pred <- ifelse(adj_score > 6, 1, 0)
+
+  sweep_results$n_changed[i]       <- sum(pred != pred_baseline)
+  sweep_results$n_correct_chg[i]   <- sum(pred != pred_baseline &
+                                           pred == actual)
+  sweep_results$n_incorrect_chg[i] <- sum(pred != pred_baseline &
+                                           pred != actual)
+  sweep_results$net_correct[i]     <-
+    sweep_results$n_correct_chg[i] - sweep_results$n_incorrect_chg[i]
+  sweep_results$sensitivity[i] <- sum(pred == 1 & actual == 1) / n_pos
+  sweep_results$specificity[i] <- sum(pred == 0 & actual == 0) / n_neg
+  sweep_results$kappa[i]       <- cohen_kappa(pred, actual)
+}
+
+sweep_results <- sweep_results %>%
+  mutate(
+    sens_delta = sensitivity - sens_baseline,
+    spec_delta = specificity - spec_baseline
+  )
+
+# --- Top performers across each metric ---
+cat("\\textbf{Top performers across each metric}\\\\\n")
+cat("\\textit{(Bolded row in each table is the current default of male=+3, female=0)}\\\\\n\n")
+
+format_top <- function(df, metric_col, n = 5, decreasing = TRUE) {
+  df %>%
+    arrange(if (decreasing) desc(.data[[metric_col]]) else .data[[metric_col]]) %>%
+    head(n) %>%
+    mutate(
+      Male       = sprintf("%+0.1f", male_adj),
+      Female     = sprintf("%+0.1f", female_adj),
+      Sens       = sprintf("%.0f%%", 100 * sensitivity),
+      Spec       = sprintf("%.0f%%", 100 * specificity),
+      Kappa      = sprintf("%.3f", kappa),
+      Correct    = n_correct_chg,
+      Incorrect  = n_incorrect_chg,
+      Net        = net_correct
+    ) %>%
+    select(Male, Female, Sens, Spec, Kappa, Correct, Incorrect, Net)
+}
+
+cat("\\textbf{1. Highest Cohen's kappa (overall agreement):}\\\\\n\n")
+kbl(format_top(sweep_results, "kappa"),
+    booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+cat("\\textbf{2. Highest net correct changes (correct \u2212 incorrect):}\\\\\n\n")
+kbl(format_top(sweep_results, "net_correct"),
+    booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+cat("\\textbf{3. Highest sensitivity (catch rate):}\\\\\n\n")
+kbl(format_top(sweep_results, "sensitivity"),
+    booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+cat("\\textbf{4. Best sensitivity\u2013specificity balance (Youden's J = sens + spec \u2212 1):}\\\\\n\n")
+sweep_results <- sweep_results %>%
+  mutate(youden_j = sensitivity + specificity - 1)
+kbl(format_top(sweep_results, "youden_j"),
+    booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+# --- Show specifically what the current default does (male=+3, female=0) ---
+cat("\\vspace{8pt}\n\n")
+cat("\\textbf{Reference: current default (male=+3, female=0):}\\\\\n\n")
+default_row <- sweep_results %>%
+  filter(male_adj == 3, female_adj == 0) %>%
+  format_top("kappa", n = 1)  # already filtered to one row
+kbl(default_row, booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+# --- Show no-adjustment baseline for comparison ---
+cat("\\textbf{Reference: no adjustment (male=0, female=0):}\\\\\n\n")
+baseline_row <- sweep_results %>%
+  filter(male_adj == 0, female_adj == 0) %>%
+  format_top("kappa", n = 1)
+kbl(baseline_row, booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+# ============================================================================
+# CONSTRAINED OPTIMIZATION
+# Clinical safety constraint: moving a patient from ICU → non-ICU when the
+# toxicologist said ICU is the worst possible error. We require zero such
+# errors. Among adjustments satisfying this constraint, find the one that
+# maximizes correct reclassifications.
+# ============================================================================
+
+cat("\\vspace{12pt}\n\n")
+cat("\\textbf{Constrained optimization: zero incorrect ICU $\\rightarrow$ Non-ICU downgrades allowed}\\\\\n\n")
+cat("\\textit{Incorrectly downgrading a patient from ICU to non-ICU (model says ICU, toxicologist says ICU, but our adjustment clears them) is the worst clinical error. We filter to adjustments where this never happens, then rank by most correct reclassifications.}\\\\\n\n")
+
+# Recompute directional change counts: separate upgrades from downgrades
+sweep_constrained <- sweep_grid
+sweep_constrained$n_incorrect_downgrade <- NA_integer_
+sweep_constrained$n_correct_downgrade   <- NA_integer_
+sweep_constrained$n_correct_upgrade     <- NA_integer_
+sweep_constrained$n_incorrect_upgrade   <- NA_integer_
+
+for (i in seq_len(nrow(sweep_grid))) {
+  m_adj     <- sweep_grid$male_adj[i]
+  f_adj     <- sweep_grid$female_adj[i]
+  adj_score <- ifelse(gender == "M", scores + m_adj, scores + f_adj)
+  pred_new  <- ifelse(adj_score > 6, 1, 0)
+
+  downgraded <- pred_baseline == 1 & pred_new == 0
+  upgraded   <- pred_baseline == 0 & pred_new == 1
+
+  sweep_constrained$n_correct_downgrade[i]   <- sum(downgraded & actual == 0)
+  sweep_constrained$n_incorrect_downgrade[i] <- sum(downgraded & actual == 1)
+  sweep_constrained$n_correct_upgrade[i]     <- sum(upgraded   & actual == 1)
+  sweep_constrained$n_incorrect_upgrade[i]   <- sum(upgraded   & actual == 0)
+}
+
+# Merge with sweep_results for kappa/sens/spec
+sweep_constrained <- sweep_constrained %>%
+  left_join(sweep_results %>% select(male_adj, female_adj,
+                                      kappa, sensitivity, specificity,
+                                      net_correct, n_correct_chg,
+                                      n_incorrect_chg),
+            by = c("male_adj", "female_adj")) %>%
+  mutate(n_total_correct = n_correct_downgrade + n_correct_upgrade,
+         n_total_incorrect = n_incorrect_downgrade + n_incorrect_upgrade)
+
+# Apply safety constraint
+safe_adjustments <- sweep_constrained %>%
+  filter(n_incorrect_downgrade == 0,
+         n_total_correct > 0) %>%
+  arrange(desc(n_total_correct), desc(kappa))
+
+if (nrow(safe_adjustments) == 0) {
+  cat("\\textit{No adjustment makes any positive changes without also making incorrect downgrades.}\\\\\n")
+} else {
+  top_safe <- safe_adjustments %>%
+    head(10) %>%
+    mutate(
+      Male     = sprintf("%+0.1f", male_adj),
+      Female   = sprintf("%+0.1f", female_adj),
+      Sens     = sprintf("%.0f%%", 100 * sensitivity),
+      Spec     = sprintf("%.0f%%", 100 * specificity),
+      Kappa    = sprintf("%.3f", kappa),
+      `Correct clears` = n_correct_downgrade,
+      `Correct flags`  = n_correct_upgrade,
+      `Bad downgrades` = n_incorrect_downgrade,
+      `Bad upgrades`   = n_incorrect_upgrade,
+      `Net`            = n_total_correct - n_total_incorrect
+    ) %>%
+    select(Male, Female, Sens, Spec, Kappa,
+           `Correct clears`, `Correct flags`,
+           `Bad downgrades`, `Bad upgrades`, Net)
+
+  kbl(top_safe, booktabs = TRUE, align = "c") %>%
+    kable_styling(latex_options = c("hold_position", "scale_down"),
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n")
+
+  best_safe <- safe_adjustments %>% head(1)
+  cat(sprintf(
+    "\\textbf{Best safe adjustment:} male = %+0.1f, female = %+0.1f | %d correct reclassifications | 0 unsafe downgrades | kappa = %.3f | sens = %.0f%% | spec = %.0f%%\\\\\n\n",
+    best_safe$male_adj, best_safe$female_adj,
+    best_safe$n_total_correct,
+    best_safe$kappa,
+    100 * best_safe$sensitivity,
+    100 * best_safe$specificity
+  ))
+}
+
+# ============================================================================
+# STRICT CONSTRAINT: zero incorrect changes of ANY kind
+# (zero bad downgrades AND zero bad upgrades)
+# This is the cleanest possible result: every prediction change agrees with
+# the toxicologist, none go against. Even a small number of such changes
+# is meaningful on a sample this size.
+# ============================================================================
+
+cat("\\vspace{12pt}\n\n")
+cat("\\textbf{Strict constraint: zero incorrect changes of any kind}\\\\\n\n")
+cat("\\textit{Every prediction change must agree with the toxicologist. No patient incorrectly sent to ICU (bad upgrade), no patient incorrectly sent home (bad downgrade). Any adjustment satisfying this is a pure improvement.}\\\\\n\n")
+
+strict_safe <- sweep_constrained %>%
+  filter(n_incorrect_downgrade == 0,
+         n_incorrect_upgrade == 0,
+         n_total_correct > 0) %>%
+  arrange(desc(n_total_correct), desc(kappa))
+
+if (nrow(strict_safe) == 0) {
+  cat("\\textit{No adjustment combination produces ANY correct reclassification without also producing at least one incorrect one. Every adjustment that changes predictions includes at least one disagreement with the toxicologist.}\\\\\n\n")
+  cat("\\textit{This is the key finding: there is no simple sex-based threshold adjustment that unambiguously improves the IRS. Sex-specific recalibration of individual score components (not a threshold shift) is required.}\\\\\n\n")
+} else {
+  top_strict <- strict_safe %>%
+    head(10) %>%
+    mutate(
+      Male     = sprintf("%+0.1f", male_adj),
+      Female   = sprintf("%+0.1f", female_adj),
+      Sens     = sprintf("%.0f%%", 100 * sensitivity),
+      Spec     = sprintf("%.0f%%", 100 * specificity),
+      Kappa    = sprintf("%.3f", kappa),
+      `Correct clears` = n_correct_downgrade,
+      `Correct flags`  = n_correct_upgrade,
+      `Bad downgrades` = n_incorrect_downgrade,
+      `Bad upgrades`   = n_incorrect_upgrade,
+      `Net`            = n_total_correct
+    ) %>%
+    select(Male, Female, Sens, Spec, Kappa,
+           `Correct clears`, `Correct flags`,
+           `Bad downgrades`, `Bad upgrades`, Net)
+
+  kbl(top_strict, booktabs = TRUE, align = "c") %>%
+    kable_styling(latex_options = c("hold_position", "scale_down"),
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n")
+
+  best_strict <- strict_safe %>% head(1)
+  cat(sprintf(
+    "\\textbf{Best strictly safe adjustment:} male = %+0.1f, female = %+0.1f\\\\\n",
+    best_strict$male_adj, best_strict$female_adj
+  ))
+  cat(sprintf(
+    "Correct reclassifications: %d | Bad downgrades: %d | Bad upgrades: %d | Net: %d\\\\\n",
+    best_strict$n_total_correct,
+    best_strict$n_incorrect_downgrade,
+    best_strict$n_incorrect_upgrade,
+    best_strict$n_total_correct
+  ))
+  cat(sprintf(
+    "Kappa: %.3f (vs. baseline %.3f) | Sens: %.0f%% | Spec: %.0f%%\\\\\n\n",
+    best_strict$kappa,
+    sweep_results$kappa[sweep_results$male_adj == 0 &
+                          sweep_results$female_adj == 0],
+    100 * best_strict$sensitivity,
+    100 * best_strict$specificity
+  ))
+
+  # Pull the full patient-level detail for ONLY the changed patients under
+  # the strictly-safe optimal adjustment so we can describe who was helped.
+  cat("\\vspace{6pt}\n\n")
+  cat("\\textbf{Who changed under the strictly-safe adjustment?}\\\\\n\n")
+
+  m_adj_ss <- best_strict$male_adj
+  f_adj_ss <- best_strict$female_adj
+
+  strict_pred <- model_data %>%
+    mutate(
+      pred_old = pred_baseline,
+      pred_new = ifelse(
+        ifelse(gender == "M", scores + m_adj_ss, scores + f_adj_ss) > 6,
+        1, 0
+      ),
+      pred_changed = pred_old != pred_new,
+      direction = case_when(
+        pred_old == 0 & pred_new == 1 ~ "ICU (upgraded)",
+        pred_old == 1 & pred_new == 0 ~ "Non-ICU (cleared)",
+        TRUE ~ "No change"
+      ),
+      agrees_with_tox = ifelse(pred_new == `Dichotomous Outcome`,
+                                "YES", "no")
+    ) %>%
+    filter(pred_changed)
+
+  display_strict <- strict_pred %>%
+    left_join(data %>% select(row_id, any_of(available_cols)),
+              by = "row_id", suffix = c("", ".raw")) %>%
+    mutate(Tox = ifelse(`Dichotomous Outcome` == 1, "ICU", "Non-ICU")) %>%
+    select(Sex = Gender,
+           Exp = `Exposure Category`,
+           IRS = `INTOXICATE SCORE`,
+           any_of(intersect(available_cols, c("Age", "Pulse", "SBP", "GCS"))),
+           Direction = direction,
+           `Tox` = Tox,
+           `Agrees` = agrees_with_tox) %>%
+    arrange(Direction, IRS)
+
+  kbl(display_strict, booktabs = TRUE) %>%
+    kable_styling(latex_options = c("hold_position", "scale_down"),
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n\n")
+}
+```
+
+\pagebreak
+
+\noindent\textbf{\large Balanced Optimization: Best Net Improvement with $\leq$ 3 Incorrect Downgrades}
+
+\noindent\textit{Allows a sensitivity/specificity tradeoff but limits the dangerous error: at most 3 patients incorrectly cleared from ICU to non-ICU against toxicologist recommendation. Ranked by net correct changes, then by ratio of correct to total changes.}
+
+\vspace{6pt}
+
+```{r balanced_optimization, results='asis'}
+# ============================================================================
+# BALANCED OPTIMIZATION
+# Hard constraint: <= 3 incorrect downgrades (ICU→non-ICU against tox)
+# Goal: maximize net correct changes with the best correct:incorrect ratio
+# ============================================================================
+
+balanced <- sweep_constrained %>%
+  filter(n_incorrect_downgrade <= 3) %>%
+  mutate(
+    n_total_changes   = n_correct_downgrade + n_incorrect_downgrade +
+                        n_correct_upgrade   + n_incorrect_upgrade,
+    n_total_correct   = n_correct_downgrade + n_correct_upgrade,
+    n_total_incorrect = n_incorrect_downgrade + n_incorrect_upgrade,
+    net               = n_total_correct - n_total_incorrect,
+    ratio             = ifelse(n_total_changes == 0, NA_real_,
+                               n_total_correct / n_total_changes)
+  ) %>%
+  filter(n_total_changes > 0) %>%
+  arrange(desc(net), desc(ratio), desc(kappa))
+
+top_balanced <- balanced %>%
+  head(15) %>%
+  mutate(
+    Male      = sprintf("%+0.1f", male_adj),
+    Female    = sprintf("%+0.1f", female_adj),
+    Sens      = sprintf("%.0f%%", 100 * sensitivity),
+    Spec      = sprintf("%.0f%%", 100 * specificity),
+    Kappa     = sprintf("%.3f", kappa),
+    `Cor clr` = n_correct_downgrade,
+    `Cor flg` = n_correct_upgrade,
+    `Bad clr` = n_incorrect_downgrade,
+    `Bad flg` = n_incorrect_upgrade,
+    Net       = net,
+    Ratio     = sprintf("%.0f%%", 100 * ratio)
+  ) %>%
+  select(Male, Female, Sens, Spec, Kappa,
+         `Cor clr`, `Cor flg`, `Bad clr`, `Bad flg`, Net, Ratio)
+
+kbl(top_balanced, booktabs = TRUE, align = "c") %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  add_header_above(c(" " = 5,
+                     "Correct" = 2,
+                     "Incorrect (<=3 clears)" = 2,
+                     " " = 2)) %>%
+  print()
+cat("\n")
+
+best_balanced <- balanced %>% head(1)
+cat(sprintf(
+  "\\textbf{Best balanced adjustment:} male = %+0.1f, female = %+0.1f\\\\\n",
+  best_balanced$male_adj, best_balanced$female_adj
+))
+cat(sprintf(
+  "Net: %+d | Correct: %d | Incorrect: %d | Correct ratio: %.0f%%\\\\\n",
+  best_balanced$net, best_balanced$n_total_correct,
+  best_balanced$n_total_incorrect,
+  100 * best_balanced$ratio
+))
+cat(sprintf(
+  "Bad downgrades: %d | Bad upgrades: %d | Kappa: %.3f | Sens: %.0f%% | Spec: %.0f%%\\\\\n\n",
+  best_balanced$n_incorrect_downgrade,
+  best_balanced$n_incorrect_upgrade,
+  best_balanced$kappa,
+  100 * best_balanced$sensitivity,
+  100 * best_balanced$specificity
+))
+
+# Patient-level detail for best balanced adjustment
+balanced_pred <- model_data %>%
+  mutate(
+    pred_old  = pred_baseline,
+    adj_score = ifelse(gender == "M",
+                        scores + best_balanced$male_adj,
+                        scores + best_balanced$female_adj),
+    pred_new  = ifelse(adj_score > 6, 1, 0),
+    changed   = pred_old != pred_new,
+    direction = case_when(
+      pred_old == 0 & pred_new == 1 ~ "Upgraded to ICU",
+      pred_old == 1 & pred_new == 0 ~ "Cleared to non-ICU",
+      TRUE ~ "No change"
+    ),
+    tox_label = ifelse(`Dichotomous Outcome` == 1, "ICU", "Non-ICU"),
+    correct   = ifelse(pred_new == `Dichotomous Outcome`, "YES", "no")
+  ) %>%
+  filter(changed) %>%
+  left_join(data %>% select(row_id, any_of(available_cols)),
+            by = "row_id", suffix = c("", ".raw")) %>%
+  select(Sex = Gender,
+         Exp = `Exposure Category`,
+         IRS = `INTOXICATE SCORE`,
+         any_of(intersect(available_cols,
+                           c("Age", "Pulse", "SBP", "GCS",
+                             "Dysrhythmia", "Respiratory Insufficiency"))),
+         Direction = direction,
+         Tox = tox_label,
+         Correct = correct) %>%
+  arrange(Correct, Direction, IRS)
+
+names(balanced_pred) <- gsub("Respiratory Insufficiency", "RespIns",
+                              names(balanced_pred))
+names(balanced_pred) <- gsub("Dysrhythmia", "Dysrhy",
+                              names(balanced_pred))
+
+cat("\\textbf{Patient-level detail for changed predictions:}\\\\\n\n")
+kbl(balanced_pred, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+```
+
+\pagebreak
+
+\noindent\textbf{\large Adjustment Heatmap: Cohen's Kappa Across the Grid}
+
+\noindent\textit{Each cell is one (male, female) adjustment combination. Color intensity shows agreement with toxicologist via Cohen's kappa. The original ``no adjustment'' baseline is at (0, 0); the current default is at (+3, 0).}
+
+\vspace{6pt}
+
+```{r adjustment_heatmap, fig.width=7.5, fig.height=5.5}
+# ============================================================================
+# Visualize the full sweep as a heatmap, with annotation marking the
+# original baseline and the current default.
+# ============================================================================
+
+WCM_MAROON   <- "#A8132B"
+ORANGE       <- "#E36C0A"
+LIGHTBLUE    <- "#7FB3D5"
+
+# Find the top-kappa cell so we can annotate it
+top_kappa <- sweep_results %>% arrange(desc(kappa)) %>% head(1)
+
+heatmap_plot <- ggplot(sweep_results,
+                        aes(x = male_adj, y = female_adj, fill = kappa)) +
+  geom_tile(color = "white", linewidth = 0.4) +
+  geom_text(aes(label = sprintf("%.2f", kappa)),
+            size = 2.6, color = "black") +
+  scale_fill_gradient2(
+    low = "#FCE4E4", mid = "#FFFFFF", high = "#9DC3E6",
+    midpoint = sweep_results$kappa[
+      which(sweep_results$male_adj == 0 & sweep_results$female_adj == 0)
+    ],
+    name = "Cohen's\nkappa"
+  ) +
+  # Mark the (0, 0) baseline
+  annotate("point", x = 0, y = 0, shape = 4, size = 5,
+           color = "black", stroke = 1.5) +
+  annotate("text", x = 0, y = -0.5, label = "No adjustment",
+           size = 3, color = "black", fontface = "italic") +
+  # Mark the (+3, 0) current default
+  annotate("point", x = 3, y = 0, shape = 21, size = 5,
+           fill = "transparent", color = "black", stroke = 1.5) +
+  annotate("text", x = 3, y = 0.5, label = "Current (+3, 0)",
+           size = 3, color = "black", fontface = "italic") +
+  # Mark the optimal cell
+  annotate("point", x = top_kappa$male_adj, y = top_kappa$female_adj,
+           shape = 8, size = 5, color = WCM_MAROON, stroke = 1.5) +
+  annotate("text", x = top_kappa$male_adj,
+           y = top_kappa$female_adj - 0.5,
+           label = sprintf("Best (%+0.1f, %+0.1f)",
+                            top_kappa$male_adj, top_kappa$female_adj),
+           size = 3, color = WCM_MAROON, fontface = "bold") +
+  scale_x_continuous(breaks = male_adj_grid,
+                     expand = c(0, 0)) +
+  scale_y_continuous(breaks = female_adj_grid,
+                     expand = c(0, 0)) +
+  labs(
+    x = "Male adjustment (points added to IRS)",
+    y = "Female adjustment (points added to IRS)"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_text(color = "black"),
+    legend.position = "right"
+  )
+
+print(heatmap_plot)
+```
+
+\pagebreak
+
+\noindent\textbf{\large Clinical Characterization of Female Patients Cleared by the Optimal Adjustment}
+
+\noindent\textit{The (0, \u22125) sweep cell maximized agreement with toxicologists. This identifies the female patients whose IRS predictions changed under that adjustment, then compares the ``correctly cleared'' patients (toxicologist also said non-ICU) to the ``incorrectly cleared'' patients (toxicologist said ICU but model now says non-ICU). If the correct clears share a clinical pattern, that's the figure.}
+
+\vspace{6pt}
+
+```{r female_clear_characterization, results='asis'}
+# ============================================================================
+# Apply the optimal adjustment from the sweep (top kappa cell), then
+# characterize the female patients whose predictions changed.
+# ============================================================================
+
+# Use the top-kappa cell as our "optimal" adjustment
+optimal_male   <- top_kappa$male_adj
+optimal_female <- top_kappa$female_adj
+
+cat(sprintf(
+  "\\textbf{Optimal adjustment (max kappa):} male = %+0.1f, female = %+0.1f\\\\\n",
+  optimal_male, optimal_female
+))
+cat(sprintf("Resulting kappa: %.3f (vs. baseline %.3f, current default %.3f)\\\\\n\n",
+            top_kappa$kappa,
+            sweep_results$kappa[sweep_results$male_adj == 0 &
+                                  sweep_results$female_adj == 0],
+            sweep_results$kappa[sweep_results$male_adj == 3 &
+                                  sweep_results$female_adj == 0]))
+
+# Apply the optimal adjustment and identify changed patients
+opt_pred_compare <- model_data %>%
+  mutate(
+    pred_old = ifelse(`INTOXICATE SCORE` > 6, 1, 0),
+    pred_new = ifelse(
+      ifelse(Gender == "M",
+             `INTOXICATE SCORE` + optimal_male,
+             `INTOXICATE SCORE` + optimal_female) > 6,
+      1, 0
+    ),
+    pred_changed = pred_old != pred_new,
+    change_direction = case_when(
+      pred_old == 0 & pred_new == 1 ~ "Newly flagged ICU",
+      pred_old == 1 & pred_new == 0 ~ "Newly cleared",
+      TRUE ~ "No change"
+    ),
+    change_correct = case_when(
+      pred_changed & pred_new == `Dichotomous Outcome` ~ "Correct change",
+      pred_changed & pred_new != `Dichotomous Outcome` ~ "Incorrect change",
+      TRUE ~ "No change"
+    )
+  )
+
+# Headline counts under the optimal adjustment
+n_changed_opt   <- sum(opt_pred_compare$pred_changed)
+n_correct_opt   <- sum(opt_pred_compare$change_correct == "Correct change")
+n_incorrect_opt <- sum(opt_pred_compare$change_correct == "Incorrect change")
+n_cleared_opt   <- sum(opt_pred_compare$change_direction == "Newly cleared")
+n_flagged_opt   <- sum(opt_pred_compare$change_direction == "Newly flagged ICU")
+
+cat("\\textbf{Headline counts under the optimal adjustment:}\\\\\n")
+cat(sprintf("Total changed predictions: %d\\\\\n", n_changed_opt))
+cat(sprintf("\\quad Newly cleared (lowered to non-ICU): %d\\\\\n", n_cleared_opt))
+cat(sprintf("\\quad Newly flagged (raised to ICU): %d\\\\\n", n_flagged_opt))
+cat(sprintf("Of changes, %d were correct and %d were incorrect.\\\\\n\n",
+            n_correct_opt, n_incorrect_opt))
+
+# Pull clinical features for the changed patients
+opt_clinical <- opt_pred_compare %>%
+  filter(pred_changed) %>%
+  left_join(
+    data %>% select(row_id, any_of(available_cols)),
+    by = "row_id",
+    suffix = c("", ".raw")
+  ) %>%
+  arrange(desc(change_correct), Gender,
+          `Exposure Category`, `INTOXICATE SCORE`)
+
+# Patient-level table
+display_opt <- opt_clinical %>%
+  mutate(
+    `Old/New` = sprintf("%s -> %s",
+                        ifelse(pred_old == 1, "ICU", "Non"),
+                        ifelse(pred_new == 1, "ICU", "Non")),
+    Tox = ifelse(`Dichotomous Outcome` == 1, "ICU", "Non"),
+    Match = ifelse(change_correct == "Correct change", "YES", "no")
+  )
+
+if ("Age" %in% available_cols) {
+  display_opt <- display_opt %>%
+    select(Sex = Gender,
+           Exp = `Exposure Category`,
+           IRS = `INTOXICATE SCORE`,
+           Age,
+           any_of(setdiff(available_cols, "Age")),
+           `Old/New`, Tox, Match)
+} else {
+  display_opt <- display_opt %>%
+    select(Sex = Gender,
+           Exp = `Exposure Category`,
+           IRS = `INTOXICATE SCORE`,
+           any_of(available_cols),
+           `Old/New`, Tox, Match)
+}
+
+names(display_opt) <- gsub("Respiratory Insufficiency", "RespIns",
+                           names(display_opt))
+names(display_opt) <- gsub("Dysrhythmia", "Dysrhy", names(display_opt))
+names(display_opt) <- gsub("Cirrhosis", "Cirr", names(display_opt))
+
+cat("\\textbf{Patient-level detail (changed predictions under optimal adjustment):}\\\\\n\n")
+kbl(display_opt, booktabs = TRUE) %>%
+  kable_styling(latex_options = c("hold_position", "scale_down"),
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\\vspace{8pt}\n\n")
+
+# Continuous variable comparison: correct vs incorrect changes
+if (length(continuous_cols) > 0) {
+  opt_continuous <- opt_clinical %>%
+    select(change_correct, all_of(continuous_cols)) %>%
+    mutate(across(all_of(continuous_cols),
+                  ~ suppressWarnings(as.numeric(as.character(.))))) %>%
+    pivot_longer(cols = -change_correct,
+                 names_to = "variable",
+                 values_to = "value") %>%
+    filter(!is.na(value)) %>%
+    group_by(variable, change_correct) %>%
+    summarise(
+      n      = n(),
+      med    = median(value),
+      q1     = quantile(value, 0.25),
+      q3     = quantile(value, 0.75),
+      .groups = "drop"
+    ) %>%
+    mutate(summary = sprintf("%.0f [%.0f-%.0f] (n=%d)",
+                              med, q1, q3, n)) %>%
+    select(variable, change_correct, summary) %>%
+    pivot_wider(names_from = change_correct, values_from = summary)
+
+  cat("\\textit{Continuous variables (median [IQR] (n)):}\\\\\n\n")
+  kbl(opt_continuous, booktabs = TRUE) %>%
+    kable_styling(latex_options = "hold_position",
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n\n")
+}
+
+# Binary variable comparison
+if (length(binary_cols) > 0) {
+  opt_binary <- opt_clinical %>%
+    select(change_correct, all_of(binary_cols)) %>%
+    mutate(across(all_of(binary_cols), as.character)) %>%
+    pivot_longer(cols = -change_correct,
+                 names_to = "variable",
+                 values_to = "value") %>%
+    mutate(present = case_when(
+      is.na(value) | value == "NA" ~ NA_real_,
+      value %in% c("1", "Yes", "yes", "Y", "y", "TRUE", "True") ~ 1,
+      TRUE ~ 0
+    )) %>%
+    filter(!is.na(present)) %>%
+    group_by(variable, change_correct) %>%
+    summarise(
+      n_total   = n(),
+      n_present = sum(present),
+      pct       = round(100 * n_present / n_total),
+      .groups   = "drop"
+    ) %>%
+    mutate(summary = sprintf("%d/%d (%d%%)", n_present, n_total, pct)) %>%
+    select(variable, change_correct, summary) %>%
+    pivot_wider(names_from = change_correct, values_from = summary)
+
+  cat("\\textit{Binary clinical features (present / total):}\\\\\n\n")
+  kbl(opt_binary, booktabs = TRUE) %>%
+    kable_styling(latex_options = "hold_position",
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n\n")
+}
+
+# Exposure category breakdown for the changed patients
+cat("\\textit{Exposure category breakdown:}\\\\\n\n")
+exposure_breakdown <- opt_clinical %>%
+  count(`Exposure Category`, change_correct) %>%
+  pivot_wider(names_from = change_correct, values_from = n, values_fill = 0)
+kbl(exposure_breakdown, booktabs = TRUE) %>%
+  kable_styling(latex_options = "hold_position",
+                full_width = FALSE, position = "left") %>%
+  print()
+cat("\n\n")
+
+# --- Spotlight on the INCORRECT clears (potential harm) -------------------
+cat("\\vspace{8pt}\n\n")
+cat("\\textbf{Spotlight: the patients who were incorrectly cleared}\\\\\n\n")
+cat("\\textit{These are the patients whom the optimal adjustment now sends home, but the toxicologist had recommended ICU. If they share clinical features (low IRS at the boundary, or specific exposure type), a tighter adjustment could keep them flagged. If they look identical to the correctly-cleared patients, the adjustment is fundamentally limited.}\\\\\n\n")
+
+incorrect_clears <- opt_clinical %>%
+  filter(change_correct == "Incorrect change")
+
+if (nrow(incorrect_clears) > 0) {
+  display_incorrect <- incorrect_clears %>%
+    mutate(
+      `Old/New` = sprintf("%s -> %s",
+                          ifelse(pred_old == 1, "ICU", "Non"),
+                          ifelse(pred_new == 1, "ICU", "Non")),
+      Tox = ifelse(`Dichotomous Outcome` == 1, "ICU", "Non")
+    ) %>%
+    select(Sex = Gender,
+           Exp = `Exposure Category`,
+           IRS = `INTOXICATE SCORE`,
+           any_of(available_cols),
+           `Old/New`, Tox)
+
+  names(display_incorrect) <- gsub("Respiratory Insufficiency", "RespIns",
+                                    names(display_incorrect))
+  names(display_incorrect) <- gsub("Dysrhythmia", "Dysrhy",
+                                    names(display_incorrect))
+  names(display_incorrect) <- gsub("Cirrhosis", "Cirr",
+                                    names(display_incorrect))
+
+  kbl(display_incorrect, booktabs = TRUE) %>%
+    kable_styling(latex_options = c("hold_position", "scale_down"),
+                  full_width = FALSE, position = "left") %>%
+    print()
+  cat("\n")
+
+  # Min IRS in the incorrect clears — if they cluster at low IRS, a smaller
+  # adjustment (less negative) could keep them flagged.
+  min_irs_incorrect <- min(incorrect_clears$`INTOXICATE SCORE`,
+                            na.rm = TRUE)
+  cat(sprintf(
+    "\\textit{Lowest IRS among incorrectly-cleared patients: %.0f. ",
+    min_irs_incorrect
+  ))
+  cat(sprintf(
+    "A female adjustment of %+0.1f or smaller (less negative) would keep all of them flagged for ICU.}\\\\\n",
+    min_irs_incorrect - 7  # need adjusted score to stay > 6
+  ))
+}
+
+cat("\n\n")
+```
+
+\pagebreak
+
+```{r fig1_paired_bars, fig.width=7.5, fig.height=5.5}
+# ============================================================================
+# FIGURE 1 — Paired horizontal bars (one row per sex per category)
+# Structure mirrors the screenshot Yash referenced: each category gets two
+# bars stacked vertically (F then M), categories ordered by total count.
+# WCM palette substituted for the original black/gray.
+# ============================================================================
+
+fig1_data <- clean_data %>%
+  count(`Exposure Category`, Gender) %>%
+  group_by(`Exposure Category`) %>%
+  mutate(total = sum(n),
+         pct_female = sum(n[Gender == "F"]) / total * 100) %>%
+  ungroup() %>%
+  mutate(
+    Sex = factor(Gender, levels = c("F", "M"),
+                 labels = c("Female", "Male"))
+  )
+
+# Order categories by descending total count
+cat_order <- fig1_data %>%
+  distinct(`Exposure Category`, total) %>%
+  arrange(desc(total)) %>%
+  pull(`Exposure Category`)
+
+# Sanity check — confirm all 8 valid categories are represented
+stopifnot(length(cat_order) == length(valid_categories))
+
+fig1_data <- fig1_data %>%
+  mutate(`Exposure Category` = factor(`Exposure Category`,
+                                       levels = rev(cat_order)))
+
+x_max <- max(fig1_data$n) * 1.10
+
+# In-plot annotation positioning — chi-squared callout, kept in the
+# upper-right area but lowered vertically so it doesn't collide with
+# the top bar. Same x position, lower y.
+chi_annotation <- sprintf("Sex x Exposure Category: %s",
+                          fmt_p_inline(chi_p))
+
+fig1 <- ggplot(fig1_data,
+               aes(x = n, y = `Exposure Category`, fill = Sex)) +
+  geom_col(position = position_dodge(width = 0.78),
+           width = 0.7, color = NA) +
+  geom_text(aes(label = n),
+            position = position_dodge(width = 0.78),
+            hjust = -0.35, size = 3.6, color = INK,
+            family = "Helvetica") +
+  annotate("label",
+           x = x_max * 0.98,
+           y = length(cat_order) / 2 + 0.5,
+           label = chi_annotation,
+           hjust = 1, vjust = 0.5,
+           size = 3.8, color = INK, family = "Helvetica",
+           label.size = 0.3, label.r = unit(2, "pt"),
+           fill = "#F5F5F5") +
+  scale_fill_manual(values = c("Female" = FEMALE_COLOR,
+                                "Male"   = MALE_COLOR),
+                    breaks = c("Female", "Male"),
+                    name = NULL) +
+  scale_x_continuous(expand = expansion(mult = c(0, 0.02)),
+                     limits = c(0, x_max),
+                     breaks = pretty(c(0, x_max))) +
+  scale_y_discrete(expand = expansion(add = c(0.6, 2.2))) +
+  labs(
+    title = "Figure 2. Exposure Category Counts by Biological Sex",
+    subtitle = NULL,
+    x = "Number of Patients",
+    y = NULL
+  ) +
+  theme_clean(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 13, color = INK,
+                              margin = margin(b = 10)),
+    legend.position = c(0.82, 0.92),
+    legend.background = element_rect(fill = "white", color = NA),
+    legend.key.size = unit(12, "pt"),
+    axis.text.y = element_text(size = 12, color = INK,
+                                margin = margin(r = 4))
+  )
+
+print(fig1)
+save_png(fig1, "fig1_exposure_by_sex.png", width = 8.5, height = 5.5)
+```
+
+\vspace{2pt}
+
+\begin{figure}[H]
+\caption*{\textbf{Figure 2.} Number of female (orange) and male (blue) patients in each poisoning exposure category. Categories ordered by descending total count. N = `r n_total` patients (`r n_female` female, `r n_male` male). Antidepressant exposures were predominantly female; street drug, CO/As/CN, and alcohol exposures were predominantly male. Chi-squared test of independence on the 8 \(\times\) 2 table: `r fmt_p_inline(chi_p)`.}
+\end{figure}
+
+\pagebreak
+
+```{r fig1_four_col, fig.width=9.0, fig.height=5.5}
+# ============================================================================
+# FIGURE 1 (was Figure 2A) — Four-column before/after comparison
+# Female (IRS only) | Female (IRS -6.5) | Male (IRS only) | Male (IRS +0)
+# Shows the before/after effect of the optimal female adjustment.
+# Male columns are identical (adjustment = 0) — intentional, shows
+# the adjustment is female-specific.
+# ============================================================================
+
+# Optimal adjustment — use -6 (same patients as -6.5 since IRS is integer)
+opt_male_adj   <- 0.0
+opt_female_adj <- -6.0
+
+# Compute error types for BEFORE (no adjustment) and AFTER (with adjustment)
+compute_errors <- function(adj_male, adj_female, label_suffix) {
+  model_data %>%
+    mutate(
+      Sex = factor(Gender, levels = c("F", "M"),
+                   labels = c("Female", "Male")),
+      adj_score = ifelse(Gender == "M",
+                          `INTOXICATE SCORE` + adj_male,
+                          `INTOXICATE SCORE` + adj_female),
+      pred = ifelse(adj_score > 6, 1, 0),
+      error_type = case_when(
+        pred == `Dichotomous Outcome` & `Dichotomous Outcome` == 1 ~
+          "Correct: ICU",
+        pred == `Dichotomous Outcome` & `Dichotomous Outcome` == 0 ~
+          "Correct: Non-ICU",
+        pred == 1 & `Dichotomous Outcome` == 0 ~
+          "Over-triage\n(ICU when non-ICU needed)",
+        pred == 0 & `Dichotomous Outcome` == 1 ~
+          "Under-triage\n(Non-ICU when ICU needed)"
+      ),
+      error_type = factor(error_type,
+                          levels = c(
+                            "Correct: ICU",
+                            "Correct: Non-ICU",
+                            "Over-triage\n(ICU when non-ICU needed)",
+                            "Under-triage\n(Non-ICU when ICU needed)"
+                          )),
+      col_label = paste0(as.character(Sex), "\n", label_suffix)
+    ) %>%
+    count(col_label, Sex, error_type) %>%
+    group_by(col_label) %>%
+    mutate(pct = 100 * n / sum(n)) %>%
+    ungroup()
+}
+
+# Two columns only: Female before and Female after
+female_before <- compute_errors(0, 0, "(Original Threshold > 6)") %>%
+  filter(grepl("Female", col_label))
+female_after  <- compute_errors(opt_male_adj, opt_female_adj,
+                                "(Sex-Adjusted Threshold > 12)") %>%
+  filter(grepl("Female", col_label))
+
+plot_data <- bind_rows(female_before, female_after) %>%
+  mutate(
+    col_label = factor(col_label,
+                       levels = c(
+                         "Female\n(Sex-Adjusted Threshold > 12)",
+                         "Female\n(Original Threshold > 6)"
+                       ))
+  ) %>%
+  group_by(col_label) %>%
+  arrange(col_label, error_type) %>%
+  mutate(
+    cum_pct  = cumsum(pct),
+    mid_pct  = cum_pct - pct / 2,
+    label_inside  = ifelse(pct >= 7,
+                           sprintf("%.0f%%\n(n=%d)", pct, n), ""),
+    label_outside = ifelse(pct < 7,
+                           sprintf("%.0f%% (n=%d)", pct, n), "")
+  ) %>%
+  ungroup()
+
+error_colors <- c(
+  "Correct: ICU"                            = "#2E7D32",
+  "Correct: Non-ICU"                        = "#81C784",
+  "Over-triage\n(ICU when non-ICU needed)"  = FEMALE_COLOR,
+  "Under-triage\n(Non-ICU when ICU needed)" = "#B71C1C"
+)
+
+fig1_new <- ggplot(plot_data,
+                   aes(x = col_label, y = pct, fill = error_type)) +
+  geom_col(width = 0.52, color = "white", linewidth = 0.5) +
+  # Percentage labels inside bars — position_stack handles stacking correctly
+  geom_text(aes(label = sprintf("%.0f%%", pct)),
+            position = position_stack(vjust = 0.5),
+            size = 4.0, color = "white", fontface = "bold",
+            family = "Helvetica") +
+  # n labels inside bars on a second line using position_stack
+  geom_text(aes(label = sprintf("(n=%d)", n)),
+            position = position_stack(vjust = 0.35),
+            size = 3.0, color = "white",
+            family = "Helvetica") +
+  # Downward arrow between bars (in pre-flip coordinates: pointing left)
+  annotate("segment",
+           x = 1.60, xend = 1.40,
+           y = 50, yend = 50,
+           arrow = arrow(length = unit(10, "pt"), type = "closed"),
+           color = INK, linewidth = 1.4) +
+  # Italic labels to the left of each bar (before coord_flip, these are below)
+  annotate("text",
+           x = 2, y = -3,
+           label = "IRS > 6  (Original Threshold)",
+           hjust = 1, fontface = "italic", size = 3.6,
+           color = SLATE, family = "Helvetica") +
+  annotate("text",
+           x = 1, y = -3,
+           label = "IRS > 12  (Adjusted Threshold)",
+           hjust = 1, fontface = "italic", size = 3.6,
+           color = SLATE, family = "Helvetica") +
+  coord_flip() +
+  scale_fill_manual(values = error_colors,
+                    labels = c("Correct: ICU",
+                               "Correct: Non-ICU",
+                               "Over-triage",
+                               "Under-triage"),
+                    name = NULL) +
+  scale_y_continuous(expand = expansion(add = c(12, 1)),
+                     limits = c(-15, 101),
+                     breaks = NULL) +
+  scale_x_discrete(labels = NULL,
+                   expand = expansion(add = c(0.4, 0.4))) +
+  labs(title = "Figure 1. Raising the IRS Threshold for Female Patients Reduces Over-Triage",
+       x = NULL, y = NULL) +
+  theme_clean(base_size = 12) +
+  theme(
+    plot.title           = element_text(face = "bold", size = 12, color = INK,
+                                        margin = margin(b = 14)),
+    legend.position      = c(0.99, 0.02),
+    legend.justification = c(1, 0),
+    legend.background    = element_rect(fill = "white", color = "grey85",
+                                        linewidth = 0.3),
+    legend.text          = element_text(size = 10, color = INK),
+    legend.key.size      = unit(13, "pt"),
+    legend.margin        = margin(4, 8, 4, 8),
+    panel.grid.major.y   = element_blank(),
+    panel.grid.major.x   = element_blank(),
+    axis.text            = element_blank(),
+    axis.ticks           = element_blank(),
+    plot.margin          = margin(t = 8, r = 12, b = 8, l = 8)
+  )
+
+print(fig1_new)
+save_png(fig1_new, "fig1_before_after.png", width = 9.5, height = 3.6)
+```
+
+\begin{figure}[H]
+\caption*{\textbf{Figure 1.} IRS prediction outcomes for female patients before (original threshold IRS \(>\) 6) and after (sex-adjusted threshold IRS \(>\) 12) a sex-specific recalibration, compared against toxicologist-recommended disposition (n = 101 female patients with complete IRS data). Patients are classified as correctly identified for ICU (dark green), correctly cleared (light green), over-triaged to ICU (orange; IRS flagged ICU but toxicologist recommended non-ICU), or under-triaged (dark red). Raising the effective female threshold to \(>\) 12 reduces female over-triage from 38\% to 15\%, correctly reclassifying 23 patients with 3 incorrect reclassifications (88\% precision) and improving kappa from 0.20 to 0.30. Male IRS predictions are unchanged; exhaustive testing of male score adjustments (0 to +5 points) produced no combination with positive net agreement improvement.}
+\end{figure}
+
+\pagebreak
+
+```{r fig2_option_b, fig.width=7.5, fig.height=5.0}
+# ============================================================================
+# FIGURE 2 — OPTION B: Kappa vs. female adjustment curve
+#
+# Single-line plot showing how overall agreement (Cohen's kappa) changes as
+# you apply progressively larger negative adjustments to female IRS scores.
+# Shows the optimum clearly (peak kappa around -13.5), dropping off on both
+# sides — confirming this is a real finding, not just "exclude everyone."
+# The current default (+3 male, 0 female) is marked for reference.
+# ============================================================================
+
+kappa_curve <- sweep_results %>%
+  filter(male_adj == 0) %>%
+  arrange(female_adj)
+
+# Mark key reference points
+ref_baseline <- kappa_curve %>% filter(female_adj == 0)
+ref_optimal  <- kappa_curve %>% arrange(desc(kappa)) %>% head(1)
+ref_default  <- sweep_results %>% filter(male_adj == 3, female_adj == 0)
+
+fig2b <- ggplot(kappa_curve,
+                aes(x = female_adj, y = kappa)) +
+  geom_line(color = FEMALE_COLOR, linewidth = 1.2) +
+  geom_point(color = FEMALE_COLOR, size = 1.8, alpha = 0.7) +
+  # Baseline (no adjustment)
+  geom_point(data = ref_baseline,
+             aes(x = female_adj, y = kappa),
+             shape = 4, size = 5, stroke = 1.5, color = INK) +
+  annotate("text", x = ref_baseline$female_adj + 0.6,
+           y = ref_baseline$kappa - 0.018,
+           label = sprintf("No adjustment\nkappa=%.2f",
+                            ref_baseline$kappa),
+           hjust = 0, size = 3.2, color = INK, lineheight = 0.9) +
+  # Optimal point
+  geom_point(data = ref_optimal,
+             aes(x = female_adj, y = kappa),
+             shape = 8, size = 5, stroke = 1.5, color = WCM_MAROON) +
+  annotate("text", x = ref_optimal$female_adj - 0.4,
+           y = ref_optimal$kappa + 0.012,
+           label = sprintf("Optimal: %.1f\nkappa=%.2f",
+                            ref_optimal$female_adj, ref_optimal$kappa),
+           hjust = 1, size = 3.2, color = WCM_MAROON,
+           fontface = "bold", lineheight = 0.9) +
+  # Current default (male=+3, female=0 shown as horizontal ref)
+  geom_hline(yintercept = ref_default$kappa, linetype = "dotted",
+             color = MALE_COLOR, linewidth = 0.7) +
+  annotate("text", x = -19.5,
+           y = ref_default$kappa + 0.010,
+           label = sprintf("Current default (+3M, 0F): kappa=%.2f",
+                            ref_default$kappa),
+           hjust = 0, size = 3.0, color = MALE_COLOR) +
+  scale_x_continuous(breaks = seq(-20, 0, by = 2)) +
+  scale_y_continuous(breaks = seq(0.1, 0.5, by = 0.05)) +
+  labs(
+    title = "Figure 2B (Option B). Toxicologist Agreement Improves with Female IRS Down-Adjustment",
+    x = "Female IRS adjustment (points subtracted from raw score)",
+    y = "Cohen's kappa"
+  ) +
+  theme_clean(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold", size = 13, color = INK,
+                              margin = margin(b = 10)),
+    panel.grid.major.x = element_line(color = GRID, linewidth = 0.3),
+    panel.grid.major.y = element_line(color = GRID, linewidth = 0.3)
+  )
+
+print(fig2b)
+save_png(fig2b, "fig2b_kappa_curve.png", width = 7.5, height = 5.0)
+```
+
+\begin{figure}[H]
+\caption*{\textbf{Figure 2B (Option B).} Cohen's kappa (agreement between IRS prediction and toxicologist-recommended disposition) as a function of a negative adjustment applied to female IRS scores, with male adjustment fixed at 0 and threshold held at IRS $>$ 6. The orange line shows kappa across all tested female adjustments; kappa peaks at approximately $-13.5$ points (kappa = 0.39) before declining, confirming this optimum is real and not an artifact of the search boundary. The current default approach (+3 points for males, no female adjustment) achieves kappa = 0.20 (dotted blue reference line), substantially below the optimum. At the optimal female adjustment, 38 of 43 prediction changes (88\%) correctly agree with toxicologist disposition (vs.\ baseline kappa 0.20 with no adjustment). These results suggest the IRS systematically over-scores female poisoning severity and that down-adjustment for females improves agreement with clinical judgment.}
+\end{figure}
+
+\pagebreak
+
+\noindent\textbf{\large Cohort statistics for poster Results section}
+
+```{r results_stats, results='asis'}
+# ============================================================================
+# COHORT STATS — every number needed to populate the Results section
+# of the poster, formatted to mirror the abstract's prose style.
+# ============================================================================
+
+library(stats)
+
+# --- Sensitivity & specificity, with and without sex (+3 male adjustment) ---
+wilson_ci <- function(x, n) {
+  if (n == 0) return(c(0, 0, 0))
+  z <- 1.96; p <- x / n
+  denom  <- 1 + z^2 / n
+  center <- (p + z^2 / (2 * n)) / denom
+  spread <- z * sqrt((p * (1 - p) + z^2 / (4 * n)) / n) / denom
+  c(p, max(0, center - spread), min(1, center + spread))
+}
+
+scores  <- model_data$`INTOXICATE SCORE`
+genders <- model_data$Gender
+actual  <- model_data$`Dichotomous Outcome`
+
+pred_base <- ifelse(scores > 6, 1, 0)
+sens_base <- wilson_ci(sum(pred_base == 1 & actual == 1), sum(actual == 1))
+spec_base <- wilson_ci(sum(pred_base == 0 & actual == 0), sum(actual == 0))
+
+adj_scores <- ifelse(genders == "M", scores + 3, scores)
+pred_sex   <- ifelse(adj_scores > 6, 1, 0)
+sens_sex   <- wilson_ci(sum(pred_sex == 1 & actual == 1), sum(actual == 1))
+spec_sex   <- wilson_ci(sum(pred_sex == 0 & actual == 0), sum(actual == 0))
+
+# --- OR for male sex ---
+glm_fit <- glm(`Dichotomous Outcome` ~ `INTOXICATE SCORE` + Gender,
+               data = model_data, family = binomial)
+glm_ci   <- suppressMessages(confint(glm_fit))
+or_male  <- exp(coef(glm_fit)["GenderM"])
+or_lo    <- exp(glm_ci["GenderM", 1])
+or_hi    <- exp(glm_ci["GenderM", 2])
+
+# --- Median age + IQR by sex ---
+age_by_sex <- clean_data %>%
+  group_by(Gender) %>%
+  summarise(
+    n   = n(),
+    med = median(Age, na.rm = TRUE),
+    q1  = quantile(Age, 0.25, na.rm = TRUE),
+    q3  = quantile(Age, 0.75, na.rm = TRUE),
+    .groups = "drop"
+  )
+m_row <- age_by_sex %>% filter(Gender == "M")
+f_row <- age_by_sex %>% filter(Gender == "F")
+
+# --- Variance inflation factors for collinearity check ---
+# Build a design matrix matching the full IRS regression (sex + IRS score
+# is the minimal model; we extend to a richer set if those columns exist).
+vif_max <- NA_real_
+tryCatch({
+  if (requireNamespace("car", quietly = TRUE)) {
+    vif_fit <- glm(`Dichotomous Outcome` ~ `INTOXICATE SCORE` + Gender,
+                   data = model_data, family = binomial)
+    vif_vals <- car::vif(vif_fit)
+    vif_max <- max(vif_vals)
+  }
+}, error = function(e) NULL)
+
+# --- Exposure-by-sex percentages for the three categories the abstract
+#     highlights (so we can drop them straight into the prose) ---
+exp_pcts <- clean_data %>%
+  count(`Exposure Category`, Gender) %>%
+  group_by(`Exposure Category`) %>%
+  mutate(pct = round(100 * n / sum(n))) %>%
+  ungroup()
+
+get_pct <- function(cat, sex) {
+  v <- exp_pcts %>% filter(`Exposure Category` == cat, Gender == sex) %>%
+    pull(pct)
+  if (length(v) == 0) NA_integer_ else v
+}
+
+ad_f   <- get_pct("Antidepressants", "F")
+ad_m   <- get_pct("Antidepressants", "M")
+sd_m   <- get_pct("Street Drugs",    "M")
+co_m   <- get_pct("CO, As, CN",      "M")
+
+# --- Print everything ---
+cat("\\textbf{Drop-in numbers for Results section:}\\\\\n\n")
+
+cat(sprintf(
+  "Of %d enrolled patients, %d were included (%d male, median age %.0f [IQR %.0f--%.0f]; %d female, median age %.0f [IQR %.0f--%.0f]).\\\\\n\n",
+  n_enrolled, n_total,
+  m_row$n, m_row$med, m_row$q1, m_row$q3,
+  f_row$n, f_row$med, f_row$q1, f_row$q3
+))
+
+cat(sprintf(
+  "Including biological sex increased sensitivity from %.0f\\%% (95\\%% CI %.0f--%.0f\\%%) to %.0f\\%% (%.0f--%.0f\\%%) and decreased specificity from %.0f\\%% (%.0f--%.0f\\%%) to %.0f\\%% (%.0f--%.0f\\%%).\\\\\n\n",
+  100 * sens_base[1], 100 * sens_base[2], 100 * sens_base[3],
+  100 * sens_sex[1],  100 * sens_sex[2],  100 * sens_sex[3],
+  100 * spec_base[1], 100 * spec_base[2], 100 * spec_base[3],
+  100 * spec_sex[1],  100 * spec_sex[2],  100 * spec_sex[3]
+))
+
+cat(sprintf(
+  "Male sex was associated with increased odds of ICU-level care (OR %.2f, 95\\%% CI %.2f--%.2f); biological sex was associated with exposure category (chi-squared %s)",
+  or_male, or_lo, or_hi, fmt_p_inline(chi_p)
+))
+if (!is.na(vif_max)) {
+  cat(sprintf(
+    " but not strongly collinear with model predictors (VIF $<$ %.0f).\\\\\n\n",
+    ceiling(vif_max)
+  ))
+} else {
+  cat(". (Note: install the \\texttt{car} package to compute VIF.)\\\\\n\n")
+}
+
+if (!is.na(ad_f) && !is.na(sd_m) && !is.na(co_m)) {
+  cat(sprintf(
+    "Antidepressant exposures were more common in females (%d\\%% vs %d\\%%). Street drugs (%d\\%%) and CO/As/CN exposures (%d\\%%) were more common in males.\\\\\n\n",
+    ad_f, ad_m, sd_m, co_m
+  ))
+}
+
+cat("\\vspace{8pt}\n\n")
+cat("\\textbf{Sanity-check counts:}\\\\\n")
+cat(sprintf("Enrolled (non-empty rows): %d\\\\\n", n_enrolled))
+cat(sprintf("Included after exclusions: %d\\\\\n", n_total))
+cat(sprintf("Excluded: %d\\\\\n", n_enrolled - n_total))
+cat(sprintf("With complete IRS data (used for model): %d\\\\\n", n_model))
+```
+
+\begin{quote}
+\noindent\textit{Note: \texttt{n\_enrolled} is computed as the number of non-empty rows in the INTOXICATE sheet. If your registry's true enrollment count (before any data entry) lives elsewhere, override the printed sentence with the correct figure.}
+\end{quote}
+
+\pagebreak
+
+\noindent\textbf{\large Reference Table 1. Exposure Category by Gender}
+
+\noindent\textit{For internal review only \u2014 not included on the poster. Shows the size of the "Other" bucket relative to the eight categories carried in the figures.}
+
+\vspace{8pt}
+
+```{r reference_table, results='asis'}
+# ============================================================================
+# REFERENCE TABLE — Exposure Category by Gender, with everything outside
+# the 8 valid categories rolled into "Other" so we can see how big the
+# residual bucket is. Not for the poster, just a sanity check.
+# ============================================================================
+
+library(knitr)
+library(kableExtra)
+
+# Re-read raw data (without the valid-category filter applied earlier)
+# so we can see what's in the "Other" bucket.
+raw_table <- data %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  mutate(
+    Gender = trimws(Gender),
+    `Exposure Category` = trimws(`Exposure Category`),
+    Age = as.numeric(Age)
+  ) %>%
+  filter(Gender %in% c("M", "F"),
+         !is.na(Age), Age >= 12) %>%
+  mutate(
+    cat_grouped = ifelse(`Exposure Category` %in% valid_categories,
+                         `Exposure Category`,
+                         "Other")
+  )
+
+# What's actually in the "Other" bucket — print for transparency
+other_categories <- raw_table %>%
+  filter(cat_grouped == "Other") %>%
+  count(`Exposure Category`, sort = TRUE)
+
+# Build the table: counts and row percentages by gender
+ref_table <- raw_table %>%
+  count(cat_grouped, Gender) %>%
+  pivot_wider(names_from = Gender, values_from = n, values_fill = 0) %>%
+  mutate(Total = F + M) %>%
+  mutate(
+    F_lab = sprintf("%d (%d%%)", F, round(100 * F / Total)),
+    M_lab = sprintf("%d (%d%%)", M, round(100 * M / Total))
+  ) %>%
+  arrange(desc(Total))
+
+# Order: 8 valid categories (descending count), then Other, then Unknown last
+# matches the reference table format you shared
+top_order <- ref_table %>%
+  filter(cat_grouped %in% valid_categories,
+         cat_grouped != "Unknown") %>%
+  arrange(desc(Total)) %>%
+  pull(cat_grouped)
+
+bottom_order <- ref_table %>%
+  filter(cat_grouped %in% c("Sedatives", "Alcohol", "Other", "Unknown")) %>%
+  pull(cat_grouped) %>%
+  intersect(c("Sedatives", "Alcohol", "Other", "Unknown"))
+
+# Assemble in target order
+ordered_cats <- c(setdiff(top_order,
+                          c("Sedatives", "Alcohol", "Unknown")),
+                  bottom_order)
+
+ref_table <- ref_table %>%
+  mutate(cat_grouped = factor(cat_grouped, levels = ordered_cats)) %>%
+  arrange(cat_grouped)
+
+# Total row
+totals <- ref_table %>%
+  summarise(F = sum(F), M = sum(M), Total = sum(Total)) %>%
+  mutate(
+    cat_grouped = "Total",
+    F_lab = sprintf("%d (%d%%)", F, round(100 * F / Total)),
+    M_lab = sprintf("%d (%d%%)", M, round(100 * M / Total))
+  )
+
+# Chi-squared on the displayed table (same grouping)
+chi_table <- table(raw_table$cat_grouped, raw_table$Gender)
+chi_p_grouped <- suppressWarnings(chisq.test(chi_table))$p.value
+
+# Render
+display_df <- bind_rows(
+  ref_table %>% select(cat_grouped, F_lab, M_lab, Total),
+  tibble(cat_grouped = "Total",
+         F_lab = totals$F_lab, M_lab = totals$M_lab, Total = totals$Total)
+) %>%
+  rename(`Exposure Category` = cat_grouped, F = F_lab, M = M_lab)
+
+kbl(display_df,
+    booktabs = TRUE,
+    align = c("l", "r", "r", "r"),
+    caption = NULL) %>%
+  kable_styling(latex_options = c("hold_position"),
+                full_width = FALSE,
+                position = "left") %>%
+  add_header_above(c(" " = 1, "Gender" = 2, " " = 1)) %>%
+  row_spec(nrow(display_df) - 1, hline_after = TRUE) %>%
+  row_spec(nrow(display_df), bold = TRUE) %>%
+  print()
+
+cat("\n\n")
+cat(sprintf(
+  "\\textbf{Table caption:} Counts and row-wise percentages for each exposure category by gender, including totals. Percentages in the F and M columns reflect the proportion within each row. Chi-squared test of independence: %s. The `Other' category combines all exposures outside the eight primary categories used in Figure 1.",
+  fmt_p_inline(chi_p_grouped)
+))
+
+# Show what's in "Other" so we know what we're rolling up
+cat("\n\n\\vspace{12pt}\n\n")
+cat("\\textbf{Contents of `Other' bucket:}\\\\\n")
+if (nrow(other_categories) == 0) {
+  cat("\\textit{(empty \u2014 all patients had categories in the eight primary buckets)}\n")
+} else {
+  for (i in seq_len(nrow(other_categories))) {
+    cat(sprintf("%s: %d\\\\\n",
+                other_categories$`Exposure Category`[i],
+                other_categories$n[i]))
+  }
+}
+```
