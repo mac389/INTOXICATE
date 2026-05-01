@@ -435,8 +435,8 @@ or_ci    <- suppressMessages(confint(model_w_sex))["GenderM", ]
 or_lo    <- exp(or_ci[1]); or_hi <- exp(or_ci[2])
 sex_p    <- sex_coef["Pr(>|z|)"]
 
-# Exposure percentages from model_data cohort
-exp_pcts <- model_data %>%
+# Exposure percentages from clean_data (n=219) to match Figure 2
+exp_pcts <- clean_data %>%
   count(`Exposure Category`, Gender) %>%
   group_by(`Exposure Category`) %>%
   mutate(pct = round(100 * n / sum(n))) %>%
