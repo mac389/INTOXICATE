@@ -1,13 +1,13 @@
 import os
-import uuid
 import random
+import uuid
 from dataclasses import dataclass
 from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
+from rich import print
 from scipy.stats import truncnorm
 from yaml import safe_load
-from rich import print
 
 DATA_PATH = os.path.join("..", "data", "model")
 
@@ -116,10 +116,6 @@ class Context:
 
 
 def sample_severity(intoxicant: str) -> int:
-    """
-    Latent severity 0..3. Bias by intoxicant category.
-    Tune these base distributions to match your cohort.
-    """
     base = {
         "Alcohol":        [0.60, 0.25, 0.12, 0.03],
         "Analgesic":      [0.45, 0.28, 0.18, 0.09],
