@@ -17,6 +17,7 @@ library(ggrepel)
 library(ggplot2)
 library(ggpubr)
 library(gtsummary)
+library(stringr)
 library(psych)
 library(caret)
 
@@ -30,8 +31,10 @@ library(cowplot)
 knitr::opts_chunk$set(dev = "png",
                       dpi = 300,
                       echo = FALSE,
-                      cache = TRUE)
-df  <-  read_excel("../data/snapshots/snapshot.04192025.intoxicate.xlsx", sheet = "INTOXICATE", range = cell_cols("A:AC"))
+                      cache = FALSE)
+
+#was 04192025
+df  <-  read_excel("../data/snapshots/snapshot.04302026.xlsx", sheet = "INTOXICATE", range = cell_cols("A:AC"))
 
 df <- df %>%
   mutate(age_category = case_when(
@@ -40,24 +43,53 @@ df <- df %>%
     Age >= 18 ~ "Adult"
   ))
 
-xf <-  df %>%
-  mutate(`Actual Disposition`  = case_when(
+
+xf <- df %>%
+   mutate(`INTOXICATE SCORE` = as.numeric(`INTOXICATE SCORE`)) %>%
+  filter(Age > 12, !is.na(Age), Gender %in% c("M","F"), !is.na(`Actual Disposition`), !is.na(`INTOXICATE SCORE`)) %>%
+  mutate(
+    `Exposure Category` = str_squish(`Exposure Category`),
+    `Exposure Category` = case_when(
+      `Exposure Category` %in% c(
+        "clorox bleach",
+        "Chlorine Gas"
+      ) ~ "Not Classified",
+
+      `Exposure Category` %in% c(
+        "Sedative (Combination)",
+        "Polysubstance"
+      ) ~ "Combination",
+
+      `Exposure Category` == "Antipsychotic" ~ "Antidepressants",
+
+      TRUE ~ `Exposure Category`
+    ),
+  `Actual Disposition`  = case_when(
     `Actual Disposition` == "ICU" ~ "ICU",
     `Actual Disposition` == "GMF" ~ "Not ICU",
-    `Actual Disposition` == "Discharge" ~ "Not ICU",
-    TRUE ~ "NA"
-  ), 
-  `Predicted Disposition`  = case_when(
-    `Predicted Disposition` == "ICU" ~ "ICU",
-    `Predicted Disposition` == "GMF" ~ "Not ICU",
-    `Predicted Disposition` == "Discharge" ~ "Not ICU",
-    TRUE ~ "NA"))
-
-
+    `Actual Disposition` == "No ICU" ~ "Not ICU",
+    str_detect(`Actual Disposition`, "(?i)Discharge") ~ "Not ICU",
+    str_detect(`Actual Disposition`, "(?i)Psych") ~ "Not ICU",
+    str_detect(`Actual Disposition`, "(?i)Admit to Neuro") ~ "Not ICU"),
+    `Predicted Disposition` = case_when(
+      `INTOXICATE SCORE` > 6 ~ "ICU",
+      `INTOXICATE SCORE` <= 6 ~ "Not ICU",
+      TRUE ~ NA_character_),)
 xf$icu_admit <- ifelse(xf$`Actual Disposition` == "ICU", 1, 0)
 dd <- rms::datadist(xf[ , sapply(xf, function(v) length(na.omit(unique(v))) > 1)])
 options(datadist = "dd")
 xf$pred_admit <- ifelse(xf$`Predicted Disposition` == "ICU", 1, 0)
+```
+
+```{r tbl1}
+
+xf %>%
+  select(Age, Gender, `Exposure Category`, `INTOXICATE SCORE`, `Actual Disposition`,`Predicted Disposition`) %>%
+  tbl_summary(by = Gender, missing = "no") %>%
+  add_overall() %>%
+  add_p() %>%
+  add_n()
+
 ```
 
 ```{r recalibration}
@@ -113,57 +145,265 @@ xf$ed_prob <- plogis(-2.96 + 0.138 * xf$`INTOXICATE SCORE`)
 xf$ed_pred_disp <- ifelse(xf$ed_prob > 0.16, "ICU", "Not ICU")
 xf %>% 
   filter(Age > 12) %>%
-  tbl_cross(`Predicted Disposition`, `Actual Disposition`)
+  tbl_cross(`Predicted Disposition`, `Actual Disposition`) %>%
+  modify_header(label = "**Original INTOXICATE**") 
 
 xf %>% 
   filter(Age > 12) %>%
-  tbl_cross(ed_pred_disp, `Actual Disposition`)
+  tbl_cross(ed_pred_disp, `Actual Disposition`) %>%
+  modify_header(label = "**Recalibrated ED**") 
 
-# --- Compute confusion matrices safely ---
-cm_original <- xf %>%
-  filter(Age > 12) %>%
-  { caret::confusionMatrix(
-      as.factor(.$`Predicted Disposition`),
-      as.factor(.$`Actual Disposition`),
-      positive = "ICU"
-    )
-  }
+# --- Predictions ---
 
-cm_recal <- xf %>%
-  filter(Age > 12) %>%
-  { caret::confusionMatrix(
-      as.factor(.$ed_pred_disp),
-      as.factor(.$`Actual Disposition`),
-      positive = "ICU"
-    )
-  }
-
-cm_adj <- xf %>%
-  filter(Age > 12) %>%
+xf <- xf %>%
   mutate(
-    adj_pred_disp = ifelse(`INTOXICATE SCORE` > 17, "ICU", "Not ICU")
-  ) %>%
-  { caret::confusionMatrix(
-      as.factor(.$adj_pred_disp),
-      as.factor(.$`Actual Disposition`),
+    adj_pred_disp = ifelse(`INTOXICATE SCORE` > 17, "ICU", "Not ICU"),
+    adj_pred_disp_sex = ifelse(
+      `INTOXICATE SCORE` - 0.5 * (Gender == "M") > 17,
+      "ICU",
+      "Not ICU"
+    ),
+    ed_prob = predict(recal_model, newdata = xf, type = "response"),
+    ed_pred_disp = ifelse(ed_prob > 0.16, "ICU", "Not ICU"),
+    ed_prob_sex = predict(recal_model_sex_exposure, newdata = xf, type = "response"),
+    ed_pred_disp_sex = ifelse(ed_prob_sex > 0.16, "ICU", "Not ICU"),
+    orig_prob_sex = plogis(`INTOXICATE SCORE` - 0.5 * (Gender == "M")),
+    orig_pred_disp_sex = ifelse(orig_prob_sex > 0.16, "ICU", "Not ICU")
+  )
+
+# Create confusion matrices and calculate metrics for each model
+
+xf %>%
+  filter(Age > 12) %>%
+  tbl_cross(adj_pred_disp, `Actual Disposition`) %>%
+  add_overall() %>%
+    modify_header(label = "**Adjusted Threshold (>17)**")
+
+xf %>%
+  filter(Age > 12) %>%
+  tbl_cross(adj_pred_disp_sex, `Actual Disposition`) %>%
+  add_overall() %>%
+    modify_header(label = "**Adjusted Threshold (>17) + Gender**") 
+
+xf %>%
+  filter(Age > 12) %>%
+  tbl_cross(ed_pred_disp_sex, `Actual Disposition`) %>%
+  add_overall() %>%
+    modify_header(label = "**Recalibrated ED + Gender**")
+
+# --- Helper functions ---
+
+boot_metrics <- function(data, pred_col, ref_col, B = 1000) {
+
+  n <- nrow(data)
+
+  boot_stats <- replicate(B, {
+    idx <- sample(seq_len(n), replace = TRUE)
+    d <- data[idx, ]
+
+    cm <- caret::confusionMatrix(
+      factor(d[[pred_col]], levels = c("Not ICU", "ICU")),
+      factor(d[[ref_col]], levels = c("Not ICU", "ICU")),
       positive = "ICU"
     )
-  }
 
-# --- Convert to tidy data frames ---
-tidy_cm <- function(cm, label) {
-  as.data.frame(cm$byClass) |>
-    tibble::rownames_to_column("Metric") |>
-    dplyr::mutate(Model = label)
+    tab <- cm$table
+
+    TP <- tab["ICU", "ICU"]
+    FN <- tab["Not ICU", "ICU"]
+    TN <- tab["Not ICU", "Not ICU"]
+    FP <- tab["ICU", "Not ICU"]
+
+    sens <- ifelse((TP + FN) > 0, TP / (TP + FN), NA)
+    spec <- ifelse((TN + FP) > 0, TN / (TN + FP), NA)
+    ppv  <- ifelse((TP + FP) > 0, TP / (TP + FP), NA)
+    npv  <- ifelse((TN + FN) > 0, TN / (TN + FN), NA)
+
+    kappa <- as.numeric(cm$overall["Kappa"])
+
+    c(sens, spec, ppv, npv, kappa)
+  })
+
+  boot_stats <- t(boot_stats)
+
+  colnames(boot_stats) <- c("Sensitivity", "Specificity", "PPV", "NPV", "Kappa")
+
+  point_est <- colMeans(boot_stats, na.rm = TRUE)
+
+  ci <- apply(boot_stats, 2, quantile, probs = c(0.025, 0.975), na.rm = TRUE)
+
+  list(
+    est = point_est,
+    ci = ci,
+    boot = boot_stats
+  )
 }
 
-df_cm <- bind_rows(
-  tidy_cm(cm_original, "Original INTOXICATE"),
-  tidy_cm(cm_adj, "Adjusted Threshold (17)"),
-  tidy_cm(cm_recal, "Recalibrated (ED)")
+make_row <- function(data, pred_col, label) {
+
+  out <- boot_metrics(data, pred_col, "Actual Disposition")
+
+  tibble(
+    Model = label,
+    Sensitivity = out$est["Sensitivity"],
+    Sensitivity_CI = sprintf("%.2f–%.2f", out$ci[1, "Sensitivity"], out$ci[2, "Sensitivity"]),
+    Specificity = out$est["Specificity"],
+    Specificity_CI = sprintf("%.2f–%.2f", out$ci[1, "Specificity"], out$ci[2, "Specificity"]),
+    PPV = out$est["PPV"],
+    PPV_CI = sprintf("%.2f–%.2f", out$ci[1, "PPV"], out$ci[2, "PPV"]),
+    NPV = out$est["NPV"],
+    NPV_CI = sprintf("%.2f–%.2f", out$ci[1, "NPV"], out$ci[2, "NPV"]),
+    Kappa = out$est["Kappa"],
+    Kappa_CI = sprintf("%.2f–%.2f", out$ci[1, "Kappa"], out$ci[2, "Kappa"]),
+    boot = list(out$boot)
+  )
+}
+
+make_cm <- function(pred, ref) {
+  caret::confusionMatrix(
+    factor(pred, levels = c("Not ICU", "ICU")),
+    factor(ref, levels = c("Not ICU", "ICU")),
+    positive = "ICU"
+  )
+}
+
+get_metrics_ci <- function(data, pred_col, label) {
+  cm <- make_cm(data[[pred_col]], data$`Actual Disposition`)
+  tab <- cm$table
+
+  TP <- tab["ICU", "ICU"]
+  FN <- tab["Not ICU", "ICU"]
+  TN <- tab["Not ICU", "Not ICU"]
+  FP <- tab["ICU", "Not ICU"]
+
+  sens <- TP / (TP + FN)
+  spec <- TN / (TN + FP)
+
+  sens_ci <- binom.test(TP, TP + FN)$conf.int
+  spec_ci <- binom.test(TN, TN + FP)$conf.int
+  ppv_ci  <- binom.test(TP, TP + FP)$conf.int
+  npv_ci  <- binom.test(TN, TN + FN)$conf.int
+
+  # --- Cohen’s kappa ---
+  kappa <- as.numeric(cm$overall["Kappa"])
+
+  # SE for Fleiss kappa
+  n <- sum(tab)
+  po <- sum(diag(tab)) / n
+  pe <- sum(rowSums(tab) * colSums(tab)) / n^2
+  se_kappa <- sqrt((po * (1 - po)) / (n * (1 - pe)^2))
+
+  kappa_ci <- c(
+    kappa - 1.96 * se_kappa,
+    kappa + 1.96 * se_kappa
+  )
+
+  tibble(
+    Model = label,
+    N = n,
+    Sensitivity = sens,
+    Sensitivity_CI = sprintf("%.2f–%.2f", sens_ci[1], sens_ci[2]),
+    Specificity = spec,
+    Specificity_CI = sprintf("%.2f–%.2f", spec_ci[1], spec_ci[2]),
+    `Balanced Accuracy` = (sens + spec) / 2,
+    PPV = TP / (TP + FP),
+    PPV_CI = sprintf("%.2f–%.2f", ppv_ci[1], ppv_ci[2]),
+    NPV = TN / (TN + FN),
+    NPV_CI = sprintf("%.2f–%.2f", npv_ci[1], npv_ci[2]),
+    Kappa = kappa,
+    Kappa_CI = sprintf("%.2f–%.2f", kappa_ci[1], kappa_ci[2])
+  )
+}
+# --- Single performance table ---
+
+df_perf <- bind_rows(
+  get_metrics_ci(xf, "Predicted Disposition", "Original INTOXICATE"),
+  get_metrics_ci(xf, "orig_pred_disp_sex", "Original INTOXICATE + Gender"),
+  get_metrics_ci(xf, "adj_pred_disp", "Adjusted Threshold (>17)"),
+  get_metrics_ci(xf, "adj_pred_disp_sex", "Adjusted Threshold (>17) + Gender"),
+  get_metrics_ci(xf, "ed_pred_disp", "Recalibrated ED"),
+  get_metrics_ci(xf, "ed_pred_disp_sex", "Recalibrated ED + Gender")
+) %>%
+  mutate(
+    Comparator = case_when(
+      Model == "Original INTOXICATE + Gender" ~ "Original INTOXICATE",
+      Model == "Adjusted Threshold (>17) + Gender" ~ "Adjusted Threshold (>17)",
+      Model == "Recalibrated ED + Gender" ~ "Recalibrated ED",
+      TRUE ~ NA_character_
+    )
+  ) %>%
+  left_join(
+    select(., Comparator = Model, Comparator_Kappa = Kappa),
+    by = "Comparator"
+  ) %>%
+  mutate(
+    Delta_Kappa = Kappa - Comparator_Kappa
+  )
+
+rows <- list(
+  make_row(xf, "Predicted Disposition", "Original"),
+  make_row(xf, "orig_pred_disp_sex", "Original + Gender"),
+  make_row(xf, "adj_pred_disp", "Adjusted"),
+  make_row(xf, "adj_pred_disp_sex", "Adjusted + Gender"),
+  make_row(xf, "ed_pred_disp", "Recalibrated"),
+  make_row(xf, "ed_pred_disp_sex", "Recalibrated + Gender")
 )
 
-df_cm %>%
-  pivot_wider(names_from = Metric, values_from = "cm$byClass") %>%
-  select(Model, Sensitivity, Specificity, `Balanced Accuracy`, `Pos Pred Value`, `Neg Pred Value`) %>%
-  gt() 
+df_perf <- bind_rows(rows)
+
+compute_delta_kappa <- function(row1, row2) {
+  # row1 = base, row2 = +gender
+  delta <- row2$boot[[1]][, "Kappa"] - row1$boot[[1]][, "Kappa"]
+
+  c(
+    mean = mean(delta, na.rm = TRUE),
+    lower = quantile(delta, 0.025, na.rm = TRUE),
+    upper = quantile(delta, 0.975, na.rm = TRUE)
+  )
+}
+
+# Map comparisons
+delta_list <- list(
+  compute_delta_kappa(rows[[1]], rows[[2]]), # Original
+  compute_delta_kappa(rows[[3]], rows[[4]]), # Adjusted
+  compute_delta_kappa(rows[[5]], rows[[6]])  # Recalibrated
+)
+
+delta_df <- tibble(
+  Model = c(
+    "Original + Gender",
+    "Adjusted + Gender",
+    "Recalibrated + Gender"
+  ),
+  Delta_Kappa = sapply(delta_list, function(x) x["mean"]),
+  Delta_Kappa_CI = sapply(delta_list, function(x)
+    sprintf("%.2f–%.2f", x["lower"], x["upper"])
+  )
+)
+
+df_perf <- df_perf %>%
+  left_join(delta_df, by = "Model")
+
+df_perf %>%
+  mutate(
+    Sensitivity = sprintf("%.2f (%s)", Sensitivity, Sensitivity_CI),
+    Specificity = sprintf("%.2f (%s)", Specificity, Specificity_CI),
+    PPV = sprintf("%.2f (%s)", PPV, PPV_CI),
+    NPV = sprintf("%.2f (%s)", NPV, NPV_CI),
+    Kappa = sprintf("%.2f (%s)", Kappa, Kappa_CI),
+    `Δ Kappa vs no gender` = ifelse(
+      is.na(Delta_Kappa),
+      "—",
+      sprintf("%+.2f", Delta_Kappa)
+    ),
+  ) %>%
+  select(
+    Model,
+    Sensitivity,
+    Specificity,
+    PPV,
+    NPV,
+    Kappa,
+    `Δ Kappa vs no gender`
+  ) %>%
+  gt()

@@ -1,5 +1,5 @@
 ---
-title: "Linear Independence of Variables in INTOXICATE-ER"
+title: "Change in Model on Adding Biological Sex"
 author: "Yash Jaggi"
 output: 
     bookdown::pdf_document2:
@@ -50,7 +50,7 @@ data <- read_excel(here("data", "snapshots", "snapshot.04302026.xlsx"), sheet = 
 
 # Clean exposure category data
 clean_data <- data %>%
-  filter(!is.na(Gender), !is.na(`Exposure Category`)) %>%
+  filter(!is.na(Gender), !is.na(`Exposure Category`), Age >= 12) %>%
   mutate(
     Gender = trimws(Gender),
     `Exposure Category` = trimws(`Exposure Category`),
@@ -71,7 +71,8 @@ clean_data <- clean_data %>%
   filter(Age >= 12) %>%
   mutate(`Exposure Category` = factor(`Exposure Category`, levels = ordered_categories), 
          Pulse = as.numeric(Pulse),
-         SBP = as.numeric(SBP))
+         SBP = as.numeric(SBP), 
+         `INTOXICATE SCORE` = as.numeric(`INTOXICATE SCORE`))
   
 
 create_binary_comparison <- function(data, target_category) {
@@ -130,7 +131,7 @@ add_row_vs_rest_chisq <- function(tbl, data, row, col, p_adj = "fdr") {
 
 # View the standardized residuals
 ```
-# Realtionship Between Gender and Xenobiotic {-} 
+# Relationship Between Gender and Xenobiotic {-} 
 
 
 ```{r table1}
@@ -154,6 +155,16 @@ tbl1 %>%
 p_value_g_by_x <- inline_text(tbl1, col_level = "p.value")
 ```
 
+```{r model_continuous outcome}
+model_continuous <- glm(`INTOXICATE SCORE` ~ Gender + Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + Dysrhythmia + `Exposure Category`, data = clean_data, family = gaussian) 
+
+summary(model_continuous)
+
+# remove gender
+model_continuous_wo_gender <- multinom(`INTOXICATE SCORE` ~ Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + Dysrhythmia + `Exposure Category`, data = clean_data, family = gaussian) 
+
+summary(model_continuous_wo_gender)
+```
 
 ```{r model_aic_calculation}
 model_w_gender <- glm(`Dichotomous Outcome` ~ Gender + Pulse + SBP + GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + Dysrhythmia + `Exposure Category` + Gender * `Exposure Category`,

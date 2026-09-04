@@ -100,7 +100,7 @@
 
 \begin{table}[!h]
 \centering
-\caption{\label{tab:table1}\textbf{No association between gender and type of xenobiotic.}. Cells denote case count (column percentage). F, biological female. M, male. See X for description of exposure categories.}
+\caption{\label{tab:table1}\textbf{No association between gender and type of xenobiotic.}. Cells denote case count (row percentage). F, biological female. M, male. See X for description of exposure categories.}
 \centering
 \begin{tabular}[t]{lcccccc}
 \toprule
@@ -108,25 +108,128 @@
 \cmidrule(l{3pt}r{3pt}){2-3}
 \textbf{} & \textbf{\textit{F}} & \textbf{\textit{M}} & \textbf{Total} & \textbf{p-value} & \textbf{\textbf{Row vs Rest p}} & \textbf{\textbf{Row vs Rest p (adj)}}\\
 \midrule
-Exposure Category &  &  &  & 0.2 &  & \\
-\hspace{1em}\em{Analgesic} & 11 (61\%) & 7 (39\%) & 18 (100\%) &  & 0.630 & 0.841\\
-\hspace{1em}\em{Antidepressants} & 12 (67\%) & 6 (33\%) & 18 (100\%) &  & 0.319 & 0.668\\
-\hspace{1em}\em{Combination} & 7 (41\%) & 10 (59\%) & 17 (100\%) &  & 0.417 & 0.668\\
-\hspace{1em}\em{Street Drugs} & 6 (35\%) & 11 (65\%) & 17 (100\%) &  & 0.180 & 0.668\\
+Exposure Category &  &  &  & 0.007 &  & \\
+\hspace{1em}\em{Combination} & 25 (42\%) & 34 (58\%) & 59 (100\%) &  & 0.159 & 0.318\\
+\hspace{1em}\em{Analgesic} & 19 (59\%) & 13 (41\%) & 32 (100\%) &  & 0.413 & 0.471\\
+\hspace{1em}\em{CO, As, CN} & 11 (39\%) & 17 (61\%) & 28 (100\%) &  & 0.257 & 0.411\\
+\hspace{1em}\em{Antidepressants} & 22 (76\%) & 7 (24\%) & 29 (100\%) &  & 0.008 & 0.063\\
 \addlinespace
-\hspace{1em}\em{Unknown} & 12 (75\%) & 4 (25\%) & 16 (100\%) &  & 0.105 & 0.668\\
-\hspace{1em}\em{CO, As, CN} & 4 (36\%) & 7 (64\%) & 11 (100\%) &  & 0.391 & 0.668\\
-\hspace{1em}\em{Alcohol} & 3 (43\%) & 4 (57\%) & 7 (100\%) &  & 0.863 & 0.986\\
-\hspace{1em}\em{Sedatives} & 4 (57\%) & 3 (43\%) & 7 (100\%) &  & 1.000 & 1.000\\
-Total & 59 (53\%) & 52 (47\%) & 111 (100\%) &  &  & \\
+\hspace{1em}\em{Unknown} & 15 (54\%) & 13 (46\%) & 28 (100\%) &  & 0.938 & 0.938\\
+\hspace{1em}\em{Street Drugs} & 7 (33\%) & 14 (67\%) & 21 (100\%) &  & 0.139 & 0.318\\
+\hspace{1em}\em{Alcohol} & 6 (38\%) & 10 (63\%) & 16 (100\%) &  & 0.385 & 0.471\\
+\hspace{1em}\em{Sedatives} & 11 (79\%) & 3 (21\%) & 14 (100\%) &  & 0.065 & 0.259\\
+Total & 116 (51\%) & 111 (49\%) & 227 (100\%) &  &  & \\
 \bottomrule
-\multicolumn{7}{l}{\rule{0pt}{1em}\textsuperscript{1} Fisher's exact test}\\
+\multicolumn{7}{l}{\rule{0pt}{1em}\textsuperscript{1} Pearson's Chi-squared test}\\
 \end{tabular}
 \end{table}
 
-There was no overall association between gender and exposure category (p=0.2, Table \ref{tab:table1}) even though most exposures to antidepressant and analgesic exposures involved females, 12 (67\%) and 11 (61\%), respectively and most exposures to CO/As/CN and street drugs involved males, 7 (64\%) and 11 (65\%), respectively.
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = `Dichotomous Outcome` ~ Gender + Pulse + SBP + 
+##     GCS + Age + `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + 
+##     Dysrhythmia + `Exposure Category` + Gender * `Exposure Category`, 
+##     family = binomial, data = clean_data)
+## 
+## Coefficients:
+##                                              Estimate Std. Error z value Pr(>|z|)   
+## (Intercept)                                -1.637e+01  6.523e+03  -0.003  0.99800   
+## GenderM                                     8.323e-01  1.027e+00   0.810  0.41782   
+## Pulse                                       2.479e-02  1.323e-02   1.873  0.06102 . 
+## SBP                                        -9.680e-03  1.060e-02  -0.913  0.36123   
+## GCS                                        -3.878e-01  1.357e-01  -2.859  0.00425 **
+## Age                                        -6.092e-03  1.241e-02  -0.491  0.62338   
+## `Respiratory Insufficiency`No               1.840e+01  6.523e+03   0.003  0.99775   
+## `Respiratory Insufficiency`Yes              1.980e+01  6.523e+03   0.003  0.99758   
+## CirrhosisYes                                3.895e+00  1.542e+00   2.525  0.01157 * 
+## `Secondary Reason for ICU Admission`Yes     1.813e+00  7.590e-01   2.388  0.01692 * 
+## DysrhythmiaYes                             -5.307e-01  6.658e-01  -0.797  0.42541   
+## `Exposure Category`Analgesic                6.330e-01  1.053e+00   0.601  0.54783   
+## `Exposure Category`CO, As, CN              -1.672e-01  1.424e+00  -0.117  0.90654   
+## `Exposure Category`Antidepressants         -2.414e+00  2.464e+00  -0.980  0.32714   
+## `Exposure Category`Unknown                  4.745e-01  1.110e+00   0.427  0.66902   
+## `Exposure Category`Street Drugs            -1.577e+01  2.418e+03  -0.007  0.99480   
+## `Exposure Category`Alcohol                 -3.878e-01  2.028e+00  -0.191  0.84833   
+## `Exposure Category`Sedatives                1.206e-01  1.380e+00   0.087  0.93035   
+## GenderM:`Exposure Category`Analgesic        1.053e+00  1.412e+00   0.746  0.45591   
+## GenderM:`Exposure Category`CO, As, CN       8.452e-01  1.600e+00   0.528  0.59734   
+## GenderM:`Exposure Category`Antidepressants -1.503e+01  2.169e+03  -0.007  0.99447   
+## GenderM:`Exposure Category`Unknown         -3.362e-01  1.513e+00  -0.222  0.82421   
+## GenderM:`Exposure Category`Street Drugs     1.565e+01  2.418e+03   0.006  0.99484   
+## GenderM:`Exposure Category`Alcohol          5.844e-01  2.278e+00   0.257  0.79749   
+## GenderM:`Exposure Category`Sedatives       -1.703e+01  4.583e+03  -0.004  0.99704   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 208.22  on 218  degrees of freedom
+## Residual deviance: 130.82  on 194  degrees of freedom
+##   (8 observations deleted due to missingness)
+## AIC: 180.82
+## 
+## Number of Fisher Scoring iterations: 17
+\end{verbatim}
 
-Including gender in a regression model changed the Aikake Information Criteria (AIC) from 154 to 156, a minimal difference. Substituting gender for exposure category changed the AIC to 151.12, also a minimal difference. These results suggest thats gender and exposure category provide overlapping information. Omitting both variables changed the AIC 149.12, suggesting that neither variable adds predictive value in this data set.
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = `Dichotomous Outcome` ~ Pulse + SBP + GCS + Age + 
+##     `Respiratory Insufficiency` + Cirrhosis + `Secondary Reason for ICU Admission` + 
+##     Dysrhythmia + `Exposure Category`, family = binomial, data = clean_data)
+## 
+## Coefficients:
+##                                           Estimate Std. Error z value Pr(>|z|)   
+## (Intercept)                             -1.178e+01  1.455e+03  -0.008  0.99354   
+## Pulse                                    2.125e-02  1.221e-02   1.741  0.08170 . 
+## SBP                                     -6.656e-03  1.017e-02  -0.654  0.51287   
+## GCS                                     -3.963e-01  1.296e-01  -3.059  0.00222 **
+## Age                                     -4.742e-03  1.202e-02  -0.394  0.69326   
+## `Respiratory Insufficiency`No            1.425e+01  1.455e+03   0.010  0.99219   
+## `Respiratory Insufficiency`Yes           1.551e+01  1.455e+03   0.011  0.99149   
+## CirrhosisYes                             3.508e+00  1.400e+00   2.506  0.01221 * 
+## `Secondary Reason for ICU Admission`Yes  1.938e+00  7.174e-01   2.701  0.00691 **
+## DysrhythmiaYes                          -3.998e-01  6.315e-01  -0.633  0.52669   
+## `Exposure Category`Analgesic             1.006e+00  6.957e-01   1.447  0.14803   
+## `Exposure Category`CO, As, CN            5.372e-01  8.046e-01   0.668  0.50435   
+## `Exposure Category`Antidepressants      -3.142e+00  2.130e+00  -1.475  0.14015   
+## `Exposure Category`Unknown               3.001e-01  7.538e-01   0.398  0.69050   
+## `Exposure Category`Street Drugs         -9.107e-02  9.549e-01  -0.095  0.92402   
+## `Exposure Category`Alcohol               2.312e-01  9.499e-01   0.243  0.80769   
+## `Exposure Category`Sedatives            -4.864e-01  1.214e+00  -0.401  0.68861   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 208.22  on 218  degrees of freedom
+## Residual deviance: 140.08  on 202  degrees of freedom
+##   (8 observations deleted due to missingness)
+## AIC: 174.08
+## 
+## Number of Fisher Scoring iterations: 14
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##      TP    TN
+##   <int> <int>
+## 1   163    37
+## 2     0    23
+\end{verbatim}
+
+\begin{verbatim}
+## # A tibble: 2 x 2
+##      TP    TN
+##   <int> <int>
+## 1   163    37
+## 2     0    23
+\end{verbatim}
+
+There was no overall association between gender and exposure category (p=0.007, Table \ref{tab:table1}) even though most exposures to antidepressant and analgesic exposures involved females, 22 (76\%) and 19 (59\%), respectively and most exposures to CO/As/CN and street drugs involved males, 17 (61\%) and 14 (67\%), respectively. There was no significant association between gender and any type of exposure.
+
+Including gender in a regression model changed the Aikake Information Criteria (AIC) from 174.08 to 180.82, a minimal difference. Substituting gender for exposure category changed the AIC to 165.35, also a minimal difference. These results suggest thats gender and exposure category provide overlapping information. Omitting both variables changed the AIC 169.89, suggesting that neither variable adds predictive value in this data set.
 
 \section*{TODO}\label{todo}
 \addcontentsline{toc}{section}{TODO}
@@ -151,9 +254,9 @@ Including gender in a regression model changed the Aikake Information Criteria (
  & No & Yes & \textbf{Total} & \textbf{p-value}\textsuperscript{\textit{1}} \\ 
 \midrule\addlinespace[2.5pt]
 {\bfseries HR faster than 100 bpm} &  &  &  & <0.001 \\ 
-    No & 61 (94\%) & 4 (6.2\%) & 65 (100\%) &  \\ 
-    Yes & 6 (13\%) & 39 (87\%) & 45 (100\%) &  \\ 
-{\bfseries Total} & 67 (61\%) & 43 (39\%) & 110 (100\%) &  \\ 
+    No & 143 (93\%) & 10 (6.5\%) & 153 (100\%) &  \\ 
+    Yes & 31 (44\%) & 39 (56\%) & 70 (100\%) &  \\ 
+{\bfseries Total} & 174 (78\%) & 49 (22\%) & 223 (100\%) &  \\ 
 \bottomrule
 \end{tabular*}
 \begin{minipage}{\linewidth}
@@ -161,15 +264,15 @@ Including gender in a regression model changed the Aikake Information Criteria (
 \end{minipage}
 \end{table}
 
-Heart rate, a continuous variable, and the presence of a dysrhythmia, a dichotomous variable, may not be independent variables in the model in Brandenberg et al.~(2020). That model did not specify whether to classify sinus tachycardia as a dysrhythmia. It is considered a dysrhythmia and the most common dysrhthmia in in stimulant toxicity. We found a significant association between a heart rate faster than 100 bpm and the presence of dysrhythmia (p\textless0.001). Forty-five patients had a heart rate faster than 100 bpm, of whom 39 (87\%) were coded as having a dysrhythmia.
+Heart rate, a continuous variable, and the presence of a dysrhythmia, a dichotomous variable, may not be independent variables in the model in Brandenberg et al.~(2020). That model did not specify whether to classify sinus tachycardia as a dysrhythmia. It is considered a dysrhythmia and the most common dysrhthmia in in stimulant toxicity. We found a significant association between a heart rate faster than 100 bpm and the presence of dysrhythmia (p\textless0.001). Seventy patients had a heart rate faster than 100 bpm, of whom 39 (56\%) were coded as having a dysrhythmia.
 
-A model including heart rate and the indicator variable for dysrhythmia had an Aikaike Information Criterion (AIC) of 140, compared to 138 for a model without the indicator variable. These results suggests that the indicator variable has no additional predictive value for this model in this data set. In the model of Brandenburg et al.~(2020), the presence of dysrhythmia on its own raises the IRS by 6 points, the threshold for ICU admission. If the variable has no predictive value beyond heart rate, this could decrease the specificity of the model.
+A model including heart rate and the indicator variable for dysrhythmia had an Aikaike Information Criterion (AIC) of 20, compared to 18 for a model without the indicator variable. These results suggests that the indicator variable has no additional predictive value for this model in this data set. In the model of Brandenburg et al.~(2020), the presence of dysrhythmia on its own raises the IRS by 6 points, the threshold for ICU admission. If the variable has no predictive value beyond heart rate, this could decrease the specificity of the model.
 
 \section{Summary and Conclusions}\label{summary-and-conclusions}
 
 \subsection{Gender Analysis}\label{gender-analysis}
 
-The chi-square test showed a significant association between gender and exposure category (\emph{p} = 0.213). After applying Bonferroni correction for three focused comparisons, the Antidepressants vs All Others comparison remained significant, demonstrating a robust gender difference that withstands conservative adjustment for multiple testing.
+The chi-square test showed a significant association between gender and exposure category . After applying Bonferroni correction for three focused comparisons, the Antidepressants vs All Others comparison remained significant, demonstrating a robust gender difference that withstands conservative adjustment for multiple testing.
 
 Key patterns identified:
 - Females more likely to present with antidepressant and analgesic exposures
@@ -215,7 +318,7 @@ The original INTOXICATE model was developed in ICU patients and may require cali
 \begin{itemize}
 \tightlist
 \item
-  Small sample size (n = 108 for regression analyses) limits statistical power
+  Small sample size (n = ) for regression analyses) limits statistical power
 \item
   Limited to toxicology consultations rather than all ED presentations - biased toward patients sick enough to warrant specialist consultation
 \item

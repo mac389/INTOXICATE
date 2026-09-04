@@ -1,0 +1,61 @@
+---
+title: "WCM 2026"
+output : 
+  html_document:
+    keep_md: true
+fontsize: 12pt
+---
+
+```{r setup, include=FALSE, message=FALSE}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(dplyr)
+library(yardstick)
+library(gt)
+library(infer)
+library(ggrepel)
+library(ggplot2)
+library(ggpubr)
+library(gtsummary)
+library(psych)
+library(caret)
+
+knitr::opts_chunk$set(dev = "png",
+                      dpi = 300,
+                      echo = FALSE,
+                      cache = TRUE)
+
+data <- read.csv("../data/snapshots/snapshot.26032026.csv")
+
+df <- data %>%
+  filter(Age > 11, !is.na(Age), Gender %in% c("M","F")) %>%
+  mutate(Exposure.Category = case_when(
+      Exposure.Category == "clorox bleach" ~ "Not Classified",
+      Exposure.Category == "Sedative (Combination)" ~ "Sedatives",
+      Exposure.Category == "Antipsychotic" ~ "Antidepressants",
+      Exposure.Category == "Chlorine Gas" ~ "Not Classified",
+      TRUE ~ Exposure.Category))
+```
+
+```{r} 
+df %>%
+   summarise(q1 = quantile(Age, 0.25, na.rm = TRUE),
+            median_age = median(Age, na.rm = TRUE),
+            q3_age = quantile(Age, 0.75, na.rm = TRUE),
+            count = n())
+```
+
+
+```{r gender x exposure_category}
+df %>%
+  filter(Age > 11, !is.na(Age), Gender %in% c("M","F")) %>%
+  infer::chisq_test(Exposure.Category ~ Gender)
+
+df %>%
+  filter(Age > 11, !is.na(Age), Gender %in% c("M","F")) %>%
+  tbl_cross(Gender, Exposure.Category) %>%
+  add_p() %>%
+  add_overall()
+
+```
