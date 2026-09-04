@@ -22,7 +22,6 @@ library(caret)
 
 # Make sure you're using rms, not a masked function
 detach("package:psych", unload=TRUE)
-library(rms)
 library(ggplotify)
 library(rmda)
 library(pROC)
